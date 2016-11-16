@@ -144,7 +144,7 @@ test:
           mode: :primary
         max_pool_size: 1
 production:
-  sessions:
+  clients:
     default:
       # uri: 'mongodb://admin:eYhtjH4ozM@10.70.16.220:40792/teste'
       uri: <%= ENV['MONGOHQ_URL'] %>
