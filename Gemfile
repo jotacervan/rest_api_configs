@@ -31,6 +31,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'will_paginate_mongoid'
 gem "mongo_session_store-rails3"
 gem 'geocoder', '1.3.3'
+gem "paranoia", "~> 2.2"
+gem 'mongoid_paranoia'
 
 gem "parse-ruby-client"
 gem "pagarme", '2.1.2'
