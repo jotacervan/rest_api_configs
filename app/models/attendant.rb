@@ -1,0 +1,4 @@
+class Attendant < User
+
+ 
+end
