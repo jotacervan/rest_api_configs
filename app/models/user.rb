@@ -54,7 +54,6 @@ class User
   field :latitude, type: Float, :default => 0.0
   field :longitude, type: Float, :default => 0.0
 
-
   # validate :check_avatar
   validates_presence_of :name, :message => "digite um nome"
   validates_presence_of :email, :message => "digite um e-mail"
