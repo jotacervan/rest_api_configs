@@ -60,7 +60,7 @@ class User
   validates_presence_of :email, :message => "digite um e-mail"
   validates_confirmation_of :password
   validates_uniqueness_of :email,:case_sensitive => true, :message => "e-mail ja cadastrado"
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i , :message => "e-mail invalido" 
+  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i , :message => "e-mail invalido" 
 
 
   has_mongoid_attached_file :picture,
