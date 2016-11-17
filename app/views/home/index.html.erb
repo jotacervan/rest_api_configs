@@ -11,27 +11,48 @@
         <title>Pizza Prime</title>
     </head>
     <body>
-        <div class="header">
-            <div class="content row">
-                <div class="col-md-2">
-                    <img src="/images/logo-slide.png" alt="Pizza Prime" title="Pizza Prime" class="logo" />
-                </div>
-                <div class="col-md-10 text-right">
-                    <ul class="menu">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">Unidades/Cardápios</a></li>
-                        <li><a href="#">A Pizza Prime</a></li>
-                        <li><a href="#">Trabalhe Conosco/Contato</a></li>
-                        <li><a href="#"><strong>Peça Agora</strong></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <%= render :partial => 'header', :locals => {:page => 'home'} %>
         
         <div class="banner text-right">
             <br>
-            <img src="/images/logo-slide2.png" class="" alt="Pizza Prime" title="Pizza Prime" >
             <img src="/images/slide1.jpg" alt="Pizza Prime" title="Pizza Prime" >
+            <img src="/images/logo-slide2.png" class="logobanner" alt="Pizza Prime" title="Pizza Prime" >
+        </div>
+        <br>
+        <div class="content historia_de_sucesso">
+            <h1 >História de Sucesso</h1>
+            <br>
+            <p><strong>Desde 2001</strong> levamos qualidade e sabor às casas de nossos clientes.<br>
+Usamos ingredientes selecionados para que cada mordida seja inesquecível.<br>
+Queremos estar presente nos encontros entre amigos, nas reuniões de família e em todos os momentos felizes.<br>
+Acreditamos que todos nós merecemos sempre o melhor da vida, por isso, oferecemos o melhor em pizza.<br>
+Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e Paraná.</p>
+            <br>
+            <h2>E em breve no Brasil inteiro!</h2>
+        </div>
+        <br>
+        <div class="content combos row">
+            <% @combos.take(4).each do |c| %>
+                
+                <div class="col-md-3 combo">
+                    <div style="background-image: url('<%= c.picture %>')">
+                        <div>
+                            <h3><%= c.name %><br></h3>
+                            <p><%= number_to_currency(c.price_tables.first.price, unit: "R$ ", separator: ',') %></p>
+                            <span>Peça Agora</span>
+                            <i class="fa fa-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div><br>
+        
+        <br>
+        
+        <div class="mapas">
+            <% @stores.each do |s| %>
+                <%= s.inspect %><br><br>
+            <% end %>
         </div>
         
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
