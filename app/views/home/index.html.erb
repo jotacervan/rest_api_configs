@@ -51,7 +51,58 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
         <br>
         
         <div id="map"></div><br>
+        <div class="center">
+                <img src="/images/logo-slide2.png" alt="Pizza Prime" title="Pizza Prime" style="width:100px; margin:-70px 0 0;" >
+        </div>
         <br>
+        <div class="contato">
+            <div class="content row">
+                <div class="col-md-6">
+                    <h1 class="center">FALE CONOSCO</h1>
+                    <%= form_for :contact, url: root_path do |f| %>
+                        <%= f.text_field :name, :class => "formfield", :placeholder => 'NOME' %>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <%= f.email_field :email, :class => 'formfield', :placeholder => 'EMAIL' %>
+                            </div>
+                            <div class="col-md-6">
+                                <%= f.text_field :phone, :class => 'formfield', :placeholder => 'TELEFONE' %>
+                            </div>
+                        </div>
+                        <%= f.text_area :message, :class => 'formfield', :placeholder => 'MENSAGEM' %>
+                        <br>
+                        <div class="center">
+                            <%= f.submit :enviar, :class => 'btn-enviar', :value => 'Enviar' %>
+                        </div>
+                    <% end %>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="center">TRABALHE CONOSCO</h1>
+                    <%= form_for :workwithus,  :html => { :multipart => true }, url: root_path do |f| %>
+                         <%= f.text_field :name, :class => "formfield", :placeholder => 'NOME' %>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <%= f.email_field :email, :class => 'formfield', :placeholder => 'EMAIL' %>
+                            </div>
+                            <div class="col-md-6">
+                                <%= f.text_field :phone, :class => 'formfield', :placeholder => 'TELEFONE' %>
+                            </div>
+                        </div>
+                        <%= f.text_area :message, :class => 'formfield', :placeholder => 'MENSAGEM' %>
+                        <br>
+                        <div class="center">
+                            <%= f.submit :enviar, :class => 'btn-enviar', :value => 'Enviar' %>
+                        </div>
+                    <% end %>
+                </div>
+
+            </div>
+        </div>
+        <br>
+        <div class="center redes">
+            <i class="fa fa-facebook"></i>
+            <i class="fa fa-instagram"></i>
+        </div>
 
 
         <% @stores.each do |s| %>
@@ -71,8 +122,6 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
             function getLocation()
               {
                 if(localStorage.getItem('lat')){
-                    
-                
                     
                 }else{
                     if (navigator.geolocation)
