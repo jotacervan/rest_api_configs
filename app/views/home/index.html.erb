@@ -6,6 +6,7 @@
         <link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400,700" rel="stylesheet">
         <link rel="stylesheet" href="/css/bootstrap.css" >
         <link rel="stylesheet" href="/css/css.css" >
+
         <script src="https://use.fontawesome.com/7f3531401e.js"></script>
 
         <title>Pizza Prime</title>
@@ -49,12 +50,98 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
         
         <br>
         
-        <div class="mapas">
-            
-        </div>
+        <div id="map"></div><br>
+        <br>
         
+
+
+        <% @stores.each do |s| %>
+            <% if !s.coordinates.nil? %>
+            <div class='hidden store' data-ref='<%= s.id %>' data-lat='<%= s.coordinates[0] %>' data-long='<%= s.coordinates[1] %>'><%= s.name %></div>
+            <% end %>
+        <% end %>
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
+        
+        <script>
+
+            var storelat; 
+            var storelong;
+
+            function getLocation()
+              {
+                if(localStorage.getItem('lat')){
+                    
+                    $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng='+localStorage.getItem('lat')+','+localStorage.getItem('long')+'', function(data){
+                        console.log(data.results[0].geometry.location);
+                        storelat = data.results[0].geometry.location.lng;
+                        storelong = data.results[0].geometry.location.lat;
+                    });
+                    
+                }else{
+                    if (navigator.geolocation)
+                    {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    }
+                    else{
+                        alert('Erro ao Obter Localização');
+                    }
+                }
+              
+              }
+
+            function showPosition(position)
+              {
+                  $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'', function(data){
+                    $('.bairro').html(data.results[0].address_components[2].long_name);
+                    $('.rua').html(data.results[0].address_components[1].long_name + ', '+ data.results[0].address_components[0].long_name);
+                  });
+                  localStorage.setItem('lat', position.coords.latitude);
+                  localStorage.setItem('long', position.coords.longitude);
+              }
+
+            getLocation();
+          
+          function initMap() {
+            
+            if(!storelong){
+                var myLatLng = {lat: Number($('.store').attr('data-long')), lng: Number($('.store').attr('data-lat'))};
+            }else{
+                var myLatLng = {lat: storelong, lng: storelat};
+            }
+            
+            var image = 'images/pin.png';
+            // Create a map object and specify the DOM element for display.
+            var map = new google.maps.Map(document.getElementById('map'), {
+              center: myLatLng,
+              scrollwheel: false,
+              zoom: 10
+            });
+            $('.store').each(function(){
+                
+                var storelatin = Number($(this).attr('data-lat'));
+                var storelongin = Number($(this).attr('data-long'));
+                var namein = $(this).text();
+                var id = $(this).attr('data-ref');
+                var marcador = 'marker'+id;
+
+                var LatLng = {lat: storelongin, lng: storelatin};
+
+                var marcador = new google.maps.Marker({
+                  map: map,
+                  position: LatLng,
+                  title: namein,
+                  icon: image
+                });
+
+            });
+            
+
+          }
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEIyID8ZbFEjVHyt0uW1MdmxLSSb_5AyU&callback=initMap"
+    async defer></script>
     </body>
 </html>
