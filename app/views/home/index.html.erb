@@ -52,7 +52,6 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
         
         <div id="map"></div><br>
         <br>
-        
 
 
         <% @stores.each do |s| %>
@@ -66,8 +65,8 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
         
         <script>
 
-            var storelat; 
-            var storelong;
+            var storelat = 0; 
+            var storelong = 0;
 
             function getLocation()
               {
@@ -105,7 +104,7 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
           
           function initMap() {
             
-            if(!storelong){
+            if(storelong == 0){
                 var myLatLng = {lat: Number($('.store').attr('data-long')), lng: Number($('.store').attr('data-lat'))};
             }else{
                 var myLatLng = {lat: storelong, lng: storelat};
