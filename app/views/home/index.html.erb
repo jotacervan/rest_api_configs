@@ -93,8 +93,9 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
             function showPosition(position)
               {
                   $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'', function(data){
-                    $('.bairro').html(data.results[0].address_components[2].long_name);
-                    $('.rua').html(data.results[0].address_components[1].long_name + ', '+ data.results[0].address_components[0].long_name);
+                        console.log(data.results[0].geometry.location);
+                        storelat = data.results[0].geometry.location.lng;
+                        storelong = data.results[0].geometry.location.lat;
                   });
                   localStorage.setItem('lat', position.coords.latitude);
                   localStorage.setItem('long', position.coords.longitude);
