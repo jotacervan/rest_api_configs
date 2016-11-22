@@ -98,7 +98,7 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
           function initMap() {
             
             if(localStorage.getItem('lat')){
-                var myLatLng = {lat: localStorage.getItem('lat'), lng: localStorage.getItem('long')};
+                var myLatLng = {lat: Number(localStorage.getItem('lat')), lng: Number(localStorage.getItem('long'))};
             }else{
                 var myLatLng = {lat: Number($('.store').attr('data-long')), lng: Number($('.store').attr('data-lat'))};
             }
