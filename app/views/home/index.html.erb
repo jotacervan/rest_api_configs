@@ -72,11 +72,7 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
               {
                 if(localStorage.getItem('lat')){
                     
-                    $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng='+localStorage.getItem('lat')+','+localStorage.getItem('long')+'', function(data){
-                        console.log(data.results[0].geometry.location);
-                        storelat = data.results[0].geometry.location.lng;
-                        storelong = data.results[0].geometry.location.lat;
-                    });
+                
                     
                 }else{
                     if (navigator.geolocation)
@@ -92,11 +88,7 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
 
             function showPosition(position)
               {
-                  $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'', function(data){
-                        console.log(data.results[0].geometry.location);
-                        storelat = data.results[0].geometry.location.lng;
-                        storelong = data.results[0].geometry.location.lat;
-                  });
+                  
                   localStorage.setItem('lat', position.coords.latitude);
                   localStorage.setItem('long', position.coords.longitude);
               }
@@ -105,10 +97,10 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
           
           function initMap() {
             
-            if(storelong == 0){
-                var myLatLng = {lat: Number($('.store').attr('data-long')), lng: Number($('.store').attr('data-lat'))};
+            if(localStorage.getItem('lat')){
+                var myLatLng = {lat: localStorage.getItem('lat'), lng: localStorage.getItem('long')};
             }else{
-                var myLatLng = {lat: storelong, lng: storelat};
+                var myLatLng = {lat: Number($('.store').attr('data-long')), lng: Number($('.store').attr('data-lat'))};
             }
             
             var image = 'images/pin.png';
