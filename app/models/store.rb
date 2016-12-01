@@ -91,7 +91,7 @@ class Store
     {
      :pizzas => Pizza.mapPizzas(store.pizzas, store),
      :sizes => Tamanho.mapTamanhos(store.tamanhos),
-     :borders => Border.mapBorders(store.borders.where(:available => true)),
+     :borders => Border.mapBorders(store.borders.where(:available => true), store),
      :beverages => Beverage.mapBeverages(store.beverages.where(:available => true), store),
      :sweet_pizzas => SweetPizza.mapSweetPizzas(store.sweet_pizzas.where(:available => true), store)
      }

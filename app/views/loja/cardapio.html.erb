@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta name="viewport" content="width=device-width, initial-scale=1" > 
+        <link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400,700" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bootstrap.css" >
+        <link rel="stylesheet" href="/css/css.css" >
+
+        <script src="https://use.fontawesome.com/7f3531401e.js"></script>
+
+        <title>Pizza Prime</title>
+    </head>
+    <body>
+        <%= render :partial => 'header', :locals => {:page => 'loja'} %>
+        
+        <div class="stores">
+        	<div>
+        		<div class="content center">
+        			<ul class="states">
+        				<% @states.each do |state| %>
+        					<li <% if state == @selected %> class="active" <% end %> onclick="javascript: location.href='<%= busca_cidades_path(state) %>'">
+                                <% 
+                                case state 
+                                when 'SP'
+                                    concat 'São Paulo'
+                                when 'RJ'
+                                    concat 'Rio de Janeiro'
+                                when 'SC'
+                                    concat 'Santa Catarina'
+                                when 'RS'
+                                    concat 'Rio Grande do Sul'
+                                when 'PR'
+                                    concat 'Paraná'
+                                when 'AP'
+                                    concat 'Amapá'
+                                else
+                                    concat ''
+                                end
+                                
+                                %>
+                            </li>
+        				<% end %>
+        			</ul>
+                    <ul class="neighbor">
+                        <% @neighborhood.each do |n| %>
+                            <li <% if n.neighborhood == @neighbor %> class="active" <% end %> onclick="javascript: location.href='<%= cardapio_path(n.state,n.neighborhood,n.id,n.tamanhos.first.id) %>'" >	
+                                <%= n.neighborhood %>
+                            </li>
+                        <% end %>
+                    </ul>
+        		</div>
+        	</div>
+        </div>
+        <div class="content">
+        	<div class="minha-caixa">
+        		<img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa">
+        		Minha Caixa <span class="badge">0</span>
+        	</div>
+        	<br><br><br>
+        	<div class="center">
+        		<img src="/images/pin.png" alt="Local Pizza Prime" title="Local Pizza Prime">
+        		<h2 class="unit-title">UNIDADE <%= @store.name %></h2>
+        		<p class="unit-subtitle"><%= @store.address_full %> | DELIVERY - <%= @store.phone %> </p>
+        	</div><br>
+        	<br><br>
+        	<div class="red-area">
+        		<div class="borderas">
+        			<h1 class="center cardapio-title">CARDÁPIO</h1>
+        			<div class="tamanhos">
+        				<img src="/images/boxwhite.png" alt="Minha Caixa" title="Minha Caixa">
+        				<% @store.tamanhos.each do |t| %>
+        					<div>
+	        					<% nome = t.name.split('(') %>
+	        					<strong><%= nome[0] %></strong><br>
+	        					(<%= nome[1] %>
+	        				</div>
+	        			<% end %>
+        			</div>
+        			<div class="center">
+			            <br>
+			            <br>
+			            <span class="integral"><img src="/images/arroz.png" alt="Pizza Prime" title="Pizza Prime"> &nbsp; PEÇA SUA PIZZA COM MASSA INTEGRAL</span>
+			            <br>
+			            <br>
+			        </div>
+        		</div>
+        		<div class="borderas2">
+        			<div class="row pizzas">
+        			<% mapa = Store.mapMenuPizzas(@store) %>
+        				<% mapa[:pizzas].each do |map| %>
+        					<div class="col-md-3">
+        				   		<div class="img-pizza">
+        				   			<img src="<%= map[:picture] %>" alt="<%= map[:name] %>" title="<%= map[:name] %>" >
+        				   		</div> 
+
+        				   		<p class="titulo-pizzas"><%= map[:name] %></p>
+        				   		
+        				   		<div class="divider"></div>
+        				   		
+        				   	</div>
+        				<% end %>
+        			</div>
+        		</div>
+        		<div class="borderas3">
+        			
+        		</div>
+        	</div>
+        	
+        </div>
+       
+
+        <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/js/main.js"></script>
+        
+        <script>
+        
+            var storelat = 0; 
+            var storelong = 0;
+
+            function getLocation()
+              {
+                if(localStorage.getItem('lat')){
+                    
+                }else{
+                    if (navigator.geolocation)
+                    {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    }
+                    else{
+                        alert('Erro ao Obter Localização');
+                    }
+                }
+              
+              }
+              
+            function showPosition(position)
+              {
+                  
+                  localStorage.setItem('lat', position.coords.latitude);
+                  localStorage.setItem('long', position.coords.longitude);
+              }
+
+            getLocation();
+          
+          
+
+        </script>
+    </body>
+</html>

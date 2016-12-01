@@ -1,0 +1,9 @@
+development:
+  access_key_id: AKIAIA6RTKV2GAEM2KYQ
+  secret_access_key: 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
+test:
+  access_key_id: AKIAIA6RTKV2GAEM2KYQ
+  secret_access_key: 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
+production:
+  access_key_id: AKIAIA6RTKV2GAEM2KYQ
+  secret_access_key: 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
