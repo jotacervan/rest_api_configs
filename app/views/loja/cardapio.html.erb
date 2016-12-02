@@ -70,7 +70,7 @@
         			<div class="tamanhos">
         				<img src="/images/boxwhite.png" alt="Minha Caixa" title="Minha Caixa">
         				<% @store.tamanhos.each do |t| %>
-        					<div>
+        					<div <% if @size == t.id.to_s %> class="active" <% end %> onclick="javascript: location.href='<%= cardapio_path(@selected,@neighbor,@id,t.id) %>'" >
 	        					<% nome = t.name.split('(') %>
 	        					<strong><%= nome[0] %></strong><br>
 	        					(<%= nome[1] %>
@@ -97,18 +97,26 @@
         				   		<p class="titulo-pizzas"><%= map[:name] %></p>
         				   		
         				   		<div class="divider"></div>
-        				   		
+
+                                <% map[:prices].each do |p| %>
+                                    <% if p[:size_id].to_s == @size %>
+                                        <div class="box-preco">
+                                            <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> <%= number_to_currency(p[:value], unit: 'R$ ', separator: ',') %> </span>
+                                        </div>
+                                    <% end %>
+                                <% end %>
+        				   	    
+                                <div class="center">
+                                    <a href="#" class="btn btn-ok" data-id="33">EU QUERO</a>
+                                </div>
+                                <br>
         				   	</div>
         				<% end %>
         			</div>
         		</div>
-        		<div class="borderas3">
-        			
-        		</div>
+        		<div class="borderas3"></div>
         	</div>
-        	
         </div>
-       
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>

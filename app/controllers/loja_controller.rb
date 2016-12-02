@@ -16,7 +16,7 @@ class LojaController < ApplicationController
   	@id = params[:id]
   	@neighborhood = Store.where(:state => params[:state])
   	@store = Store.find(@id)
-
+    @size = params[:size]
   end
 
 end
