@@ -97,14 +97,23 @@
         				   		<p class="titulo-pizzas"><%= map[:name] %></p>
         				   		
         				   		<div class="divider"></div>
+                                <% if map[:prices].length > 0 %>
 
-                                <% map[:prices].each do |p| %>
-                                    <% if p[:size_id].to_s == @size %>
-                                        <div class="box-preco">
-                                            <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> <%= number_to_currency(p[:value], unit: 'R$ ', separator: ',') %> </span>
-                                        </div>
-                                        <% break %>
+                                    <% map[:prices].each do |p| %>
+                                        <% if p[:size_id].to_s == @size %>
+                                            <div class="box-preco">
+                                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> <%= number_to_currency(p[:value], unit: 'R$ ', separator: ',') %> </span>
+                                            </div>
+                                            <% break %>
+                                        <% end %>
                                     <% end %>
+                                    
+                                <% else %>
+
+                                    <div class="box-preco">
+                                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> EM FALTA </span>
+                                    </div>
+
                                 <% end %>
         				   	    
                                 <div class="center">
