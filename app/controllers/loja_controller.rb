@@ -27,7 +27,7 @@ class LojaController < ApplicationController
     session[:size] = @size
     #Session definition end
   end
-  
+
   def login
     consult = RestClient.post 'http://pizzaprime.herokuapp.com/webservices/login/signin',  {  email: params[:login][:email], password: params[:login][:password]  }, { 'content-type' => 'application/json' }
 
@@ -55,7 +55,9 @@ class LojaController < ApplicationController
   end
 
   def cart
+  end
 
+  def add_cart
   end
 
   def modeljson

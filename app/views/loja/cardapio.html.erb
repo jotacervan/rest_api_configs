@@ -136,7 +136,28 @@
                                     <h4 class="modal-title">Adicionar ao Carrinho</h4>
                                   </div>
                                   <div class="modal-body">
-                                    <p><%= map[:name] %></p>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="img-pizza">
+                                                <img src="<%= map[:picture] %>" alt="<%= map[:name] %>" title="<%= map[:name] %>" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h3 class="center"><%= map[:name] %></h3>
+                                            <br>
+                                            <p><%= map[:description] %></p>
+                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                                <p>Escolha a borda</p>
+                                                <%= f.select(:borders) do %>
+                                                    <% mapa[:borders].each do |border| %>
+                                                        <% if border[:sweet] == false %>
+                                                            <%= content_tag(:option, border[:name]) %></p>
+                                                        <% end %>
+                                                    <% end %>
+                                                <% end %>
+                                            <% end %>
+                                        </div>
+                                    </div>
                                     
                                   </div>
                                 </div><!-- /.modal-content -->

@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   	get 'pizzas' => 'loja#pizzas', as: :pizzas
   	get 'modeljson' => 'loja#modeljson', as: :modeljson
   	get 'cart' => 'loja#cart', as: :cart
-  	
+  	post 'add_cart' => 'loja#add_cart', as: :add_cart
+
     get 'home' => 'home#index', as: :home
 
     root 'home#index'
