@@ -21,6 +21,7 @@
         				<% @states.each do |state| %>
         					<li <% if state == @selected %> class="active" <% end %> onclick="javascript: location.href='<%= busca_cidades_path(state) %>'">
                                 <% 
+                                
                                 case state 
                                 when 'SP'
                                     concat 'São Paulo'
@@ -137,7 +138,7 @@
               </div>
               <div class="modal-body">
                 <p>Faça seu login para continuar ou <a>Cadastre-se</a></p>
-                <%= form_for :login, url: root_path do |f| %>
+                <%= form_for :login, url: login_path do |f| %>
                     <%= f.text_field :email, :class => 'form-control', :placeholder => 'Email' %><br>
                     <%= f.password_field :password, :class => 'form-control', :placeholder => 'Senha' %><br>
                     <%= f.submit 'Login', :class => 'btn btn-danger' %>

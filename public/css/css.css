@@ -391,7 +391,7 @@
 
 .tamanhos > div{
     text-transform: uppercase;
-    max-width:115px;
+    max-width:120px;
     text-align:center;
     cursor:pointer;
     border:1px solid transparent;

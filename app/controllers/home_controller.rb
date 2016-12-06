@@ -3,4 +3,6 @@ class HomeController < ApplicationController
       @combos = Combo.all
       @stores = Store.all
   end
+
+  
 end

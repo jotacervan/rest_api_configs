@@ -43,11 +43,13 @@
         				<% end %>
         			</ul>
                     <ul class="neighbor">
+                    <% if @neighborhood.length > 0 %>
                         <% @neighborhood.each do |n| %>
                             <li onclick="javascript: location.href='<%= cardapio_path(n.state,n.neighborhood,n.id,n.tamanhos.first.id) %>'">
                                 <%= n.neighborhood %>
                             </li>
                         <% end %>
+                    <% end %>
                     </ul>
         		</div>
         	</div>
