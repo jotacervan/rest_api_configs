@@ -171,6 +171,10 @@
     width:100%;
 }
 
+.defaultcolor{
+    color:#333;
+}
+
 .contato > div > div > h1{
     color: #6f6e6e;
     font-size: 35px;

@@ -123,12 +123,6 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
               {
                 if(localStorage.getItem('lat')){
 
-                    $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng='+localStorage.getItem('lat')+','+localStorage.getItem('long')+'', function(data){
-                        console.log(data.results[0].address_components[3].long_name);
-                        console.log(data.results[0].address_components[2].long_name);
-                        console.log(data.results[0].address_components[2].long_name);
-                        console.log(data.results[0].address_components[1].long_name);
-                    });
                     
                 }else{
                     if (navigator.geolocation)
@@ -147,15 +141,7 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
                   
                   localStorage.setItem('lat', position.coords.latitude);
                   localStorage.setItem('long', position.coords.longitude);
-
-
-                  $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng='+localStorage.getItem('lat')+','+localStorage.getItem('long')+'', function(data){
-                    console.log(data.results[0].address_components[3].long_name);
-                    console.log(data.results[0].address_components[2].long_name);
-                    console.log(data.results[0].address_components[2].long_name);
-                    console.log(data.results[0].address_components[1].long_name);
-                  });
-
+                  
 
               }
 

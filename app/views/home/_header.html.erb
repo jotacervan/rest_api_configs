@@ -6,10 +6,16 @@
                 <div class="col-md-10 text-right">
                     <ul class="menu">
                         <li <% if page == 'home' %> class="active" <% end %> ><a href="#">Home</a></li>
-                        <li><a href="#">Unidades/Cardápios</a></li>
+                        <li <% if page == 'loja' %> class="active" <% end %> ><a href="<%= loja_path %>">Unidades/Cardápios</a></li>
                         <li><a href="#">A Pizza Prime</a></li>
                         <li><a href="#">Trabalhe Conosco/Contato</a></li>
-                        <li><a href="<%= loja_path %>"><strong>Peça Agora</strong></a></li>
+                        <li>
+                            <% if session[:id].nil? %>  
+                                <a href="<%= loja_path %>"><strong>Peça Agora</strong></a>
+                            <% else %>
+                                <a href="<%= cardapio_path(session[:state],session[:neighbor],session[:id],session[:size]) %>"><strong>Peça Agora</strong></a>
+                            <% end %>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta name="viewport" content="width=device-width, initial-scale=1" > 
+        <link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400,700" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bootstrap.css" >
+        <link rel="stylesheet" href="/css/css.css" >
+
+        <script src="https://use.fontawesome.com/7f3531401e.js"></script>
+
+        <title>Pizza Prime</title>
+    </head>
+    <body>
+        <%= render :partial => 'header', :locals => {:page => 'loja'} %><br>
+        <br>
+        <br>
+        <br>
+        <div class="center content">
+            <h2>Minha Caixa</h2>
+            <% if session[:caixa].nil? %>
+
+                <br>
+                <div class="alert alert-warning center" > Você ainda não possui pizzas adicionadas ao carrinho </div>
+
+            <% else %>
+                
+            
+
+            <% end %>
+
+            <br>
+            <div class="center">
+                <button class="btn btn-default" onclick="location.href='<%= cardapio_path(session[:state],session[:neighbor],session[:id],session[:size]) %>'">Voltar a Loja</button>
+            </div>
+
+        </div>
+       
+
+        <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/js/main.js"></script>
+      
+    </body>
+</html>

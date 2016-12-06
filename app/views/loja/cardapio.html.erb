@@ -54,9 +54,9 @@
         	</div>
         </div>
         <div class="content">
-        	<div class="minha-caixa">
+        	<div class="minha-caixa" onclick="location.href='<%= cart_path %>'">
         		<img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa">
-        		Minha Caixa <span class="badge">0</span>
+        		Minha Caixa <span class="badge"> <% if session[:caixa].nil? %> 0 <% else %> <%= session[:caixa] %> <% end %> </span>
         	</div>
         	<br><br><br>
         	<div class="center">
@@ -91,6 +91,7 @@
         			<% mapa = Store.mapMenuPizzas(@store) %>
         				<% mapa[:pizzas].each do |map| %>
         					<div class="col-md-3">
+
         				   		<div class="img-pizza">
         				   			<img src="<%= map[:picture] %>" alt="<%= map[:name] %>" title="<%= map[:name] %>" >
         				   		</div> 
@@ -112,16 +113,37 @@
                                 <% else %>
 
                                     <div class="box-preco">
-                                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> EM FALTA </span>
+                                        <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> EM FALTA </span>
                                     </div>
 
                                 <% end %>
         				   	    
                                 <div class="center">
-                                    <a href="#login" data-toggle="modal" class="btn btn-ok" data-id="33">EU QUERO</a>
+                                    <% if session[:logged].nil? %>
+                                        <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% else %>
+                                        <a href="#<%= map[:id] %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% end %>
                                 </div>
                                 <br>
         				   	</div>
+
+                            <div id="<%= map[:id] %>" class="modal fade" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content defaultcolor">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Adicionar ao Carrinho</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <p><%= map[:name] %></p>
+                                    
+                                  </div>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+
         				<% end %>
         			</div>
         		</div>
@@ -153,39 +175,5 @@
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
-        
-        <script>
-        
-            var storelat = 0; 
-            var storelong = 0;
-
-            function getLocation()
-              {
-                if(localStorage.getItem('lat')){
-                    
-                }else{
-                    if (navigator.geolocation)
-                    {
-                        navigator.geolocation.getCurrentPosition(showPosition);
-                    }
-                    else{
-                        alert('Erro ao Obter Localização');
-                    }
-                }
-              
-              }
-              
-            function showPosition(position)
-              {
-                  
-                  localStorage.setItem('lat', position.coords.latitude);
-                  localStorage.setItem('long', position.coords.longitude);
-              }
-
-            getLocation();
-          
-          
-
-        </script>
     </body>
 </html>
