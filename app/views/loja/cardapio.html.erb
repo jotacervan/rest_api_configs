@@ -140,7 +140,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="img-pizza">
-                                                <img src="<%= map[:picture] %>" alt="<%= map[:name] %>" title="<%= map[:name] %>" >
+                                                <img src="<%= map[:picture] %>" alt="<%= map[:name] %>" title="<%= map[:name] %>" style="filter:none; -webkit-filter:none;" >
                                             </div>
                                         </div>
                                         <div class="col-md-9">
@@ -148,25 +148,48 @@
                                             <br>
                                             <p><%= map[:description] %></p>
                                             <%= form_for :cart, url: add_cart_path do |f| %>
-                                                <p>Escolha a borda</p>
-                                                <%= f.select(:borders ) do %>
-                                                    <% mapa[:borders].each do |border| %>
-                                                        <% if border[:sweet] == false %>
-                                                            <%= content_tag(:option, border[:name]) %></p>
+                                                <%= f.hidden_field :name, :value => map[:name] %>
+                                                <%= f.hidden_field :size, :value => @size %>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Escolha a borda</p>
+                                                        <%= f.select(:borders ) do %>
+                                                            <% mapa[:borders].each do |border| %>
+                                                                <% if border[:sweet] == false %>
+                                                                    <%= content_tag(:option, border[:name], value: border[:id]) %>
+                                                                <% end %>
+                                                            <% end %>
                                                         <% end %>
-                                                    <% end %>
-                                                <% end %>
-                                                <br>
-                                                <p>Quantidade: </p>
-                                                <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade' %>
-                                                <br>
-                                                <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral: </p>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Quantidade: </p>
+                                                        <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade' %>
+                                                        <br>
+                                                    </div>                                                    
+                                                </div>
+                                                
+                                                <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
                                                 <br>
                                                 <p>Observações: </p>
                                                 <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
                                                 <br>
-                                                <p></p>
+                                                <p class="btn btn-default" onclick="segundosabor()">Adicionar 2º sabor</p><br>
+                                                <br>
+                                                <%= f.hidden_field :sabor1, :value => map[:id] %>
+                                                <div class="segundo-sabor hidden">
+                                                    <p>Selecione o 2º sabor:</p>
+                                                    <%= f.select(:sabor2) do %>
+                                                        <%= content_tag(:option, '2º Sabor', value: 'none') %>
+                                                        <% @store.pizzas.each do |p| %>
+                                                            <%= content_tag(:option, p[:name], value: p[:id]) %>
+                                                        <% end %>
+                                                    <% end %>
+                                                    <br>
+                                                </div>
 
+                                                <%= f.submit 'Adicionar ao Carrinho', :class => 'right btn btn-success' %>
+                                                <div class="clear"></div>
                                             <% end %>
                                         </div>
                                     </div>

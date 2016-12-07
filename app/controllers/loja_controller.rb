@@ -67,7 +67,7 @@ class LojaController < ApplicationController
       session[:cpf] = resultado['cpf']
 
       redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
-            
+
     }
     
   end
@@ -82,7 +82,33 @@ class LojaController < ApplicationController
   end
 
   def add_cart
-    render json: params[:cart]
+    if session[:caixa].nil?
+      session[:caixa] = 1
+    else
+      if session[:pizzas][params[:cart][:name]].nil?
+        session[:caixa] += 1
+      end
+    end
+    session[:pizzas] = {}
+    session[:pizzas][params[:cart][:name]] = {}
+    session[:pizzas][params[:cart][:name]][:size_id] = params[:cart][:size]
+    session[:pizzas][params[:cart][:name]][:border_id] = params[:cart][:borders]
+    session[:pizzas][params[:cart][:name]][:quantity] = params[:cart][:quantity].to_i
+    if params[:cart][:integral] == '1'
+      session[:pizzas][params[:cart][:name]][:integral] = true
+    else
+      session[:pizzas][params[:cart][:name]][:integral] = false
+    end
+    session[:pizzas][params[:cart][:name]][:obs] = params[:cart][:obs]
+    session[:pizzas][params[:cart][:name]][:fidelity] = true
+    
+    if params[:cart][:sabor2] == 'none'
+      session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] } ]
+    else
+      session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+    end
+    
+    redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
   end
 
   def modeljson

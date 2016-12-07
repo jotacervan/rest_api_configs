@@ -1,3 +1,8 @@
+function segundosabor(){
+	$('#cart_sabor2').empty();
+	$('.segundo-sabor').toggleClass('hidden');
+}
+
 $(document).ready(function(){
     
     $('.combo > div').mouseenter(function(){
