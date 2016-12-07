@@ -50,13 +50,12 @@ class LojaController < ApplicationController
 
   def loginfacebook
     @user = User.koala(request.env['omniauth.auth']['credentials'])
-
+    
     RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signinFacebook',  {  email: @user['email'], name: @user['name'], facebook: @user['id']  }){ |response, request, result| 
 
 
-      cookies[:session_id] = response.cookies['_session_id']
-
       
+
       render json: response.code
 
 
