@@ -15,9 +15,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-gem 'omniauth'
-gem 'omniauth-google-oauth2' 
-gem 'omniauth-facebook'
+gem 'omniauth-facebook' # Facebook authentication
+gem "koala", "~> 1.10.0rc" # Facebook API
 gem 'rest-client'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

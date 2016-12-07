@@ -11,6 +11,9 @@ Rails.application.routes.draw do
 
     get 'home' => 'home#index', as: :home
 
+    get 'auth/facebook' => 'loja#loginfacebook', as: "auth_provider"
+    get 'auth/facebook/callback' => 'loja#loginfacebook', to: 'users#login'
+
     root 'home#index'
     
 end

@@ -47,6 +47,12 @@ class LojaController < ApplicationController
     redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
     
   end
+
+  def loginfacebook
+    @user = User.koala(request.env['omniauth.auth']['credentials'])
+
+    render json: @user
+  end
   
   def pizzas
     RestClient.get('http://pizzaprime.herokuapp.com/webservices/stores/getStores', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
