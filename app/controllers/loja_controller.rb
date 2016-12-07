@@ -65,10 +65,9 @@ class LojaController < ApplicationController
       session[:balance] = resultado['balance']
       session[:phone] = resultado['phone']
       session[:cpf] = resultado['cpf']
-      
+
       redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
-
-
+            
     }
     
   end
@@ -83,6 +82,7 @@ class LojaController < ApplicationController
   end
 
   def add_cart
+    render json: params[:cart]
   end
 
   def modeljson

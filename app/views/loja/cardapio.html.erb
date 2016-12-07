@@ -136,6 +136,7 @@
                                     <h4 class="modal-title">Adicionar ao Carrinho</h4>
                                   </div>
                                   <div class="modal-body">
+
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="img-pizza">
@@ -148,13 +149,24 @@
                                             <p><%= map[:description] %></p>
                                             <%= form_for :cart, url: add_cart_path do |f| %>
                                                 <p>Escolha a borda</p>
-                                                <%= f.select(:borders) do %>
+                                                <%= f.select(:borders ) do %>
                                                     <% mapa[:borders].each do |border| %>
                                                         <% if border[:sweet] == false %>
                                                             <%= content_tag(:option, border[:name]) %></p>
                                                         <% end %>
                                                     <% end %>
                                                 <% end %>
+                                                <br>
+                                                <p>Quantidade: </p>
+                                                <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade' %>
+                                                <br>
+                                                <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral: </p>
+                                                <br>
+                                                <p>Observações: </p>
+                                                <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
+                                                <br>
+                                                <p></p>
+
                                             <% end %>
                                         </div>
                                     </div>
