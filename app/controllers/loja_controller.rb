@@ -29,7 +29,7 @@ class LojaController < ApplicationController
   end
 
   def login
-    consult = RestClient.post 'http://pizzaprime.herokuapp.com/webservices/login/signin',  {  email: params[:login][:email], password: params[:login][:password]  }, { 'content-type' => 'application/json' }
+    consult = RestClient.post 'http://pizzaprime.herokuapp.com/webservices/login/signin',  {  email: params[:login][:email], password: params[:login][:password]  }
 
     cookies[:session_id] = consult.cookies['_session_id']
     
@@ -51,7 +51,21 @@ class LojaController < ApplicationController
   def loginfacebook
     @user = User.koala(request.env['omniauth.auth']['credentials'])
 
-    render json: @user
+    consult = RestClient.post 'http://pizzaprime.herokuapp.com/webservices/login/signinFacebook',  {  email: @user['email'], name: @user['name'], facebook: @user['id']  }
+    cookies[:session_id] = consult.cookies['_session_id']
+
+    resultado = JSON.parse(consult.body)
+    session[:logged] = true
+    session[:name] = resultado['name']
+    session[:email] = resultado['email']
+    session[:picture] = resultado['picture']
+    session[:gender] = resultado['gender']
+    session[:facebook] = resultado['facebook']
+    session[:balance] = resultado['balance']
+    session[:phone] = resultado['phone']
+    session[:cpf] = resultado['cpf']
+
+    render json: resultado
   end
   
   def pizzas
