@@ -180,12 +180,25 @@
                 <h4 class="modal-title">Faça seu Login</h4>
               </div>
               <div class="modal-body">
-                <p>Faça seu login para continuar ou <a>Cadastre-se</a></p>
-                <%= form_for :login, url: login_path do |f| %>
-                    <%= f.text_field :email, :class => 'form-control', :placeholder => 'Email' %><br>
-                    <%= f.password_field :password, :class => 'form-control', :placeholder => 'Senha' %><br>
-                    <%= f.submit 'Login', :class => 'btn btn-danger' %>
-                <% end %>
+                
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                    <div class="center">
+                        <p class="center">Faça seu login para continuar, <a>Cadastre-se</a></p>
+                        <p class="center">ou</p>
+                        <img src="/images/facebook.png" style="cursor:pointer" onclick="location.href='<%= auth_provider_path %>'" alt="Pizza Prime Facebook" title="Pizza Prime Facebook"/>
+                    </div>
+                    <br>
+                        <br>
+                        <%= form_for :login, url: login_path do |f| %>
+                            <%= f.text_field :email, :class => 'form-control', :placeholder => 'Email' %><br>
+                            <%= f.password_field :password, :class => 'form-control', :placeholder => 'Senha' %><br>
+                            <%= f.submit 'Login', :class => 'btn btn-danger' %>
+                        <% end %>
+                    </div>             
+                </div>
+
+                
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->

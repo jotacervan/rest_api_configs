@@ -53,8 +53,20 @@ class LojaController < ApplicationController
 
     RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signinFacebook',  {  name: @user['name'].to_s, email: @user['email'].to_s, facebook: @user['id'].to_s  }){ |response, request, result| 
 
-
-      render json: response
+      cookies[:session_id] = response.cookies['_session_id']
+    
+      resultado = JSON.parse(response.body)
+      session[:logged] = true
+      session[:name] = resultado['name']
+      session[:email] = resultado['email']
+      session[:picture] = resultado['picture']
+      session[:gender] = resultado['gender']
+      session[:facebook] = resultado['facebook']
+      session[:balance] = resultado['balance']
+      session[:phone] = resultado['phone']
+      session[:cpf] = resultado['cpf']
+      
+      redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
 
 
     }

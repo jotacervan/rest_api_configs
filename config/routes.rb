@@ -8,10 +8,10 @@ Rails.application.routes.draw do
   	get 'modeljson' => 'loja#modeljson', as: :modeljson
   	get 'cart' => 'loja#cart', as: :cart
   	post 'add_cart' => 'loja#add_cart', as: :add_cart
-    
+
     get 'home' => 'home#index', as: :home
 
-    get 'auth/facebook' => 'loja#loginfacebook', as: "auth_provider"
+    get 'auth/facebook' => 'loja#loginfacebook', as: :auth_provider
     get 'auth/facebook/callback' => 'loja#loginfacebook'
     get 'auth/failure' => 'loja#login#failure', as: "auth_failure"
 
