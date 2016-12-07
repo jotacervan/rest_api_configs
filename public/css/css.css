@@ -537,6 +537,20 @@
   border: 0;
 }
 
+.flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cart-item{
+    border:1px solid #ccc;
+    padding:20px;
+}
+
+.table > tbody > tr > td{
+    vertical-align: middle;
+}
 
 
 

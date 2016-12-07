@@ -81,15 +81,28 @@ class LojaController < ApplicationController
   def cart
   end
 
+  def del
+    if session[:caixa] > 1
+      session[:caixa] -= 1
+      session[:pizzas].delete(params[:name])
+    else
+        session[:caixa] = nil
+        session[:pizzas] = nil
+    end
+
+    redirect_to cart_path
+  end
+
   def add_cart
     if session[:caixa].nil?
       session[:caixa] = 1
+      session[:pizzas] = {}
     else
       if session[:pizzas][params[:cart][:name]].nil?
         session[:caixa] += 1
       end
     end
-    session[:pizzas] = {}
+    
     session[:pizzas][params[:cart][:name]] = {}
     session[:pizzas][params[:cart][:name]][:size_id] = params[:cart][:size]
     session[:pizzas][params[:cart][:name]][:border_id] = params[:cart][:borders]
@@ -107,7 +120,7 @@ class LojaController < ApplicationController
     else
       session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
     end
-    
+
     redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
   end
 

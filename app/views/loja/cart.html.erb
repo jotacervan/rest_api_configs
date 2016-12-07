@@ -16,16 +16,116 @@
         <br>
         <br>
         <br>
-        <div class="center content">
-            <h2>Minha Caixa</h2>
+        <div class="content">
+            <h2 class="center">Minha Caixa</h2>
             <% if session[:caixa].nil? %>
 
                 <br>
                 <div class="alert alert-warning center" > Você ainda não possui pizzas adicionadas ao carrinho </div>
 
             <% else %>
+                <%
+                    total = 0
+                %>
+                <br>
+                <p><strong><%= session[:name] %>, </strong> você possui <%= session[:caixa] %> pizzas adicionadas</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Quantidade</th>
+                            <th>Thumb</th>
+                            <th>Tamanho</th>
+                            <th>Pizza</th>
+                            <th>Borda</th>
+                            <th>Integral</th>
+                            <th>2º Sabor</th>
+                            <th>Valor</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <% session[:pizzas].each do |p|  %>
+                    <% 
+                    pizza = Pizza.find(p[1]['tastes'][0]['id']) 
+                    border = Border.find(p[1]['border_id'])
+                    tamanho = Tamanho.find(p[1]['size_id'])
+                    pedido_total = 0
+
+                    border.price_tables.where(:tamanho_id => p[1]['size_id'], :store_ids => session[:id]).each do |b| 
+                        pedido_total += b.price
+                    end
+
+                    if p[1]['tastes'].length > 1
+
+                        value1 = 0
+                        value2 = 0
+                        pizza22 = Pizza.find(p[1]['tastes'][1]['id'])
+
+                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
+                            value1 = t.price
+                        end
+                        pizza22.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
+                            value2 = t.price
+                        end
+                        
+                        if value1 > value2
+                            pedido_total += value1
+                        else
+                            pedido_total += value2
+                        end
+
+
+                    else
+
+                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
+                            pedido_total += t.price
+                        end
+
+                    end
+
+                    
+
+                    pedido_total = pedido_total * p[1]['quantity']
+
+                    if p[1]['integral'] == true
+                        pedido_total += pizza.stores.where(:id => session[:id]).first.integral
+                    end
+
+                    total += pedido_total
+                    %>
+                    <tr>
+                        <td><%= p[1]['quantity'] %></td>
+                        <td><img src="<%= pizza.picture %>" alt="Pizza Prime" title="Pizza Prime" style="width:100px" /></td>
+                        <td><%= tamanho.name %></td>
+                        <td><%= p[0] %></td>
+                        <td><%= border[:name] %></td>
+                        <td><% if p[1]['integral'] == true %> Sim <% else %> Não <% end %></td>
+                        <td>
+                            
+                            <% if p[1]['tastes'].length > 1 %> 
+
+                                <% pizza2 = Pizza.find(p[1]['tastes'][1]['id']) %>
+
+                                <%= pizza2[:name] %>
+
+                            <% else %> N/S <% end %>
+                                
+                        </td>
+                        <td><%= number_to_currency(pedido_total, unit: 'R$ ', separator: ',') %></td>
+                        <td><i class="fa fa-trash fa-2x" style="cursor:pointer" onclick="location.href='<%= del_path(p[0]) %>'"></i></td>
+                    </tr>
+                    
+                <% end %>
+                    </tbody>
+
+                </table>
+                <br>
+                <div class="text-right">
+                    <h3>Total: <%= number_to_currency(total, unit: 'R$ ', separator: ',') %></h3>
+                    <br>
+                    <button class="btn btn-primary">Finalizar Compra</button>    
+                </div>
                 
-            
 
             <% end %>
 
