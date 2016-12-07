@@ -51,7 +51,7 @@ class LojaController < ApplicationController
   def loginfacebook
     @user = User.koala(request.env['omniauth.auth']['credentials'])
 
-    RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signinFacebook',  {  email: @user['email'], name: @user['name'], facebook: @user['id']  }){ |response, request, result| 
+    RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signinFacebook',  {  name: @user['name'].to_s, email: @user['email'].to_s, facebook: @user['id'].to_s  }){ |response, request, result| 
 
 
       render json: response
