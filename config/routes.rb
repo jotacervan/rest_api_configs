@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   	get 'pizzas' => 'loja#pizzas', as: :pizzas
   	get 'modeljson' => 'loja#modeljson', as: :modeljson
   	get 'cart' => 'loja#cart', as: :cart
+    get 'checkout' => 'loja#checkout', as: :checkout
+    post 'checkout_confirm' => 'loja#checkout_confirm', as: :checkout_confirm
   	post 'add_cart' => 'loja#add_cart', as: :add_cart
     get 'del/:name' => 'loja#del', as: :del
 

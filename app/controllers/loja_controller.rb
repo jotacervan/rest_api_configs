@@ -26,6 +26,9 @@ class LojaController < ApplicationController
     session[:id] = @id
     session[:size] = @size
     #Session definition end
+
+    render stream: true
+
   end
 
   def login
@@ -80,6 +83,23 @@ class LojaController < ApplicationController
 
   def cart
   end
+
+  def checkout
+    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/cards', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+        @cards = JSON.parse(response.body)
+    }
+
+    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+        @addresses = JSON.parse(response.body)
+    }
+
+    @store = Store.find(session[:id])
+  end
+
+  def checkout_confirm
+    redirect_to checkout_path
+  end
+
 
   def del
     if session[:caixa] > 1

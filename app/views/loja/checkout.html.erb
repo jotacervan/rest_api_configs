@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta name="viewport" content="width=device-width, initial-scale=1" > 
+        <link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400,700" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bootstrap.css" >
+        <link rel="stylesheet" href="/css/css.css" >
+
+        <script src="https://use.fontawesome.com/7f3531401e.js"></script>
+
+        <title>Pizza Prime</title>
+    </head>
+    <body>
+        <%= render :partial => 'header', :locals => {:page => 'loja'} %><br>
+        <br>
+        <br>
+        <br>
+        <div class="content">
+            <h2 class="center">Finalizar Compra</h2>
+            <% if session[:caixa].nil? %>
+
+                <br>
+                <script>
+                	location.href = "<%= cardapio_path(session[:state],session[:neighbor],session[:id],session[:size]) %>"
+                </script>
+
+            <% else %>
+                <%
+                    total = 0
+                %>
+                <br>
+                <div class="row">
+	                <div class="resumo col-md-6">
+	                	<h3 class="center">Resumo</h3>
+	                	<hr>
+	                <% session[:pizzas].each do |p|  %>
+	                    <% 
+	                    pizza = Pizza.find(p[1]['tastes'][0]['id']) 
+	                    border = Border.find(p[1]['border_id'])
+	                    tamanho = Tamanho.find(p[1]['size_id'])
+	                    pedido_total = 0
+
+	                    border.price_tables.where(:tamanho_id => p[1]['size_id'], :store_ids => session[:id]).each do |b| 
+	                        pedido_total += b.price
+	                    end
+
+	                    if p[1]['tastes'].length > 1
+
+	                        value1 = 0
+	                        value2 = 0
+	                        pizza22 = Pizza.find(p[1]['tastes'][1]['id'])
+
+	                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
+	                            value1 = t.price
+	                        end
+	                        pizza22.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][1]['id'], :store_ids => session[:id]).each do |t|
+	                            value2 = t.price
+	                        end
+	                        
+	                        if value1 > value2
+	                            pedido_total += value1
+	                        else
+	                            pedido_total += value2
+	                        end
+
+
+	                    else    
+
+	                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
+	                            pedido_total += t.price
+	                        end
+
+	                    end
+
+	                        
+
+	                    pedido_total = pedido_total * p[1]['quantity']
+
+	                    if p[1]['integral'] == true
+	                        pedido_total += pizza.stores.where(:id => session[:id]).first.integral
+	                    end
+
+	                    total += pedido_total
+	                    %>
+	                    <!-- RESUMO De CADA PEDIDO -->
+	                    <% if p[1]['tastes'].length > 1 %>
+	                    	<p><strong>Qtd:</strong> <%= p[1]['quantity'] %> - <strong>Pizza:</strong>  <%= p[0] %> + <%= pizza22[:name] %> - <%= tamanho[:name] %></p>
+	                    <% else %>
+	                    	<p><strong>Qtd:</strong> <%= p[1]['quantity'] %> - <strong>Pizza:</strong>  <%= p[0] %> - <%= tamanho[:name] %></p>
+	                    <% end %>
+	                    <p><strong>Borda: </strong> <%= border[:name] %></p>
+	                    <p><strong>Preço: </strong> <%= number_to_currency(pedido_total, unit: 'R$ ', separator: ',') %></p>
+	                    <hr>
+
+	                <% end %>
+	                   
+
+
+	                   </div>
+	                   <div class="col-md-6">
+	                   		<h3>Informações de Pagamento e Entrega</h3>
+	                   		<hr>
+	                   		<%= form_for :checkout, url: checkout_confirm_path do |f| %>
+	                   			<p>Forma de Pagamento:</p>
+	                   			<%= f.select(:payment, {}, {}, {:class => 'form-control'}) do %>
+	                   				<% @store.payments.each do |pay| %>
+		                   				<%= content_tag(:option, pay.name ) %>
+		                   			<% end %>
+	                   			<% end %>
+
+	                   			<% if @cards.length < 1 %>
+	                   				<br>
+	                   				<p><strong>Voce não possui cartões cadastrados!</strong></p>
+	                   			<% end %>
+
+	                   			<% if @addresses.length < 1 %>
+	                   				<p><strong>Você não possui endereços cadastrados</strong></p>
+	                   			<% else %>
+	                   				<br>
+	                   				<p>Endereço de entrega:</p>
+	                   				<%= f.select(:address, {}, {}, {:class => 'form-control'}) do %>
+	                   					<%= content_tag(:option, 'Retirada na Loja') %>
+		                   				<% @addresses.each do |pay| %>
+			                   				<%= content_tag(:option,  pay['name']+ ' - ' + pay['street'] + ' - ' + pay['number'] ) %>
+			                   			<% end %>
+		                   			<% end %>
+	                   			<% end %>
+
+	                   			<div class="text-right">
+		                   			<h3>Total: <%= number_to_currency(total, unit: 'R$ ', separator: ',') %></h3>
+	                    			<br>
+	                    			<%= f.submit 'Finalizar Compra', :class => 'btn btn-success' %>
+                    			</div>
+	                   		<% end %>
+	                   </div>
+                   </div>
+
+                <div> 
+                </div>
+                
+
+            <% end %>
+
+            <br>
+            <div class="center">
+                <button class="btn btn-default" onclick="location.href='<%= cardapio_path(session[:state],session[:neighbor],session[:id],session[:size]) %>'">Voltar a Loja</button>
+            </div>
+
+        </div>
+       
+
+        <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/js/main.js"></script>
+      
+    </body>
+</html>
