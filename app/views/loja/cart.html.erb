@@ -64,7 +64,7 @@
                         pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
                             value1 = t.price
                         end
-                        pizza22.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
+                        pizza22.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][1]['id'], :store_ids => session[:id]).each do |t|
                             value2 = t.price
                         end
                         
