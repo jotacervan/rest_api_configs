@@ -177,54 +177,54 @@ class LojaController < ApplicationController
 
   def modeljson
 
-    pedido = { 
-
-      :pedido => {
-
-        :pizzas => {
-          :size_id => '2222',
-          :border_id => '11111',
-          :quantity => 1,
-          :integral => true,
-          :obs => 'Observações',
-          :fidelity => true,
-          :tastes => {
-            :id => '123123',
-            :id => '123123'
-          }
-        },
-
-        :sweet_pizzas => {
-          :size_id => '2222',
-          :quantity => 1,
-          :obs => 'Observações',
-          :integral => true,
-          :fidelity => true,
-          :tastes => {
-            :id => '123123',
-            :id => '123123'
-          }
-        },
-
-        :beverages => {
-          :id => '123',
-          :quantity => 1,
-          :fidelity => true
-        },
-
-        :combos => {
-          :id => '1234',
-          :quantity => 1,
-          :pizzas => {},
-          :sweet_pizzas => {},
-          :beverages => {}
-        }
-
-      }
-
-    }
-
-    render json: pedido
+    #pedido = { 
+    #
+    #  :pedido => {
+#
+ #       :pizzas => {
+  #        :size_id => '2222',
+   #       :border_id => '11111',
+    #      :quantity => 1,
+     #     :integral => true,
+      #    :obs => 'Observações',
+       #   :fidelity => true,
+        #  :tastes => {
+#            :id => '123123',
+ #           :id => '123123'
+  #        }
+   #     },
+#
+ #       :sweet_pizzas => {
+  #        :size_id => '2222',
+   #       :quantity => 1,
+    #      :obs => 'Observações',
+     #     :integral => true,
+      #    :fidelity => true,
+       #   :tastes => {
+        #    :id => '123123',
+         #   :id => '123123'
+ #         }
+  #      },
+#
+ #       :beverages => {
+  #        :id => '123',
+   #       :quantity => 1,
+    #      :fidelity => true
+     #   },
+#
+ #       :combos => {
+  #        :id => '1234',
+   #       :quantity => 1,
+    #      :pizzas => {},
+     #     :sweet_pizzas => {},
+      #    :beverages => {}
+       # }
+#
+#      }
+#
+ #   }
+#
+ #   render json: pedido
 
   end
 
