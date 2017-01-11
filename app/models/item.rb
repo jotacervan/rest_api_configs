@@ -10,6 +10,7 @@ class Item
   field :border_id
   field :item1_id
   field :item2_id
+  field :item3_id
   field :pasta, :default => "Fina"
   field :pasta_id
   field :quantity, type: Integer
@@ -26,7 +27,7 @@ class Item
      :border_id => u.border_id,
      :size => u.size_id.nil? ? "" : Tamanho.find(u.size_id).name,
      :border => u.border_id.nil? ? "" : Border.find(u.border_id).name,
-     :tastes => [ getTastes(u.item1_id, sweet, order, u.size_id), (u.item2_id.nil?) ? {} : getTastes(u.item2_id, sweet, order, u.size_id)]
+     :tastes => [ getTastes(u.item1_id, sweet, order, u.size_id), (u.item2_id.nil?) ? {} : getTastes(u.item2_id, sweet, order, u.size_id), (u.item3_id.nil?) ? {} : getTastes(u.item3_id, sweet, order, u.size_id)]
      }}
   end
 

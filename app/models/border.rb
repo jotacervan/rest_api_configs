@@ -13,13 +13,15 @@ class Border
   has_and_belongs_to_many :combos
   has_many :price_tables
 
-  def self.mapBorders (array, store)
-    array.map { |u| {:id => u.id,
+  def self.mapBorders (array, store, tamanhos)
+    array = array.map { |u| {:id => u.id,
      :name => u.name,
      :sweet => u.sweet,
-     :value => PriceTable.getPriceBorder(u, store),
-     :price => PriceTable.getPriceBorder(u, store)
+     :prices => PriceTable.getPriceBorder(u, store, tamanhos)
     }}
+    array
+    array.reject { |c| (c[:prices].nil? || c[:prices].count == 0) }
+
   end
 
 end

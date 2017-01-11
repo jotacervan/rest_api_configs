@@ -4,6 +4,8 @@ class Itemcombo < Item
   field :quantity_sweet_pizza, type: Integer, :default => 0
   field :quantity_beverage, type: Integer, :default => 0
   field :item_pizza_id
+  field :combo_name
+  field :item_pizza_2_id
   field :item_beverage_id
   field :item_sweet_pizza_id
 

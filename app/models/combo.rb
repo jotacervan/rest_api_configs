@@ -41,10 +41,11 @@ class Combo
     c[:item_sweet_pizza_id] = a.item_sweet_pizza_id
     c[:item_beverage_id] = a.item_beverage_id
     c[:item_pizza_id] = a.item_pizza_id
+    c[:item_pizza_2_id] = a.item_pizza_2_id
     c[:quantity_pizza] = a.quantity_pizza
     c[:quantity_sweet_pizza] = a.quantity_sweet_pizza
     c[:quantity_beverage] = a.quantity_beverage
-    
+    pizzas = a.item_pizza_2_id.nil ? 1 : 2
     combos << c
     store = a.order.store
 
@@ -55,7 +56,7 @@ class Combo
      :picture => u.picture.url,
      :amount => PriceTable.getPriceCombo(u, store),
      :pizzas => {
-     :pizzas => Pizza.mapPizzasCombo(u[:item_pizza_id].nil? ? [] : [Pizza.find(u[:item_pizza_id])], store),
+     :pizzas => Pizza.mapPizzasCombo(pizzas == 2 ? [Pizza.find(u[:item_pizza_id]),Pizza.find(u[:item_pizza_2_id])] : [Pizza.find(u[:item_pizza_id])], store),
      :quantity => u[:quantity_pizza] },
      :beverages => {:beverages =>  Beverage.mapBeveragesCombo(u[:item_beverage_id].nil? ? [] : [Beverage.find(u[:item_beverage_id])], store), :quantity =>  u[:quantity_beverage]  },
      :sweet_pizzas => {:sweet_pizzas =>  SweetPizza.mapSweetPizzasCombo(u[:item_sweet_pizza_id].nil? ? [] : [SweetPizza.find(u[:item_sweet_pizza_id])], store), :quantity =>  u[:quantity_sweet_pizza]  }     
@@ -65,17 +66,22 @@ class Combo
 
 
   def self.mapCombo (u, store)
-    json = {
-     :id => u.id,
-     :title => u.name,
-     :subtitle => u.subtitle,
-     :picture => u.picture.url,
-     :amount => PriceTable.getPriceCombo(u, store),
-     :pizzas => {:pizzas => Pizza.mapPizzasCombo(u.pizza_category == "all" ? store.pizzas : store.pizzas.where(:category_name => u.pizza_category), store), :quantity => u.total_pizzas },
-     :beverages => {:beverages =>  Beverage.mapBeveragesCombo(u.beverage_category == "all" ? store.beverages : store.beverages.where(:category_name => u.beverage_category), store), :quantity => u.total_beverages },
-     :sweet_pizzas => {:sweet_pizzas =>  u.total_sweet_pizzas == 0 ? [] : SweetPizza.mapSweetPizzasCombo(store.sweet_pizzas, store), :quantity => u.total_sweet_pizzas }
-    }
-    json
+    price = PriceTable.getPriceCombo(u, store)
+    if price > 0
+      json = {
+       :id => u.id,
+       :title => u.name,
+       :subtitle => u.subtitle,
+       :picture => u.picture.url,
+       :amount => price,
+       :pizzas => {:pizzas => Pizza.mapPizzasCombo(u.pizza_category == "all" ? store.pizzas : store.pizzas.where(:category_name => u.pizza_category), store), :quantity => u.total_pizzas },
+       :beverages => {:beverages =>  Beverage.mapBeveragesCombo(u.beverage_category == "all" ? store.beverages : store.beverages.where(:category_name => u.beverage_category), store), :quantity => u.total_beverages },
+       :sweet_pizzas => {:sweet_pizzas =>  u.total_sweet_pizzas == 0 ? [] : SweetPizza.mapSweetPizzasCombo(store.sweet_pizzas, store), :quantity => u.total_sweet_pizzas }
+      }
+      json
+    else
+      {}
+    end
   end
 
 

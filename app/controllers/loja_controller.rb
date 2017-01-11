@@ -3,32 +3,63 @@ class LojaController < ApplicationController
   	@states = Store.distinct(:state)
   end
 
+  def rss
+    redirect_to root_path
+  end
+
   def busca_cidades
-  	@states = Store.distinct(:state)
-  	@selected = params[:state]
-  	@neighborhood = Store.where(:state => params[:state])
-    #Session definition start
-    session[:state] = @selected
-    #Session definition end
+    consult = RestClient.get 'https://maps.googleapis.com/maps/api/geocode/json?address='+params[:cep][:numero]+'+'+params[:cep][:logradouro].gsub(" ","+")+',+'+params[:cep][:localidade].gsub(" ","+")+',+'+params[:cep][:uf].gsub(" ","+")+'&key=AIzaSyA4VtmtyiHJXI_l5esvm_7Vhdw8epH_3_Q'
+    # Google Api Key = AIzaSyA4VtmtyiHJXI_l5esvm_7Vhdw8epH_3_Q
+    @address = JSON.parse(consult)
+
+    ids = Mongoid.default_client["zones"].find(area:
+        { "$geoIntersects" =>
+          { "$geometry" =>
+              { type: "Point", coordinates: [@address['results'][0]['geometry']['location']['lat'], @address['results'][0]['geometry']['location']['lng']] }
+          }
+        }
+      )
+
+    if ids.count == 0
+      @states = Store.distinct(:state)
+      @error_cep = true
+      render 'index'
+    else
+
+      @store = Store.mapStores([Store.find(ids.distinct(:store_id).first)]).first
+      session[:store] = {}
+      session[:store][:id] = @store[:id].to_s
+      session[:store][:name] = @store[:name]
+      session[:store][:uf] = params[:cep][:uf]
+      session[:user] = {}
+      session[:user][:bairro] = params[:cep][:bairro]
+      session[:user][:cep] = params[:cep][:cep]
+      session[:user][:uf] = params[:cep][:uf]
+      session[:user][:localidade] = params[:cep][:localidade]
+      session[:user][:logradouro] = params[:cep][:logradouro]
+      session[:user][:number] = params[:cep][:numero] 
+
+      redirect_to cardapio_path
+    end
+
   end
 
   def cardapio
-  	@states = Store.distinct(:state)
-  	@selected = params[:state]
-  	@neighbor = params[:neighbor]
-  	@id = params[:id]
-  	@neighborhood = Store.where(:state => params[:state])
-  	@store = Store.find(@id)
-    @size = params[:size]
-    #Session definition start
-    session[:state] = @selected
-    session[:neighbor] = @neighbor
-    session[:id] = @id
-    session[:size] = @size
-    #Session definition end
+    if session[:store].blank? && session[:user].blank?
+      redirect_to loja_path
+    else
+      @states = Store.distinct(:state)
+      @neighborhood = Store.where(:state => session[:store]['uf'])
+      @store = Store.find(session[:store]['id'])
 
-    render stream: true
+      render stream: true
+    end
+  end
 
+  def cep
+    @states = Store.distinct(:state)
+    consult = RestClient.get 'http://viacep.com.br/ws/'+params[:cep][:cep]+'/json/'
+    @address = JSON.parse(consult)
   end
 
   def login
@@ -57,7 +88,7 @@ class LojaController < ApplicationController
     RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signinFacebook',  {  name: @user['name'].to_s, email: @user['email'].to_s, facebook: @user['id'].to_s  }){ |response, request, result| 
 
       cookies[:session_id] = response.cookies['_session_id']
-    
+      
       resultado = JSON.parse(response.body)
       session[:logged] = true
       session[:name] = resultado['name']

@@ -12,6 +12,13 @@ html {
 body {
   margin: 0;
 }
+
+@font-face {
+  font-family: 'Milk';
+
+  src: url('../fonts/peach_milk.ttf');
+}
+
 article,
 aside,
 details,

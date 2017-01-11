@@ -19,9 +19,10 @@
         		<div class="content center">
         			<ul class="states">
         				<% @states.each do |state| %>
-        					<li <% if state == @selected %> class="active" <% end %> onclick="javascript: location.href='<%= busca_cidades_path(state) %>'">
-                                <% 
-                                case state 
+        					<li>
+                                <%
+                                
+                                case state
                                 when 'SP'
                                     concat 'São Paulo'
                                 when 'RJ'
@@ -42,45 +43,54 @@
                             </li>
         				<% end %>
         			</ul>
-                    <ul class="neighbor">
-                    <% if @neighborhood.length > 0 %>
-                        <% @neighborhood.each do |n| %>
-                            <li onclick="javascript: location.href='<%= cardapio_path(n.state,n.neighborhood,n.id,n.tamanhos.first.id) %>'">
-                                <%= n.neighborhood %>
-                            </li>
-                        <% end %>
-                    <% end %>
-                    </ul>
         		</div>
         	</div>
         </div>
-        <br>
-        <br>
-        <div class="center content">
-            <h2>Selecione a Unidade:</h2>
-            <br>
-            <div class="row unities">
-            <% if @neighborhood.length > 0 %>
-                <% @neighborhood.each do |n| %>
-                    <div class="col-md-3 center">
-                        <div onclick="javascript: location.href='<%= cardapio_path(n.state,n.neighborhood,n.id,n.tamanhos.first.id) %>'">
-                            <img src="/images/pin.png" alt="Pizza Prime" title="Pizza Prime" /><br>
-                            <%= n.neighborhood %>
-                        </div>
-                    </div>    
-                <% end %>
-            <% else %>
-                <h3>Não há nenhuma unidade disponível para esse estado!</h3>
-            <% end %>
+
+        <div class="fundo_cep">
+            <div class="center content">
+
+                <h2 class="fundo-faixa">Complete seu endereço:</h2>
                 
-            </div>
+                <%= form_for :cep, url: busca_cidades_path do |f| %>
+                    <%= f.hidden_field :bairro, :value => I18n.transliterate(@address['bairro']) %>
+                    <%= f.hidden_field :cep, :value => @address['cep'] %>
+                    <div class="row formcep">
+                        <div class="col-md-3">
+                            <%= f.text_field :uf, :value => @address['uf'], :readonly => true, :class => 'form-control end' %>
+                        </div>
+                        <div class="col-md-9">
+                            <%= f.text_field :localidade, :value => I18n.transliterate(@address['localidade']), :readonly => true, :class => 'form-control end' %>
+                        </div>
+                    </div>
+                    <div class="row formcep">
+                        <div class="col-md-10">
+                            <%= f.text_field :logradouro, :value => I18n.transliterate(@address['logradouro']), :readonly => true, :class => 'form-control end' %>
+                        </div>
+                        <div class="col-md-2">
+                            <%= f.text_field :numero, :placeholder => 'Nº', :class => 'form-control end' %>
+                        </div>
+                    </div>
+                    <button class="btn-cep" type="button" onclick="history.go(-1)">Voltar</button>
+                    <%= f.submit 'OK', :class => 'btn-cep' %>
+
+                <% end %>
+                <br>
             
+            </div>
         </div>
        
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
-       
+        <script type="text/javascript" src="/js/mask.js"></script>
+        <script type="text/javascript">
+            $(function(){
+
+                $('.cep').mask('99999-999');
+
+            });
+        </script>
     </body>
 </html>

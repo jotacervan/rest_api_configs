@@ -36,6 +36,81 @@
     z-index:999;
 }
 
+.fundo_cep{
+    background: url('../images/fundomapa.png') no-repeat;
+    background-size: 100%;
+    padding:50px 0;
+}
+
+.fundo-faixa{
+    background:url('../images/fundo.png') no-repeat;
+    color:#fff;
+    background-position:center;
+    font-family: 'Milk';
+    font-size:60px;
+    margin-bottom:60px;
+}
+
+.faixaFundo{
+    background:url('../images/fundo.png') no-repeat;
+    color:#fff;
+    background-size:60%;
+    background-position:center;
+    font-family: 'Milk';
+    font-size:40px;
+}
+
+.btn-cep{
+    background: #a12327;
+    border:0;
+    color:#fff;
+    font-size:20px;
+    padding: 5px 45px;
+    border-radius:3px;
+}
+
+.cep{
+    width:700px;
+    margin:0 auto;
+    height:60px;
+    font-size:20px;
+    border:2px solid #a12327;
+    outline: none;
+}
+
+.formcep{
+    width:700px;
+    margin:0 auto;
+}
+
+.titleCardapio{
+    font-family: 'Milk';
+    text-align: center;
+    font-size:130px;
+    color:#a12327;
+    margin-bottom:35px;
+}
+
+.rightBorder{
+    border-right:4px solid #a12327;
+}
+
+.leftBorder{
+    border-left:4px solid #a12327;
+}
+
+.end{
+    margin:0 auto 10px;
+    height:60px;
+    font-size:20px;
+    border:2px solid #a12327;
+    outline: none;
+}
+
+.cep:focus{
+    outline:none;
+}
+
 .logo{
     max-width:130px;
     margin:10px 0 -50px;
@@ -392,10 +467,76 @@
 .tamanhos{
     display:flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     max-width:500px;
     margin:30px auto 0px;
 }
+
+.fina{
+    background:#ccc;
+    width:20px;
+    height:20px;
+    border-radius:100%;
+    margin:0 auto;
+}
+
+.media{
+    background:#ccc;
+    width:30px;
+    height:30px;
+    border-radius:100%;
+    margin:0 auto;
+}
+
+.grossa{
+    background:#ccc;
+    width:40px;
+    height:40px;
+    border-radius:100%;
+    margin:0 auto;
+}
+
+.massas{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin:40px 0 0 0;
+}
+
+.massas > div{
+    cursor: pointer;
+}
+
+.massaIntegral{
+    background:#ccc;
+    width:40px;
+    height:40px;
+    border-radius:100%;
+    margin:0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+}
+
+.massaIntegral > img{
+    filter: brightness(100%) contrast(0%);
+}
+
+.fina:hover, .media:hover, .grossa:hover, .massaIntegral:hover{
+    background:#a32228;
+}
+
+.massaIntegral:hover > img{
+     filter: none;
+} 
+
+.fina.active, .media.active, .grossa.active, .massaIntegral.active{
+    background:#a32228;
+}
+
+.massaIntegral.active > img{
+     filter: none;
+} 
 
 .tamanhos > div{
     text-transform: uppercase;
@@ -411,11 +552,21 @@
 }
 
 .tamanhos > div.active{
-    border-color:#fff;   
+    border-color:#fff;
+}
+
+.imgResp{
+    width:100%;
 }
 
 .tamanhos > div > strong{
     font-size:20px;
+}
+
+.bordaSelect{
+    border:2px solid #a32228;
+    width:80%;
+    margin-bottom:70px;
 }
 
 .integral{
@@ -442,16 +593,15 @@
 }
 
 .img-pizza > img{
-    width: 80%;
-    -webkit-filter: drop-shadow(12px 12px 25px rgba(0, 0, 0, 0.5));
-    filter: drop-shadow(12px 12px 25px rgba(0, 0, 0, 0.5));
+    width: 75%;
 }
 
 .titulo-pizzas{
-    color: #fff;
+    color: #a12327;
     font-size: 18px;
     text-transform: uppercase;
     height:30px;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -471,9 +621,15 @@
     border-radius: 7px;
 }
 
+.redDesc{
+    color: #a12327;
+    margin:-7px 0;
+    height:40px;
+}
+
 .divider{
     margin-top: 20px;
-    border-bottom: 3px dotted #fff;
+    border-bottom: 3px dotted #a12327;
 }
 
 .box-preco{

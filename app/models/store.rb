@@ -22,6 +22,7 @@ class Store
   field :icon, type: String
   field :complement, type: String
   field :deleted, type: Boolean, default: false
+  field :is_open, type: Boolean, default: false
 
   #bank_account
   field :bank_code, type: String
@@ -48,10 +49,11 @@ class Store
   field :coordinates, :type => Array
 
   has_many :orders
-  has_one :store_manager
+  has_and_belongs_to_many :store_managers
   has_many :hours
   has_many :zones
   has_many :banners
+  has_many :attendants
 
 
   has_and_belongs_to_many :pizzas
@@ -64,10 +66,34 @@ class Store
   has_and_belongs_to_many :payments
   has_and_belongs_to_many :price_tables
   has_and_belongs_to_many :fidelities 
-  has_and_belongs_to_many :coupons 
+  has_and_belongs_to_many :coupons
   
   geocoded_by :address_full       
   after_validation :geocode
+  before_save :check_recipient
+
+  def check_recipient
+    if self.recipient_id.nil?
+      begin
+        recipient =  PagarMe::Recipient.create(
+          bank_account: {
+            bank_code:       self.bank_code,
+            agencia:         self.agencia,
+            agencia_dv:      self.agencia_dv,
+            conta:           self.conta,
+            conta_dv:        self.conta_dv,
+            legal_name:      self.name,
+            document_number: self.cnpj.gsub(".", "").gsub("/", "").gsub("-", "")
+            },
+            transfer_enabled: true,
+            transfer_interval: self.transfer_interval,
+            transfer_day: self.transfer_day
+        )
+        self.recipient_id = recipient.id
+      rescue
+      end
+    end
+  end
 
   def address_full
     [street, city, state, zip].compact.join(', ')
@@ -91,7 +117,7 @@ class Store
     {
      :pizzas => Pizza.mapPizzas(store.pizzas, store),
      :sizes => Tamanho.mapTamanhos(store.tamanhos),
-     :borders => Border.mapBorders(store.borders.where(:available => true), store),
+     :borders => Border.mapBorders(store.borders.where(:available => true)),
      :beverages => Beverage.mapBeverages(store.beverages.where(:available => true), store),
      :sweet_pizzas => SweetPizza.mapSweetPizzas(store.sweet_pizzas.where(:available => true), store)
      }
@@ -106,21 +132,21 @@ class Store
 
   def self.mapMenuPizzas(store)
     {
-     :pizzas => Pizza.mapPizzas(store.pizzas.where(:available => true).asc(:name), store),
+     :pizzas => Pizza.mapPizzas(store.pizzas.where(:available => true).asc(:name), store, store.tamanhos),
      :integral => store.integral,
      :sizes => Tamanho.mapTamanhos(store.tamanhos),
      :pastas => Pastum.mapPastas(store.pasta),
-     :borders => Border.mapBorders(store.borders.where(:available => true),store),
+     :borders => Border.mapBorders(store.borders.where(:available => true),store,store.tamanhos),
      }
   end
 
 
   def self.mapMenuSweetPizzas(store)
     {
-     :sweet_pizzas => SweetPizza.mapSweetPizzas(store.sweet_pizzas.where(:available => true).asc(:name),store),
+     :sweet_pizzas => SweetPizza.mapSweetPizzas(store.sweet_pizzas.where(:available => true).asc(:name),store, store.tamanhos),
      :sizes => Tamanho.mapTamanhos(store.tamanhos),
      :pastas => Pastum.mapPastas(store.pasta),
-     :borders => Border.mapBorders(store.borders.where(:available => true),store),
+     :borders => Border.mapBorders(store.borders.where(:available => true),store, store.tamanhos),
      }
   end
 

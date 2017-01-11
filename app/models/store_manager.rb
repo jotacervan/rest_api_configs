@@ -15,5 +15,5 @@ class StoreManager < User
   # 198.924.708-34
   # Perminio Moreira Neto
 
-  belongs_to :store
+  has_and_belongs_to_many :stores
 end

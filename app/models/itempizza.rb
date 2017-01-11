@@ -5,7 +5,8 @@ class Itempizza < Item
   def setPrice
   	price = 0.0
   	price1 = 0.0
-  	price2 = 0.0 
+    price2 = 0.0 
+    price3 = 0.0 
   	table1 = self.order.store.price_tables.where(:pizza_id => self.item1_id, :tamanho_id => self.size_id)
   	
     if table1.count > 0
@@ -19,13 +20,20 @@ class Itempizza < Item
     	end
     end 
   	
-  	table = self.order.store.price_tables.where(:border_id => self.border_id)
+    if !item3_id.nil?
+      table = self.order.store.price_tables.where(:pizza_id => self.item3_id, :tamanho_id => self.size_id)
+      if table.count > 0
+        price3 = table.first.price
+      end
+    end 
+
+  	table = self.order.store.price_tables.where(:border_id => self.border_id, :tamanho_id => self.size_id)
   	if table.count > 0
   		price2 += table.first.price
   		price1 += table.first.price
   	end
 
-  	price = [price1, price2].max
+  	price = [price1, price2, price3].max
     price += self.integral ? self.order.store.integral : 0
     
     self.unit_price = price

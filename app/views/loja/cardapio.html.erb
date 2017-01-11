@@ -14,12 +14,13 @@
     <body>
         <%= render :partial => 'header', :locals => {:page => 'loja'} %>
         
+        <!-- INICIO DA SEÇÃO DAS REGIÕES -->
         <div class="stores">
         	<div>
         		<div class="content center">
         			<ul class="states">
         				<% @states.each do |state| %>
-        					<li <% if state == @selected %> class="active" <% end %> onclick="javascript: location.href='<%= busca_cidades_path(state) %>'">
+        					<li <% if state == session[:store]['uf'] %> class="active" <% end %> >
                                 <% 
                                 
                                 case state 
@@ -45,7 +46,7 @@
         			</ul>
                     <ul class="neighbor">
                         <% @neighborhood.each do |n| %>
-                            <li <% if n.neighborhood == @neighbor %> class="active" <% end %> onclick="javascript: location.href='<%= cardapio_path(n.state,n.neighborhood,n.id,n.tamanhos.first.id) %>'" >	
+                            <li <% if n.neighborhood == session[:store]['name'] %> class="active" <% end %> >	
                                 <%= n.neighborhood %>
                             </li>
                         <% end %>
@@ -53,160 +54,105 @@
         		</div>
         	</div>
         </div>
+    <!-- FINAL DA SEÇÃO DAS REGIÕES -->
+
+
+    <!-- CORPO DO CARDAPIO -->
         <div class="content">
         	<div class="minha-caixa" onclick="location.href='<%= cart_path %>'">
         		<img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa">
         		Minha Caixa <span class="badge"> <% if session[:caixa].nil? %> 0 <% else %> <%= session[:caixa] %> <% end %> </span>
         	</div>
-        	<br><br><br>
+            <br>
         	<div class="center">
         		<img src="/images/pin.png" alt="Local Pizza Prime" title="Local Pizza Prime">
         		<h2 class="unit-title">UNIDADE <%= @store.name %></h2>
         		<p class="unit-subtitle"><%= @store.address_full %> | DELIVERY - <%= @store.phone %> </p>
-        	</div><br>
-        	<br><br>
-        	<div class="red-area">
-        		<div class="borderas">
-        			<h1 class="center cardapio-title">CARDÁPIO</h1>
-        			<div class="tamanhos">
-        				<img src="/images/boxwhite.png" alt="Minha Caixa" title="Minha Caixa">
-        				<% @store.tamanhos.each do |t| %>
-        					<div <% if @size == t.id.to_s %> class="active" <% end %> onclick="javascript: location.href='<%= cardapio_path(@selected,@neighbor,@id,t.id) %>'" >
-	        					<% nome = t.name.split('(') %>
-	        					<strong><%= nome[0] %></strong><br>
-	        					(<%= nome[1] %>
-	        				</div>
-	        			<% end %>
-        			</div>
-        			<div class="center">
-			            <br>
-			            <br>
-			            <span class="integral"><img src="/images/arroz.png" alt="Pizza Prime" title="Pizza Prime"> &nbsp; PEÇA SUA PIZZA COM MASSA INTEGRAL</span>
-			            <br>
-			            <br>
-			        </div>
-        		</div>
-        		<div class="borderas2">
-        			<div class="row pizzas">
-        			<% mapa = Store.mapMenuPizzas(@store) %>
-        				<% mapa[:pizzas].each do |map| %>
-        					<div class="col-md-3">
-
-        				   		<div class="img-pizza">
-        				   			<img src="<%= map[:picture] %>" alt="<%= map[:name] %>" title="<%= map[:name] %>" >
-        				   		</div> 
-
-        				   		<p class="titulo-pizzas"><%= map[:name] %></p>
-        				   		
-        				   		<div class="divider"></div>
-                                <% if map[:prices].length > 0 %>
-
-                                    <% map[:prices].each do |p| %>
-                                        <% if p[:size_id].to_s == @size %>
-                                            <div class="box-preco">
-                                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> <%= number_to_currency(p[:value], unit: 'R$ ', separator: ',') %> </span>
-                                            </div>
-                                            <% break %>
-                                        <% end %>
-                                    <% end %>
-
-                                <% else %>
-
-                                    <div class="box-preco">
-                                        <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> EM FALTA </span>
-                                    </div>
-
-                                <% end %>
-        				   	    
-                                <div class="center">
-                                    <% if session[:logged].nil? %>
-                                        <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
-                                    <% else %>
-                                        <a href="#<%= map[:id] %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
-                                    <% end %>
-                                </div>
-                                <br>
-        				   	</div>
-
-                            <div id="<%= map[:id] %>" class="modal fade" tabindex="-1" role="dialog">
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content defaultcolor">
-                                  <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Adicionar ao Carrinho</h4>
-                                  </div>
-                                  <div class="modal-body">
-
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="img-pizza">
-                                                <img src="<%= map[:picture] %>" alt="<%= map[:name] %>" title="<%= map[:name] %>" style="filter:none; -webkit-filter:none;" >
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <h3 class="center"><%= map[:name] %></h3>
-                                            <br>
-                                            <p><%= map[:description] %></p>
-                                            <%= form_for :cart, url: add_cart_path do |f| %>
-                                                <%= f.hidden_field :name, :value => map[:name] %>
-                                                <%= f.hidden_field :size, :value => @size %>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <p>Escolha a borda</p>
-                                                        <%= f.select(:borders ) do %>
-                                                            <% mapa[:borders].each do |border| %>
-                                                                <% if border[:sweet] == false %>
-                                                                    <%= content_tag(:option, border[:name], value: border[:id]) %>
-                                                                <% end %>
-                                                            <% end %>
-                                                        <% end %>
-                                                        <br>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <p>Quantidade: </p>
-                                                        <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade', :value => 1 %>
-                                                        <br>
-                                                    </div>                                                    
-                                                </div>
-                                                
-                                                <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
-                                                <br>
-                                                <p>Observações: </p>
-                                                <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
-                                                <br>
-                                                <p class="btn btn-default" onclick="segundosabor()">Adicionar 2º sabor</p><br>
-                                                <br>
-                                                <%= f.hidden_field :sabor1, :value => map[:id] %>
-                                                <div class="segundo-sabor hidden">
-                                                    <p>Selecione o 2º sabor:</p>
-                                                    <%= f.select(:sabor2) do %>
-                                                        <%= content_tag(:option, '2º Sabor', value: 'none') %>
-                                                        <% @store.pizzas.each do |p| %>
-                                                            <%= content_tag(:option, p[:name], value: p[:id]) %>
-                                                        <% end %>
-                                                    <% end %>
-                                                    <br>
-                                                </div>
-
-                                                <%= f.submit 'Adicionar ao Carrinho', :class => 'right btn btn-success' %>
-                                                <div class="clear"></div>
-                                            <% end %>
-                                        </div>
-                                    </div>
-                                    
-                                  </div>
-                                </div><!-- /.modal-content -->
-                              </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
-
-
-        				<% end %>
-        			</div>
-        		</div>
-        		<div class="borderas3"></div>
         	</div>
-        </div>
+        	<h1 class="titleCardapio">Cardápio</h1>
 
+            <div class="row center">
+                <div class="col-md-4 rightBorder">
+                    <p class="faixaFundo">Tamanho</p>
+                    <div class="tamanhos">
+                    <% @store.tamanhos.each do |tam| %>
+                        <div>
+                            <img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa"><br>
+                            <%= tam.name %>
+                        </div>
+                    <% end %>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="faixaFundo">Massa</p>
+                    <div class="massas">
+                        <div>
+                            <div class="fina"></div>
+                            Fina
+                        </div>
+                        <div>
+                            <div class="media"></div>
+                            Média
+                        </div>
+                        <div>
+                            <div class="grossa"></div>
+                            Grossa
+                        </div>
+                        <div>
+                            <div class="massaIntegral"><img src="/images/arroz.png" alt="Pizza Prime" title="Pizza Prime"></div>
+                            MASSA INTEGRAL
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 leftBorder">
+                    <p class="faixaFundo">Borda</p>
+                    <% if @store.borders.length > 0 %>
+                        <p>Escolha a borda</p>
+                        <select class="bordaSelect">
+                            <% @store.borders.each do |border| %>
+                                <%= content_tag(:option, border[:name], value: border[:id]) %>
+                            <% end %>
+                        </select>
+                    <% else %>
+                        <p>Nenhuma opção disponível</p>
+                    <% end %>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="center">
+                <img src="/images/tradicionais.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+            </div>
+            <br>
+            <div class="row pizzas">
+                <% @store.pizzas.where(:category_name => 'Tradicionais').each do |p| %>
+                    
+                    <div class="col-md-3">
+                        <div class="img-pizza">
+                            <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" >
+                        </div>
+                        
+                        <p class="titulo-pizzas"><%= p.name %></p>
+                        <p class="redDesc"><%= p.description %></p>
+                        <div class="divider"></div>
+                        <br>
+                        <div class="center">
+                            <% if session[:logged].nil? %>
+                                <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                            <% else %>
+                                <a href="#<%= p[:id] %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                            <% end %>
+                        </div>
+                        <br>
+                    </div>
+                    
+                <% end %>
+            </div>
+        </div>
+        <!-- FINAL DO CORPO DO CARDÁPIO -->
+
+
+        <!-- MODALS -->
         <div id="login" class="modal fade" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -238,7 +184,7 @@
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
+        <!-- FINAL MODALS -->
 
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>

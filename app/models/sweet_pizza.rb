@@ -21,14 +21,15 @@ class SweetPizza
   has_many :price_tables
   belongs_to :category
 
-  def self.mapSweetPizzas (array, store)
-    array.map { |u| {:id => u.id,
+  def self.mapSweetPizzas (array, store, tamanhos)
+    array = array.map { |u| {:id => u.id,
      :name => u.name,
      :description => u.description,
      :category => Category.mapCategory(u.category),
-     :prices => PriceTable.mapPricesSweetPizzas(Tamanho.all, store, u),
+     :prices => PriceTable.mapPricesSweetPizzas(tamanhos, store, u),
      :picture => u.picture.url
      }}
+    array.reject { |c| (c[:prices].nil? || c[:prices].count == 0) }
   end
 
   def self.mapSweetPizzasCombo (array, store)

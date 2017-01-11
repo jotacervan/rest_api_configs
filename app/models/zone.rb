@@ -12,8 +12,8 @@ class Zone
   field :area_string,  type: String
 
   #validators
-  validates_presence_of :initial_zip, :message => "digite um cep"
-  validates_presence_of :final_zip, :message => "digite um cep"
+  # validates_presence_of :initial_zip, :message => "digite um cep"
+  # validates_presence_of :final_zip, :message => "digite um cep"
   validates_presence_of :name, :message => "digite um nome"
 
   belongs_to :store

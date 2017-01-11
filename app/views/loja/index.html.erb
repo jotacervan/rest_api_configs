@@ -14,15 +14,14 @@
     <body>
         <%= render :partial => 'header', :locals => {:page => 'loja'} %>
         
-        
         <div class="stores">
         	<div>
         		<div class="content center">
         			<ul class="states">
         				<% @states.each do |state| %>
-        					<li onclick="javascript: location.href='<%= busca_cidades_path(state) %>'">
+        					<li>
                                 <%
-
+                                
                                 case state
                                 when 'SP'
                                     concat 'São Paulo'
@@ -47,17 +46,40 @@
         		</div>
         	</div>
         </div>
-        <br>
-        <br>
-        <div class="center content">
-            <h2>Selecione seu estado acima ou clique no mapa:</h2>
-            <br>
-            <%= render 'mapa' %>
+
+        <div class="fundo_cep">
+            <div class="center content">
+                <% if @error_cep %>
+                    <h2 class="fundo-faixa">OPS!</h2>
+                    <p style=" font-size:20px; width:700px; margin:-30px auto 0; ">Sua região ainda não está disponível!<br>Insira seu email para receber uma mensagem quando a rede PIZZA PRIME estiver disponível na sua região.</p>
+                    <br>
+                    <%= form_for :email, url: rss_path do |f| %>
+                        <%= f.text_field :cep, :placeholder => 'Digite seu email', :class => 'form-control end formcep' %><br>
+                        <%= f.submit 'OK', :class => 'btn-cep' %>
+                    <% end %>
+                <% else %>
+                    <h2 class="fundo-faixa">Digite o seu cep abaixo:</h2>
+                    <br>
+                    <%= form_for :cep, url: cep_path do |f| %>
+                        <%= f.text_field :cep, :placeholder => 'Digite seu cep', :class => 'form-control cep' %><br>
+                        <%= f.submit 'OK', :class => 'btn-cep' %>
+                    <% end %>
+                    <br>
+                <% end %>
+            </div>
         </div>
        
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
+        <script type="text/javascript" src="/js/mask.js"></script>
+        <script type="text/javascript">
+            $(function(){
+
+                $('.cep').mask('99999-999');
+
+            });
+        </script>
     </body>
 </html>

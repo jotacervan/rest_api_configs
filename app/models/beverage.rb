@@ -24,7 +24,7 @@ class Beverage
   has_many :price_tables
 
   def self.mapBeverages (array, store)
-    array.map { |u| {:id => u.id,
+    array = array.map { |u| {:id => u.id,
      :name => u.name,
      :category => u.category_name,
      :sku => u.sku,
@@ -33,6 +33,10 @@ class Beverage
      :is_18 => u.is_18,
      :picture => u.picture.url
      }}
+     # array
+     array.reject { |c| (c[:value].to_f <= 0) }
+    # noEmptyArray
+
   end
 
   def self.mapBeveragesCombo (array, store)

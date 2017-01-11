@@ -46,6 +46,7 @@ class User
   field :gender, :type => String, :default => ""
   field :birth_date, :type => String, :default => ""
   field :phone, :type => String, :default => ""
+  field :mobile, :type => String, :default => ""
   field :email, :type => String
   field :udid, :type => String
   field :changedPhoto, :type => Boolean, :default => false
@@ -54,12 +55,13 @@ class User
   field :latitude, type: Float, :default => 0.0
   field :longitude, type: Float, :default => 0.0
 
+
   # validate :check_avatar
   validates_presence_of :name, :message => "digite um nome"
   validates_presence_of :email, :message => "digite um e-mail"
   validates_confirmation_of :password
   validates_uniqueness_of :email,:case_sensitive => true, :message => "e-mail ja cadastrado"
-  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i , :message => "e-mail invalido" 
+  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i , :message => "e-mail invalido" 
 
 
   has_mongoid_attached_file :picture,
@@ -76,12 +78,6 @@ class User
    has_many :orders
    has_many :notifications
 
-  def self.koala(auth)
-    access_token = auth['token']
-    facebook = Koala::Facebook::API.new(access_token)
-    facebook.get_object("me?fields=name,picture,email")
-  end
-
 
   def isAttendant?
     self.class == Attendant
@@ -92,7 +88,7 @@ class User
   end
 
   def isAdmin?
-    self.class == Admin
+    self.class == SuperAdmin
   end
 
   def isSuperAdmin?
