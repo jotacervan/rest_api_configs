@@ -96,17 +96,17 @@
                 <div class="col-md-4">
                     <p class="faixaFundo">Massa</p>
                     <div class="massas">
-                        <div>
-                            <div class="fina"></div>
+                        <div onclick="javascript: location.href='<%= massa_path('Fina') %>'">
+                            <div <% if session[:massa] == 'Fina' %> class="fina active" <% else %> class="fina" <% end %>></div>
                             Fina
                         </div>
-                        <div>
-                            <div class="media"></div>
+                        <div onclick="javascript: location.href='<%= massa_path('Média') %>'">
+                            <div <% if session[:massa] == 'Média' %> class="media active" <% else %> class="media" <% end %> ></div>
                             Média
                         </div>
-                        <div>
-                            <div class="grossa"></div>
-                            Grossa <%= session[:integral] %>
+                        <div onclick="javascript: location.href='<%= massa_path('Grossa') %>'">
+                            <div <% if session[:massa] == 'Grossa' %> class="active grossa" <% else %> class="grossa" <% end %> ></div>
+                            Grossa 
                         </div>
                         <div onclick="javascript: location.href='<%= integral_path %>'">
                             <div <% if session[:integral] == '1' %> class="massaIntegral active" <% else %> class="massaIntegral" <% end %> ><img src="/images/arroz.png" alt="Pizza Prime" title="Pizza Prime"></div>
@@ -119,6 +119,8 @@
                     <% if @store.borders.length > 0 %>
                         <p>Escolha a borda</p>
                         <select class="bordaSelect" onchange="javascript: location.href='borda/'+this.value">
+                            <% @borda = Border.find(session[:borda]) %>
+                            <%= content_tag(:option, @borda.name, value: @borda.id) %>
                             <% @store.borders.each do |border| %>
                                 <%= content_tag(:option, border[:name], value: border[:id]) %>
                             <% end %>
@@ -197,6 +199,7 @@
                                                     <div class="col-md-6">
                                                         <p>Escolha a borda</p>
                                                         <%= f.select(:borders ) do %>
+                                                            <%= content_tag(:option, @borda.name, value: @borda.id) %>
                                                             <% @store.borders.each do |border| %>
                                                                 <%= content_tag(:option, border[:name], value: border[:id]) %>
                                                             <% end %>
@@ -209,11 +212,26 @@
                                                         <br>
                                                     </div>                                         
                                                 </div>
-                                                <% if session[:integral] == '1' %>
-                                                    <p><%= f.check_box :integral, :checked => true %> &nbsp; &nbsp; Pizza Integral </p>
-                                                <% else %>
-                                                    <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
-                                                <% end %>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Massa</p>
+                                                        <%= f.select(:massa ) do %>
+                                                            <%= content_tag(:option, session[:massa]) %>
+                                                            <%= content_tag(:option, 'Fina') %>
+                                                            <%= content_tag(:option, 'Média') %>
+                                                            <%= content_tag(:option, 'Grossa') %>
+                                                        <% end %>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    <br>
+                                                        <% if session[:integral] == '1' %>
+                                                            <p><%= f.check_box :integral, :checked => true %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% else %>
+                                                            <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% end %>
+                                                    </div>
+                                                </div>
+                                                
                                                 <br>
                                                 <p>Observações: </p>
                                                 <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
@@ -272,15 +290,22 @@
             <div class="row center marginBebe">
                 <div class="col-md-4 rightBorder">
                     <p class="faixaFundo">Produto</p>
-                    <% @store.beverages.where(:available => true).each do |b| %>
+                    <% @store.beverages.where(:available => true).each do |b| 
+                        price = b.price_tables.where(:store_ids => @store.id).first
+                        next if price.nil?
+                        %>
                         <p class="nomeBebidas"><%= b.name %></p>
-                        
                     <% end %>
                 </div>
                 <div class="col-md-4">
                     <p class="faixaFundo">Valor</p>
                     <% @store.beverages.each do |b| %>
-                        <p class="nomeBebidas"><%= number_to_currency(b.base_value, unit: 'R$', separator: ',')  %></p>
+                        <% 
+                        price = b.price_tables.where(:store_ids => @store.id).first
+                        next if price.nil?
+                        %>
+                        <p class="nomeBebidas"><%= number_to_currency(price.price, unit: 'R$ ', separator: ',')  %></p>
+                        
                     <% end %>
                 </div>
                 <div class="col-md-4 leftBorder">
@@ -288,6 +313,10 @@
                     <p class="faixaFundo">Quantidade</p>
                     <div class="quatityBeve">
                         <% @store.beverages.each do |b| %>
+                        <% 
+                        price = b.price_tables.where(:store_ids => @store.id).first
+                        next if price.nil?
+                        %>
                             <p class="nomeBebidas selectBebe"><span class="left">-</span>0<span class="right">+</span></p>
                         <% end %>
                     </div>
@@ -296,7 +325,6 @@
 
         </div>
         <!-- FINAL DO CORPO DO CARDÁPIO -->
-
 
         <!-- MODALS -->
         <div id="login" class="modal fade" tabindex="-1" role="dialog">
@@ -350,7 +378,7 @@
 
         <% end %>
 
-        <% if flash[:alert] %>
+        <% if flash[:notice] %>
             <div id="flash" class="modal fade" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">

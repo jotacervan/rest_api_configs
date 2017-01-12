@@ -16,7 +16,7 @@
         <br>
         <br>
         <br>
-        <div class="content">
+        <div class="content clear">   
             <h2 class="center">Minha Caixa</h2>
             <% if session[:caixa].nil? %>
 
@@ -36,6 +36,7 @@
                             <th>Thumb</th>
                             <th>Tamanho</th>
                             <th>Pizza</th>
+                            <th>Massa</th>
                             <th>Borda</th>
                             <th>Integral</th>
                             <th>2º Sabor</th>
@@ -51,7 +52,7 @@
                     tamanho = Tamanho.find(p[1]['size_id'])
                     pedido_total = 0
 
-                    border.price_tables.where(:tamanho_id => p[1]['size_id'], :store_ids => session[:id]).each do |b| 
+                    border.price_tables.where(:tamanho_id => p[1]['size_id'], :store_ids => session[:store]['id']).each do |b| 
                         pedido_total += b.price
                     end
 
@@ -61,10 +62,10 @@
                         value2 = 0
                         pizza22 = Pizza.find(p[1]['tastes'][1]['id'])
 
-                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
+                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:store]['id']).each do |t|
                             value1 = t.price
                         end
-                        pizza22.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][1]['id'], :store_ids => session[:id]).each do |t|
+                        pizza22.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][1]['id'], :store_ids => session[:store]['id']).each do |t|
                             value2 = t.price
                         end
                         
@@ -77,18 +78,16 @@
 
                     else    
 
-                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:id]).each do |t|
+                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :pizza_id => p[1]['tastes'][0]['id'], :store_ids =>session[:store]['id']).each do |t|
                             pedido_total += t.price
                         end
 
                     end
 
-                        
-
                     pedido_total = pedido_total * p[1]['quantity']
 
                     if p[1]['integral'] == true
-                        pedido_total += pizza.stores.where(:id => session[:id]).first.integral
+                        pedido_total += pizza.stores.where(:id => session[:store]['id']).first.integral
                     end
 
                     total += pedido_total
@@ -98,6 +97,7 @@
                         <td><img src="<%= pizza.picture %>" alt="Pizza Prime" title="Pizza Prime" style="width:100px" /></td>
                         <td><%= tamanho.name %></td>
                         <td><%= p[0] %></td>
+                        <td><%= p[1]['pasta'] %></td>
                         <td><%= border[:name] %></td>
                         <td><% if p[1]['integral'] == true %> Sim <% else %> Não <% end %></td>
                         <td>
@@ -112,7 +112,9 @@
                             
                         </td>
                         <td><%= number_to_currency(pedido_total, unit: 'R$ ', separator: ',') %></td>
-                        <td><i class="fa fa-trash fa-2x" style="cursor:pointer" onclick="location.href='<%= del_path(p[0]) %>'"></i></td>
+                        <td>
+                            <i class="fa fa-trash fa-2x" style="cursor:pointer" onclick="location.href='<%= del_path(p[0]) %>'"></i>
+                        </td>
                     </tr>
                     
                 <% end %>
@@ -131,7 +133,7 @@
 
             <br>
             <div class="center">
-                <button class="btn btn-default" onclick="location.href='<%= cardapio_path(session[:state],session[:neighbor],session[:id],session[:size]) %>'">Voltar a Loja</button>
+                <button class="btn btn-default" onclick="location.href='<%= cardapio_path %>'">Voltar a Loja</button>
             </div>
 
         </div>

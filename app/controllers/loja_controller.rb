@@ -32,7 +32,7 @@ class LojaController < ApplicationController
       redirect_to cardapio_path
     end
   end
-  
+
   def busca_cidades
 
     consult = RestClient.get 'https://maps.googleapis.com/maps/api/geocode/json?address='+params[:cep][:numero]+'+'+params[:cep][:logradouro].gsub(" ","+")+',+'+params[:cep][:localidade].gsub(" ","+")+',+'+params[:cep][:uf].gsub(" ","+")+'&key=AIzaSyA4VtmtyiHJXI_l5esvm_7Vhdw8epH_3_Q'
@@ -72,15 +72,20 @@ class LojaController < ApplicationController
   end
 
   def cardapio
-
     if session[:store].blank? && session[:user].blank?
       redirect_to loja_path
     else
       @states = Store.distinct(:state)
       @neighborhood = Store.where(:state => session[:store]['uf'])
       @store = Store.find(session[:store]['id'])
+      if session[:massa].nil?
+        session[:massa] = 'Fina'
+      end
       if session[:tamanho].nil?
         session[:tamanho] = @store.tamanhos.first.id
+      end
+      if session[:borda].nil?
+        session[:borda] = @store.borders.first.id
       end
       render stream: true
     end
@@ -156,6 +161,16 @@ class LojaController < ApplicationController
   end
 
   def cart
+    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+        if response.code == 401
+          session[:logged] = nil
+          redirect_to cardapio_path, alert: 'Faça o login para continuar'
+        elsif response.code == 500
+          redirect_to cardapio_path, alert: 'Faça o login para continuar'
+        else
+          @about = JSON.parse(response.body)
+        end
+    }
   end
 
   def checkout
@@ -167,7 +182,7 @@ class LojaController < ApplicationController
         @addresses = JSON.parse(response.body)
     }
 
-    @store = Store.find(session[:id])
+    @store = Store.find(session[:store]['id'])
   end
 
   def checkout_confirm
@@ -180,8 +195,8 @@ class LojaController < ApplicationController
       session[:caixa] -= 1
       session[:pizzas].delete(params[:name])
     else
-        session[:caixa] = nil
-        session[:pizzas] = nil
+      session[:caixa] = nil
+      session[:pizzas] = nil
     end
 
     redirect_to cart_path
@@ -201,6 +216,7 @@ class LojaController < ApplicationController
     session[:pizzas][params[:cart][:name]][:size_id] = params[:cart][:size]
     session[:pizzas][params[:cart][:name]][:border_id] = params[:cart][:borders]
     session[:pizzas][params[:cart][:name]][:quantity] = params[:cart][:quantity].to_i
+    session[:pizzas][params[:cart][:name]][:pasta] = params[:cart][:massa]
     if params[:cart][:integral] == '1'
       session[:pizzas][params[:cart][:name]][:integral] = true
     else
@@ -215,8 +231,16 @@ class LojaController < ApplicationController
       session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
     end
 
-    redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
+    redirect_to cardapio_path, notice: 'Pizza Adicionada com Sucesso!'
   end
+
+
+  def edit_cart
+
+
+
+  end
+
 
   def modeljson
 

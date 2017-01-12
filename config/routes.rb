@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get 'checkout' => 'loja#checkout', as: :checkout
     post 'checkout_confirm' => 'loja#checkout_confirm', as: :checkout_confirm
   	post 'add_cart' => 'loja#add_cart', as: :add_cart
+    post 'edit_cart' => 'loja#edit_cart', as: :edit_cart
     get 'del/:name' => 'loja#del', as: :del
     post 'cep' => 'loja#cep', as: :cep
     post 'rss' => 'loja#rss', as: :rss
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
     get 'integral' => 'loja#integral', as: :integral
 
     get 'home' => 'home#index', as: :home
+    get 'logout' => 'home#logout', as: :logout
 
     get 'auth/facebook' => 'loja#loginfacebook', as: :auth_provider
     get 'auth/facebook/callback' => 'loja#loginfacebook'
