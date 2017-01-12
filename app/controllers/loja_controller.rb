@@ -1,4 +1,5 @@
 class LojaController < ApplicationController
+
   def index
   	@states = Store.distinct(:state)
   end
@@ -7,7 +8,33 @@ class LojaController < ApplicationController
     redirect_to root_path
   end
 
+  def tamanho
+    session[:tamanho] = params[:id]
+    redirect_to cardapio_path
+  end
+
+  def massa
+    session[:massa] = params[:id]
+    redirect_to cardapio_path
+  end
+
+  def borda
+    session[:borda] = params[:id]
+    redirect_to cardapio_path
+  end
+
+  def integral
+    if session[:integral] == '1'
+      session[:integral] = '0'
+      redirect_to cardapio_path
+    else
+      session[:integral] = '1'
+      redirect_to cardapio_path
+    end
+  end
+  
   def busca_cidades
+
     consult = RestClient.get 'https://maps.googleapis.com/maps/api/geocode/json?address='+params[:cep][:numero]+'+'+params[:cep][:logradouro].gsub(" ","+")+',+'+params[:cep][:localidade].gsub(" ","+")+',+'+params[:cep][:uf].gsub(" ","+")+'&key=AIzaSyA4VtmtyiHJXI_l5esvm_7Vhdw8epH_3_Q'
     # Google Api Key = AIzaSyA4VtmtyiHJXI_l5esvm_7Vhdw8epH_3_Q
     @address = JSON.parse(consult)
@@ -45,13 +72,16 @@ class LojaController < ApplicationController
   end
 
   def cardapio
+
     if session[:store].blank? && session[:user].blank?
       redirect_to loja_path
     else
       @states = Store.distinct(:state)
       @neighborhood = Store.where(:state => session[:store]['uf'])
       @store = Store.find(session[:store]['id'])
-
+      if session[:tamanho].nil?
+        session[:tamanho] = @store.tamanhos.first.id
+      end
       render stream: true
     end
   end
@@ -63,23 +93,36 @@ class LojaController < ApplicationController
   end
 
   def login
-    consult = RestClient.post 'http://pizzaprime.herokuapp.com/webservices/login/signin',  {  email: params[:login][:email], password: params[:login][:password]  }
+    RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signin',  {  email: params[:login][:email], password: params[:login][:password]  }){|response, request|
 
-    cookies[:session_id] = consult.cookies['_session_id']
-    
-    resultado = JSON.parse(consult.body)
-    session[:logged] = true
-    session[:name] = resultado['name']
-    session[:email] = resultado['email']
-    session[:picture] = resultado['picture']
-    session[:gender] = resultado['gender']
-    session[:facebook] = resultado['facebook']
-    session[:balance] = resultado['balance']
-    session[:phone] = resultado['phone']
-    session[:cpf] = resultado['cpf']
+    if response.code == 200
+      cookies[:session_id] = response.cookies['_session_id']
+      
+      resultado = JSON.parse(response.body)
+      session[:logged] = true
+      session[:name] = resultado['name']
+      session[:email] = resultado['email']
+      session[:picture] = resultado['picture']
+      session[:gender] = resultado['gender']
+      session[:facebook] = resultado['facebook']
+      session[:balance] = resultado['balance']
+      session[:phone] = resultado['phone']
+      session[:cpf] = resultado['cpf']
 
-    redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
+      redirect_to cardapio_path, notice: 'Login efetuado com sucesso'
+    else
+      if response.code == 401
+        redirect_to cardapio_path, alert: 'Usuário não encontrado, Cadastre-se para continuar!'
+      elsif response.code == 402
+        redirect_to cardapio_path, alert: 'Senha incorreta!'
+      else
+        redirect_to cardapio_path, alert: 'Não foi possível efetuar o login corretamente, por favor tente novamente mais tarde!'
+      end
+      
+    end
     
+    }
+
   end
 
   def loginfacebook
@@ -187,17 +230,19 @@ class LojaController < ApplicationController
     #      :quantity => 1,
      #     :integral => true,
       #    :obs => 'Observações',
+        #  :pasta => Fina,
        #   :fidelity => true,
         #  :tastes => {
 #            :id => '123123',
  #           :id => '123123'
   #        }
    #     },
-#
+# 
  #       :sweet_pizzas => {
   #        :size_id => '2222',
    #       :quantity => 1,
     #      :obs => 'Observações',
+      #    :pasta => Fina,
      #     :integral => true,
       #    :fidelity => true,
        #   :tastes => {

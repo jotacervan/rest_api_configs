@@ -59,10 +59,19 @@
 
     <!-- CORPO DO CARDAPIO -->
         <div class="content">
-        	<div class="minha-caixa" onclick="location.href='<%= cart_path %>'">
-        		<img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa">
-        		Minha Caixa <span class="badge"> <% if session[:caixa].nil? %> 0 <% else %> <%= session[:caixa] %> <% end %> </span>
-        	</div>
+             <% if session[:logged].nil? %>
+        	   <div class="minha-caixa" data-toggle="modal" data-target="#login">
+               
+                    <p class="center">Faça o Login</p>
+                </div>
+                <% else %>
+                <div class="minha-caixa" onclick="location.href='<%= cart_path %>'">
+        		  <img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa">
+        		  Minha Caixa <span class="badge"> <% if session[:caixa].nil? %> 0 <% else %> <%= session[:caixa] %> <% end %> </span>
+
+                
+        	   </div>
+            <% end %>
             <br>
         	<div class="center">
         		<img src="/images/pin.png" alt="Local Pizza Prime" title="Local Pizza Prime">
@@ -76,7 +85,8 @@
                     <p class="faixaFundo">Tamanho</p>
                     <div class="tamanhos">
                     <% @store.tamanhos.each do |tam| %>
-                        <div>
+
+                        <div <% if tam.id.to_s == session[:tamanho] %> class="active" <% end %> onclick="javascript: location.href = '<%= tamanho_path(tam.id) %>'" >
                             <img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa"><br>
                             <%= tam.name %>
                         </div>
@@ -96,10 +106,10 @@
                         </div>
                         <div>
                             <div class="grossa"></div>
-                            Grossa
+                            Grossa <%= session[:integral] %>
                         </div>
-                        <div>
-                            <div class="massaIntegral"><img src="/images/arroz.png" alt="Pizza Prime" title="Pizza Prime"></div>
+                        <div onclick="javascript: location.href='<%= integral_path %>'">
+                            <div <% if session[:integral] == '1' %> class="massaIntegral active" <% else %> class="massaIntegral" <% end %> ><img src="/images/arroz.png" alt="Pizza Prime" title="Pizza Prime"></div>
                             MASSA INTEGRAL
                         </div>
                     </div>
@@ -108,7 +118,7 @@
                     <p class="faixaFundo">Borda</p>
                     <% if @store.borders.length > 0 %>
                         <p>Escolha a borda</p>
-                        <select class="bordaSelect">
+                        <select class="bordaSelect" onchange="javascript: location.href='borda/'+this.value">
                             <% @store.borders.each do |border| %>
                                 <%= content_tag(:option, border[:name], value: border[:id]) %>
                             <% end %>
@@ -121,33 +131,169 @@
             <br>
             <br>
             <div class="center">
-                <img src="/images/tradicionais.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+                <img src="/images/tradicionais.png" alt="Pizza Prime" title="Pizza Prime" id="tradicionais" class="imgResp">
             </div>
             <br>
             <div class="row pizzas">
                 <% @store.pizzas.where(:category_name => 'Tradicionais').each do |p| %>
                     
                     <div class="col-md-3">
-                        <div class="img-pizza">
+                        <div class="tradicio img-pizza">
                             <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" >
                         </div>
                         
-                        <p class="titulo-pizzas"><%= p.name %></p>
+                        <p class="titulo-pizzas imgResp"><%= p.name %></p>
                         <p class="redDesc"><%= p.description %></p>
                         <div class="divider"></div>
-                        <br>
+                        <% preco = p.price_tables.where(:store_ids => @store.id, :tamanho_id => session[:tamanho]).first %>
+                        <% if !preco.nil? %>
+
+                            <div class="box-preco">
+                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> <%= number_to_currency(preco.price, unit: 'R$ ', separator: ',') %> </span>
+                            </div>
+
+                        <% else %>
+
+                            <div class="box-preco">
+                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> EM FALTA </span>
+                            </div>
+
+                        <% end %>
+                        
                         <div class="center">
                             <% if session[:logged].nil? %>
                                 <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
                             <% else %>
-                                <a href="#<%= p[:id] %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
                             <% end %>
                         </div>
                         <br>
                     </div>
                     
+
+                    <div id="<%= p.id %>" class="modal fade" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content defaultcolor">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Adicionar ao Carrinho</h4>
+                                  </div>
+                                  <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="img-pizza">
+                                                <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" style="filter:none; -webkit-filter:none;" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h3 class="center"><%= p.name %></h3>
+                                            <br>
+                                            <p><%= p.description %></p>
+                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                                <%= f.hidden_field :name, :value => p.name %>
+                                                <%= f.hidden_field :size, :value => session[:tamanho] %>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Escolha a borda</p>
+                                                        <%= f.select(:borders ) do %>
+                                                            <% @store.borders.each do |border| %>
+                                                                <%= content_tag(:option, border[:name], value: border[:id]) %>
+                                                            <% end %>
+                                                        <% end %>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Quantidade: </p>
+                                                        <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade', :value => 1 %>
+                                                        <br>
+                                                    </div>                                         
+                                                </div>
+                                                <% if session[:integral] == '1' %>
+                                                    <p><%= f.check_box :integral, :checked => true %> &nbsp; &nbsp; Pizza Integral </p>
+                                                <% else %>
+                                                    <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
+                                                <% end %>
+                                                <br>
+                                                <p>Observações: </p>
+                                                <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
+                                                <br>
+                                                <p class="btn btn-default" onclick="segundosabor()">Adicionar 2º sabor</p><br>
+                                                <br>
+                                                <%= f.hidden_field :sabor1, :value => p.id %>
+                                                <div class="segundo-sabor hidden">
+                                                    <p>Selecione o 2º sabor:</p>
+                                                    <%= f.select(:sabor2) do %>
+                                                        <%= content_tag(:option, '2º Sabor', value: 'none') %>
+                                                        <% @store.pizzas.each do |p| %>
+                                                            <%= content_tag(:option, p[:name], value: p[:id]) %>
+                                                        <% end %>
+                                                    <% end %>
+                                                    <br>
+                                                </div>
+
+                                                <%= f.submit 'Adicionar ao Carrinho', :class => 'right btn btn-success' %>
+                                                <div class="clear"></div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+
+
+
                 <% end %>
             </div>
+            <br>
+            <div class="center">
+                <img src="/images/especiais.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+            </div>
+            <br>
+            <div class="center">
+                <img src="/images/primes.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+            </div>
+            <br>
+            <div class="center">
+                <img src="/images/Doces.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+            </div>
+            <br>
+            <div class="center">
+                <img src="/images/docesPrime.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+            </div>
+            <br>
+            <div class="center">
+                <img src="/images/bebidas.png" alt="Pizza Prime" title="Pizza Prime" id="bebidas" class="imgResp">
+            </div><br>
+            <br>
+            <div class="row center marginBebe">
+                <div class="col-md-4 rightBorder">
+                    <p class="faixaFundo">Produto</p>
+                    <% @store.beverages.where(:available => true).each do |b| %>
+                        <p class="nomeBebidas"><%= b.name %></p>
+                        
+                    <% end %>
+                </div>
+                <div class="col-md-4">
+                    <p class="faixaFundo">Valor</p>
+                    <% @store.beverages.each do |b| %>
+                        <p class="nomeBebidas"><%= number_to_currency(b.base_value, unit: 'R$', separator: ',')  %></p>
+                    <% end %>
+                </div>
+                <div class="col-md-4 leftBorder">
+                    
+                    <p class="faixaFundo">Quantidade</p>
+                    <div class="quatityBeve">
+                        <% @store.beverages.each do |b| %>
+                            <p class="nomeBebidas selectBebe"><span class="left">-</span>0<span class="right">+</span></p>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!-- FINAL DO CORPO DO CARDÁPIO -->
 
@@ -179,16 +325,76 @@
                     </div>             
                 </div>
 
-                
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <!-- FINAL MODALS -->
 
+        <% if flash[:alert] %>
+            <div id="flash" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Mensagem do Sistema</h4>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <div class="alert alert-danger"><%= flash[:alert] %></div>
+
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+        <% end %>
+
+        <% if flash[:alert] %>
+            <div id="flash" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Mensagem do Sistema</h4>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <div class="alert alert-info"><%= flash[:notice] %></div>
+
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+        <% end %>
+
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+        <script type="text/javascript" src="/js/untitled.js"></script>
+        <script>
+            $(function(){ 
+
+                var controller = new ScrollMagic.Controller();
+
+                $('#flash').modal('show');
+
+                var scene = new ScrollMagic.Scene({triggerElement: '#tradicionais'})
+                    .setClassToggle(".tradicio", "black")
+                    .addTo(controller);
+
+                var scene = new ScrollMagic.Scene({triggerElement: '#bebidas'})
+                    .setClassToggle(".marginBebe", "black")
+                    .addTo(controller);
+
+
+            });
+            
+        </script>
     </body>
 </html>

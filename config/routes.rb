@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     get 'del/:name' => 'loja#del', as: :del
     post 'cep' => 'loja#cep', as: :cep
     post 'rss' => 'loja#rss', as: :rss
+    get 'tamanho/:id' => 'loja#tamanho', as: :tamanho
+    get 'massa/:id' => 'loja#massa', as: :massa
+    get 'borda/:id' => 'loja#borda', as: :borda
+    get 'integral' => 'loja#integral', as: :integral
 
     get 'home' => 'home#index', as: :home
 
@@ -21,5 +25,5 @@ Rails.application.routes.draw do
     get 'auth/failure' => 'loja#login#failure', as: "auth_failure"
 
     root 'home#index'
-    
+     
 end

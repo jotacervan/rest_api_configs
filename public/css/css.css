@@ -551,8 +551,20 @@
     border-color:#fff;
 }
 
+.tamanhos > div:hover > img{
+    filter:none;
+}
+
 .tamanhos > div.active{
     border-color:#fff;
+}
+
+.tamanhos > div.active > img{
+    filter:none;
+}
+
+.tamanhos > div > img {
+    filter: contrast(0%);
 }
 
 .imgResp{
@@ -590,6 +602,11 @@
     width: 100%;
     height: 200px;
     overflow: hidden;
+    margin-top:150px;
+    transition: 1s;
+    -webkit-transition: 1s;
+    -o-transition:1s;
+    -moz-transition:1s;
 }
 
 .img-pizza > img{
@@ -633,7 +650,7 @@
 }
 
 .box-preco{
-    color: #fff;
+    color: #a12327;
     padding: 20px 5px;
 }
 
@@ -713,7 +730,56 @@
     padding:10px 20px;
 }
 
+.nomeBebidas{
+    text-transform: uppercase;
+    font-size:20px;
+    color:#a12327;
+    margin-bottom:20px;
+}
 
+.marginBebe{
+    margin-top:150px;
+    transition:1s;
+    -moz-transition:1s;
+    -o-transition:1s;
+    -webkit-transition:1s;
+}
+
+.black{
+    transition: 1s;
+    -webkit-transition: 1s;
+    -o-transition:1s;
+    -moz-transition:1s;
+    margin:0;
+}
+
+.selectBebe{
+
+}
+
+.quatityBeve{
+    max-width: 120px;   
+    margin:0 auto;
+}
+
+.selectBebe > span{
+    background-color:#a12327;
+    color:#fff;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding:0 10px 5px;
+    cursor:pointer;
+}
+
+.selectBebe > .left{    
+    border-top-left-radius:5px;
+    border-bottom-left-radius:5px;
+}
+
+.selectBebe > .right{    
+    border-top-right-radius:5px;
+    border-bottom-right-radius:5px;
+}
 
 
 
