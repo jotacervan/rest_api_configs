@@ -69,7 +69,6 @@
         		  <img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa">
         		  Minha Caixa <span class="badge"> <% if session[:caixa].nil? %> 0 <% else %> <%= session[:caixa] %> <% end %> </span>
 
-                
         	   </div>
             <% end %>
             <br>
@@ -133,10 +132,12 @@
             <br>
             <br>
             <div class="center">
-                <img src="/images/tradicionais.png" alt="Pizza Prime" title="Pizza Prime" id="tradicionais" class="imgResp">
+                <img src="/images/tradicionais.png" alt="Pizza Prime" title="Pizza Prime" id="tradicionais" class="imgResp" onclick="javascript: location.href='<%= cardapio_path %>'" >
             </div>
             <br>
+            <% if params[:guia].blank? %>
             <div class="row pizzas">
+            
                 <% @store.pizzas.where(:category_name => 'Tradicionais').each do |p| %>
                     
                     <div class="col-md-3">
@@ -147,7 +148,7 @@
                         <p class="titulo-pizzas imgResp"><%= p.name %></p>
                         <p class="redDesc"><%= p.description %></p>
                         <div class="divider"></div>
-                        <% preco = p.price_tables.where(:store_ids => @store.id, :tamanho_id => session[:tamanho]).first %>
+                        <% preco = p.price_tables.where(:store_ids => @store.id.to_s, :tamanho_id => session[:tamanho]).first %>
                         <% if !preco.nil? %>
 
                             <div class="box-preco">
@@ -261,26 +262,418 @@
                               </div><!-- /.modal-dialog -->
                             </div><!-- /.modal -->
 
+                <% end %>
+            
+            </div>
+            <% end %>
+            <br>
+            <div class="center">
+                <img src="/images/especiais.png" onclick="javascript: location.href='<%= cardapio_path %>/Especiais'" alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
+            </div>
+            <br>
+            <% if !params[:guia].blank? && params[:guia] == 'Especiais' %>
+            <div class="row pizzas">
+            
+                <% @store.pizzas.where(:category_name => params[:guia] ).each do |p| %>
+                    
+                    <div class="col-md-3">
+                        <div class="tradicio img-pizza">
+                            <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" >
+                        </div>
+                        
+                        <p class="titulo-pizzas imgResp"><%= p.name %></p>
+                        <p class="redDesc"><%= p.description %></p>
+                        <div class="divider"></div>
+                        <% preco = p.price_tables.where(:store_ids => @store.id.to_s, :tamanho_id => session[:tamanho]).first %>
+                        <% if !preco.nil? %>
 
+                            <div class="box-preco">
+                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> <%= number_to_currency(preco.price, unit: 'R$ ', separator: ',') %> </span>
+                            </div>
 
+                        <% else %>
+
+                            <div class="box-preco">
+                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> EM FALTA </span>
+                            </div>
+
+                        <% end %>
+                        
+                        <div class="center">
+                            <% if session[:logged].nil? %>
+                                <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                            <% else %>
+                                <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                            <% end %>
+                        </div>
+                        <br>
+                    </div>
+                    
+
+                    <div id="<%= p.id %>" class="modal fade" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content defaultcolor">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Adicionar ao Carrinho</h4>
+                                  </div>
+                                  <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="img-pizza">
+                                                <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" style="filter:none; -webkit-filter:none;" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h3 class="center"><%= p.name %></h3>
+                                            <br>
+                                            <p><%= p.description %></p>
+                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                                <%= f.hidden_field :name, :value => p.name %>
+                                                <%= f.hidden_field :size, :value => session[:tamanho] %>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Escolha a borda</p>
+                                                        <%= f.select(:borders ) do %>
+                                                            <%= content_tag(:option, @borda.name, value: @borda.id) %>
+                                                            <% @store.borders.each do |border| %>
+                                                                <%= content_tag(:option, border[:name], value: border[:id]) %>
+                                                            <% end %>
+                                                        <% end %>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Quantidade: </p>
+                                                        <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade', :value => 1 %>
+                                                        <br>
+                                                    </div>                                         
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Massa</p>
+                                                        <%= f.select(:massa ) do %>
+                                                            <%= content_tag(:option, session[:massa]) %>
+                                                            <%= content_tag(:option, 'Fina') %>
+                                                            <%= content_tag(:option, 'Média') %>
+                                                            <%= content_tag(:option, 'Grossa') %>
+                                                        <% end %>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    <br>
+                                                        <% if session[:integral] == '1' %>
+                                                            <p><%= f.check_box :integral, :checked => true %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% else %>
+                                                            <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% end %>
+                                                    </div>
+                                                </div>
+                                                
+                                                <br>
+                                                <p>Observações: </p>
+                                                <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
+                                                <br>
+                                                <p class="btn btn-default" onclick="segundosabor()">Adicionar 2º sabor</p><br>
+                                                <br>
+                                                <%= f.hidden_field :sabor1, :value => p.id %>
+                                                <div class="segundo-sabor hidden">
+                                                    <p>Selecione o 2º sabor:</p>
+                                                    <%= f.select(:sabor2) do %>
+                                                        <%= content_tag(:option, '2º Sabor', value: 'none') %>
+                                                        <% @store.pizzas.each do |p| %>
+                                                            <%= content_tag(:option, p[:name], value: p[:id]) %>
+                                                        <% end %>
+                                                    <% end %>
+                                                    <br>
+                                                </div>
+
+                                                <%= f.submit 'Adicionar ao Carrinho', :class => 'right btn btn-success' %>
+                                                <div class="clear"></div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
 
                 <% end %>
+            
+            </div>
+            <% end %>
+            <div class="center">
+                <img src="/images/primes.png" onclick="javascript: location.href='<%= cardapio_path %>/Primes'"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
             </div>
             <br>
+            <% if !params[:guia].blank? && params[:guia] == 'Primes' %>
+            <div class="row pizzas">
+            
+                <% @store.pizzas.where(:category_name => params[:guia] ).each do |p| %>
+                    
+                    <div class="col-md-3">
+                        <div class="tradicio img-pizza">
+                            <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" >
+                        </div>
+                        
+                        <p class="titulo-pizzas imgResp"><%= p.name %></p>
+                        <p class="redDesc"><%= p.description %></p>
+                        <div class="divider"></div>
+                        <% preco = p.price_tables.where(:store_ids => @store.id.to_s, :tamanho_id => session[:tamanho]).first %>
+                        <% if !preco.nil? %>
+
+                            <div class="box-preco">
+                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> <%= number_to_currency(preco.price, unit: 'R$ ', separator: ',') %> </span>
+                            </div>
+
+                        <% else %>
+
+                            <div class="box-preco">
+                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> EM FALTA </span>
+                            </div>
+
+                        <% end %>
+                        
+                        <div class="center">
+                            <% if session[:logged].nil? %>
+                                <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                            <% else %>
+                                <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                            <% end %>
+                        </div>
+                        <br>
+                    </div>
+                    
+
+                    <div id="<%= p.id %>" class="modal fade" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content defaultcolor">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Adicionar ao Carrinho</h4>
+                                  </div>
+                                  <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="img-pizza">
+                                                <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" style="filter:none; -webkit-filter:none;" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h3 class="center"><%= p.name %></h3>
+                                            <br>
+                                            <p><%= p.description %></p>
+                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                                <%= f.hidden_field :name, :value => p.name %>
+                                                <%= f.hidden_field :size, :value => session[:tamanho] %>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Escolha a borda</p>
+                                                        <%= f.select(:borders ) do %>
+                                                            <%= content_tag(:option, @borda.name, value: @borda.id) %>
+                                                            <% @store.borders.each do |border| %>
+                                                                <%= content_tag(:option, border[:name], value: border[:id]) %>
+                                                            <% end %>
+                                                        <% end %>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Quantidade: </p>
+                                                        <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade', :value => 1 %>
+                                                        <br>
+                                                    </div>                                         
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Massa</p>
+                                                        <%= f.select(:massa ) do %>
+                                                            <%= content_tag(:option, session[:massa]) %>
+                                                            <%= content_tag(:option, 'Fina') %>
+                                                            <%= content_tag(:option, 'Média') %>
+                                                            <%= content_tag(:option, 'Grossa') %>
+                                                        <% end %>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    <br>
+                                                        <% if session[:integral] == '1' %>
+                                                            <p><%= f.check_box :integral, :checked => true %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% else %>
+                                                            <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% end %>
+                                                    </div>
+                                                </div>
+                                                
+                                                <br>
+                                                <p>Observações: </p>
+                                                <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
+                                                <br>
+                                                <p class="btn btn-default" onclick="segundosabor()">Adicionar 2º sabor</p><br>
+                                                <br>
+                                                <%= f.hidden_field :sabor1, :value => p.id %>
+                                                <div class="segundo-sabor hidden">
+                                                    <p>Selecione o 2º sabor:</p>
+                                                    <%= f.select(:sabor2) do %>
+                                                        <%= content_tag(:option, '2º Sabor', value: 'none') %>
+                                                        <% @store.pizzas.each do |p| %>
+                                                            <%= content_tag(:option, p[:name], value: p[:id]) %>
+                                                        <% end %>
+                                                    <% end %>
+                                                    <br>
+                                                </div>
+
+                                                <%= f.submit 'Adicionar ao Carrinho', :class => 'right btn btn-success' %>
+                                                <div class="clear"></div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                <% end %>
+            
+            </div>
+            <% end %>
             <div class="center">
-                <img src="/images/especiais.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+                <img src="/images/Doces.png" onclick="javascript: location.href='<%= cardapio_path %>/Sweet'"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
             </div>
             <br>
-            <div class="center">
-                <img src="/images/primes.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+            <% if !params[:guia].blank? && params[:guia] == 'Sweet' %>
+            <div class="row pizzas">
+            
+                <% @store.pizzas.where(:category_name => params[:guia] ).each do |p| %>
+                    
+                    <div class="col-md-3">
+                        <div class="tradicio img-pizza">
+                            <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" >
+                        </div>
+                        
+                        <p class="titulo-pizzas imgResp"><%= p.name %></p>
+                        <p class="redDesc"><%= p.description %></p>
+                        <div class="divider"></div>
+                        <% preco = p.price_tables.where(:store_ids => @store.id.to_s, :tamanho_id => session[:tamanho]).first %>
+                        <% if !preco.nil? %>
+
+                            <div class="box-preco">
+                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> <%= number_to_currency(preco.price, unit: 'R$ ', separator: ',') %> </span>
+                            </div>
+
+                        <% else %>
+
+                            <div class="box-preco">
+                                <span class="preco"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol"> EM FALTA </span>
+                            </div>
+
+                        <% end %>
+                        
+                        <div class="center">
+                            <% if session[:logged].nil? %>
+                                <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                            <% else %>
+                                <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                            <% end %>
+                        </div>
+                        <br>
+                    </div>
+                    
+
+                    <div id="<%= p.id %>" class="modal fade" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content defaultcolor">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Adicionar ao Carrinho</h4>
+                                  </div>
+                                  <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="img-pizza">
+                                                <img src="<%= p.picture %>" alt="<%= p.name %>" title="<%= p.name %>" style="filter:none; -webkit-filter:none;" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h3 class="center"><%= p.name %></h3>
+                                            <br>
+                                            <p><%= p.description %></p>
+                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                                <%= f.hidden_field :name, :value => p.name %>
+                                                <%= f.hidden_field :size, :value => session[:tamanho] %>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Escolha a borda</p>
+                                                        <%= f.select(:borders ) do %>
+                                                            <%= content_tag(:option, @borda.name, value: @borda.id) %>
+                                                            <% @store.borders.each do |border| %>
+                                                                <%= content_tag(:option, border[:name], value: border[:id]) %>
+                                                            <% end %>
+                                                        <% end %>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Quantidade: </p>
+                                                        <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade', :value => 1 %>
+                                                        <br>
+                                                    </div>                                         
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Massa</p>
+                                                        <%= f.select(:massa ) do %>
+                                                            <%= content_tag(:option, session[:massa]) %>
+                                                            <%= content_tag(:option, 'Fina') %>
+                                                            <%= content_tag(:option, 'Média') %>
+                                                            <%= content_tag(:option, 'Grossa') %>
+                                                        <% end %>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    <br>
+                                                        <% if session[:integral] == '1' %>
+                                                            <p><%= f.check_box :integral, :checked => true %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% else %>
+                                                            <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% end %>
+                                                    </div>
+                                                </div>
+                                                
+                                                <br>
+                                                <p>Observações: </p>
+                                                <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
+                                                <br>
+                                                <p class="btn btn-default" onclick="segundosabor()">Adicionar 2º sabor</p><br>
+                                                <br>
+                                                <%= f.hidden_field :sabor1, :value => p.id %>
+                                                <div class="segundo-sabor hidden">
+                                                    <p>Selecione o 2º sabor:</p>
+                                                    <%= f.select(:sabor2) do %>
+                                                        <%= content_tag(:option, '2º Sabor', value: 'none') %>
+                                                        <% @store.pizzas.each do |p| %>
+                                                            <%= content_tag(:option, p[:name], value: p[:id]) %>
+                                                        <% end %>
+                                                    <% end %>
+                                                    <br>
+                                                </div>
+
+                                                <%= f.submit 'Adicionar ao Carrinho', :class => 'right btn btn-success' %>
+                                                <div class="clear"></div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                <% end %>
+            
             </div>
-            <br>
+            <% end %>
             <div class="center">
-                <img src="/images/Doces.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
-            </div>
-            <br>
-            <div class="center">
-                <img src="/images/docesPrime.png" alt="Pizza Prime" title="Pizza Prime" class="imgResp">
+                <img src="/images/docesPrime.png" onclick="javascript: location.href='<%= cardapio_path %>/docesPrime'"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
             </div>
             <br>
             <div class="center">
@@ -316,8 +709,17 @@
                         <% 
                         price = b.price_tables.where(:store_ids => @store.id).first
                         next if price.nil?
+                        if session[:bebidas].blank?
                         %>
-                            <p class="nomeBebidas selectBebe"><span class="left">-</span>0<span class="right">+</span></p>
+
+                            <p data-id="<%= b.id %>" data-url="bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i>0</i><span class="right" onclick="bebeMais(this)">+</span></p>
+                        <% else %>
+                            <% if session[:bebidas][b.id.to_s].nil? %>
+                                <p data-id="<%= b.id %>" data-url="bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i>0</i><span class="right" onclick="bebeMais(this)">+</span></p>
+                            <% else %>
+                                <p data-id="<%= b.id %>" data-url="bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i><%= session[:bebidas][b.id.to_s]['qtd'] %></i><span class="right" onclick="bebeMais(this)">+</span></p>
+                            <% end %>
+                        <% end %>
                         <% end %>
                     </div>
                 </div>
@@ -394,7 +796,6 @@
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
         <% end %>
 
 
@@ -406,7 +807,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
         <script type="text/javascript" src="/js/untitled.js"></script>
         <script>
-            $(function(){ 
+            $(document).ready( function(){ 
 
                 var controller = new ScrollMagic.Controller();
 
@@ -414,15 +815,13 @@
 
                 var scene = new ScrollMagic.Scene({triggerElement: '#tradicionais'})
                     .setClassToggle(".tradicio", "black")
-                    .addTo(controller);
+                    .addTo(controller); // final da scene var
 
                 var scene = new ScrollMagic.Scene({triggerElement: '#bebidas'})
                     .setClassToggle(".marginBebe", "black")
-                    .addTo(controller);
-
+                    .addTo(controller); // final da scene var
 
             });
-            
         </script>
     </body>
 </html>

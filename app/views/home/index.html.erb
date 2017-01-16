@@ -20,21 +20,21 @@
         </div>
         <br>
         <div class="content historia_de_sucesso">
-            <h1 >História de Sucesso</h1>
+            <h1 id='trigger1' >História de Sucesso</h1>
             <br>
-            <p><strong>Desde 2001</strong> levamos qualidade e sabor às casas de nossos clientes.<br>
+            <p id="cont1" class="margeado"><strong>Desde 2001</strong> levamos qualidade e sabor às casas de nossos clientes.<br>
 Usamos ingredientes selecionados para que cada mordida seja inesquecível.<br>
 Queremos estar presente nos encontros entre amigos, nas reuniões de família e em todos os momentos felizes.<br>
 Acreditamos que todos nós merecemos sempre o melhor da vida, por isso, oferecemos o melhor em pizza.<br>
 Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e Paraná.</p>
             <br>
-            <h2>E em breve no Brasil inteiro!</h2>
+            <h2 id="trigger2" >E em breve no Brasil inteiro!</h2>
         </div>
         <br>
         <div class="content combos row">
             <% @combos.take(4).each do |c| %>
                 
-                <div class="col-md-3 combo">
+                <div id="cont2"  class="margeado col-md-3 combo">
                     <div style="background-image: url('<%= c.picture %>')">
                         <div>
                             <h3><%= c.name %><br></h3>
@@ -111,7 +111,34 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
         <% end %>
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+        <script type="text/javascript" src="/js/untitled.js"></script>
+        <script>
+
+            $(function(){
+
+                var controller = new ScrollMagic.Controller();
+
+                $('#flash').modal('show');
+
+                var scene = new ScrollMagic.Scene({
+                        triggerElement: '#trigger1',
+                        triggerHook: 0.5
+                    })
+                    .setClassToggle("#cont1", "tiramargem")
+                    .addTo(controller);
+
+                var scene = new ScrollMagic.Scene({triggerElement: '#trigger2', triggerHook: 0.8})
+                    .setClassToggle("#cont2", "tiramargem")
+                    .addTo(controller);
+
+
+            });
+            
+        </script>
         
         <script>
 

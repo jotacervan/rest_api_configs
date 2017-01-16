@@ -38,8 +38,8 @@
 
 .fundo_cep{
     background: url('../images/fundomapa.png') no-repeat;
-    background-size: 100%;
-    padding:50px 0;
+    background-size: 120% ;
+    height:100%;
 }
 
 .fundo-faixa{
@@ -779,6 +779,19 @@
 .selectBebe > .right{    
     border-top-right-radius:5px;
     border-bottom-right-radius:5px;
+}
+
+.margeado{
+    margin-top:150px;
+    transition: 1s;
+    -moz-transition:1s;
+    -o-transition: 1s;
+    -webkit-transition: 1s;
+    -khtml-transition: 1s;
+}
+
+.tiramargem{
+    margin-top:0;
 }
 
 

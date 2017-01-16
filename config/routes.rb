@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   	get 'loja' => 'loja#index', as: :loja
   	post 'busca_cidades' => 'loja#busca_cidades', as: :busca_cidades
   	get 'cardapio' => 'loja#cardapio', as: :cardapio
+    get 'cardapio/:guia' => 'loja#cardapio'
   	post 'login' => 'loja#login', as: :login
-  	get 'pizzas' => 'loja#pizzas', as: :pizzas
+  	get 'pizzas/:guide' => 'loja#pizzas', as: :pizzas
   	get 'modeljson' => 'loja#modeljson', as: :modeljson
   	get 'cart' => 'loja#cart', as: :cart
     get 'checkout' => 'loja#checkout', as: :checkout
@@ -18,6 +19,8 @@ Rails.application.routes.draw do
     get 'massa/:id' => 'loja#massa', as: :massa
     get 'borda/:id' => 'loja#borda', as: :borda
     get 'integral' => 'loja#integral', as: :integral
+    get 'bebidas/:price/:id/:qtd' => 'loja#bebidas', as: :bebidas
+    get 'bebemenos/:id' => 'loja#bebemenos', as: :bebemenos
 
     get 'home' => 'home#index', as: :home
     get 'logout' => 'home#logout', as: :logout

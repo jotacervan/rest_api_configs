@@ -67,10 +67,10 @@ class LojaController < ApplicationController
       session[:user][:number] = params[:cep][:numero] 
 
       redirect_to cardapio_path
+
     end
-
   end
-
+  
   def cardapio
     if session[:store].blank? && session[:user].blank?
       redirect_to loja_path
@@ -82,10 +82,10 @@ class LojaController < ApplicationController
         session[:massa] = 'Fina'
       end
       if session[:tamanho].nil?
-        session[:tamanho] = @store.tamanhos.first.id
+        session[:tamanho] = @store.tamanhos.first.id.to_s
       end
       if session[:borda].nil?
-        session[:borda] = @store.borders.first.id
+        session[:borda] = @store.borders.first.id.to_s
       end
       render stream: true
     end
@@ -154,10 +154,34 @@ class LojaController < ApplicationController
     
   end
   
+  def bebidas
+    if session[:logged].blank?
+      session[:bebidas] = nil
+      render json: 'Bebidas', status: 302
+    else
+      if session[:bebidas].blank?
+        session[:bebidas] = {}
+        session[:bebidas][params[:id]] = { :qtd => 1, :price => params[:price] }
+        render json: 'Bebidas', status: 200
+      else
+        session[:bebidas][params[:id]] = { :qtd => params[:qtd], :price => params[:price] }
+      end
+    end
+    
+  end
+
+  def bebemenos
+    if session[:bebidas].length > 1
+      session[:bebidas].delete(params[:id])
+    else
+      session[:bebidas] = nil
+    end
+
+    redirect_to cart_path
+  end
+
   def pizzas
-    RestClient.get('http://pizzaprime.herokuapp.com/webservices/stores/getStores', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
-        render json: response
-    }
+    render json: params[:guide]
   end
 
   def cart

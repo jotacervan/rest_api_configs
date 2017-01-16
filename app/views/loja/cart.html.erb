@@ -122,6 +122,41 @@
 
                 </table>
                 <br>
+
+                <% if !session[:bebidas].blank? %>
+                    <hr>
+                    <h3 class="center">Bebidas</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Quantidade</th>
+                                <th>Thumb</th>
+                                <th>Nome</th>
+                                <th>Preço</th>
+                                <th></th>
+                            </tr>
+                        </thead>                        
+                        <tbody>
+                            <% session[:bebidas].each do |key, value| %>
+                                <% @bebida = Beverage.find(key) %>
+                                <% bebidaValor = value['price'].to_i * value['qtd'].to_i %>
+                                <% total += bebidaValor %>
+                                <tr>
+                                    <td><%= value['qtd'] %></td>
+                                    <td><img src="<%= @bebida.picture %>" alt="Pizza Prime" title="Pizza Prime" style="width:100px" /></td>
+                                    <td><%= @bebida.name %></td>
+                                    <td><%= number_to_currency(bebidaValor, unit: 'R$ ', separator: ',') %></td>
+                                    <td>
+                                        <i class="fa fa-trash fa-2x" style="cursor:pointer" onclick="location.href='<%= bebemenos_path(key) %>'"></i>
+                                    </td>
+                                </tr>    
+                            <% end %>
+                        </tbody>
+                    </table>
+
+                <% end %>
+
+
                 <div class="text-right">
                     <h3>Total: <%= number_to_currency(total, unit: 'R$ ', separator: ',') %></h3>
                     <br>
@@ -130,6 +165,8 @@
                 
 
             <% end %>
+
+
 
             <br>
             <div class="center">
