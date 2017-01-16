@@ -18,13 +18,16 @@
         <br>
         <div class="content">
             <h2 class="center">Finalizar Compra</h2>
+            <% if flash[:notice] %>
+            	<div class="alert alert-info center"><%= flash[:notice] %></div>
+            <% end %>
             <% if session[:caixa].nil? %>
 
                 <br>
                 <script>
                 	location.href = "<%= cardapio_path %>"
                 </script>
-
+                
             <% else %>
                 <%
                     total = 0
@@ -83,7 +86,7 @@
 
 	                    total += pedido_total
 	                    %>
-	                    <!-- RESUMO De CADA PEDIDO -->
+	                    <!-- RESUMO DE CADA PEDIDO -->
 	                    <% if p[1]['tastes'].length > 1 %>
 	                    	<p><strong>Qtd:</strong> <%= p[1]['quantity'] %> - <strong>Pizza:</strong>  <%= p[0] %> + <%= pizza22[:name] %> - <%= tamanho[:name] %></p>
 	                    <% else %>
@@ -94,7 +97,22 @@
 	                    <hr>
 
 	                <% end %>
-	                   
+	                
+	                <% if !session[:bebidas].blank? %>
+
+	                	<h4 class="center">Bebidas</h4>
+
+	                	<% session[:bebidas].each do |key, b| %>
+
+	                		<% bebe = Beverage.find(key) %>
+	                		<p><strong>Bebida:</strong> <%= bebe.name %> - <strong>Qtd: </strong> <%= b['qtd'] %></p>
+	                		<% preco = b['qtd'].to_i * b['price'].to_i %>
+	                		<p><strong>Preço: </strong> <%= number_to_currency(preco, unit: 'R$ ', separator: ',') %></p>
+	                		<% total += preco %>
+
+	                	<% end %>
+
+	                <% end %>
 
 
 	                   </div>

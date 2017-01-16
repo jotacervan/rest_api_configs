@@ -170,6 +170,8 @@ class LojaController < ApplicationController
     
   end
 
+
+
   def bebemenos
     if session[:bebidas].length > 1
       session[:bebidas].delete(params[:id])
@@ -180,9 +182,13 @@ class LojaController < ApplicationController
     redirect_to cart_path
   end
 
+
+
   def pizzas
     render json: params[:guide]
   end
+
+
 
   def cart
     RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
@@ -192,6 +198,7 @@ class LojaController < ApplicationController
         elsif response.code == 500
           redirect_to cardapio_path, alert: 'Faça o login para continuar'
         else
+          @store = Store.find(session[:store]['id'])
           @about = JSON.parse(response.body)
         end
     }
@@ -210,7 +217,7 @@ class LojaController < ApplicationController
   end
 
   def checkout_confirm
-    redirect_to checkout_path
+    redirect_to checkout_path, notice: 'Finalização inativa para testes!'
   end
 
 
@@ -261,7 +268,26 @@ class LojaController < ApplicationController
 
   def edit_cart
 
+    session[:pizzas][params[:cart][:name]] = {}
+    session[:pizzas][params[:cart][:name]][:size_id] = params[:cart][:size]
+    session[:pizzas][params[:cart][:name]][:border_id] = params[:cart][:borders]
+    session[:pizzas][params[:cart][:name]][:quantity] = params[:cart][:quantity].to_i
+    session[:pizzas][params[:cart][:name]][:pasta] = params[:cart][:massa]
+    if params[:cart][:integral] == '1'
+      session[:pizzas][params[:cart][:name]][:integral] = true
+    else
+      session[:pizzas][params[:cart][:name]][:integral] = false
+    end
+    session[:pizzas][params[:cart][:name]][:obs] = params[:cart][:obs]
+    session[:pizzas][params[:cart][:name]][:fidelity] = true
+    
+    if params[:cart][:sabor2] == 'none'
+      session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] } ]
+    else
+      session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+    end
 
+    redirect_to cart_path
 
   end
 
