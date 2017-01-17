@@ -5,7 +5,7 @@
                 </div>
                 <div class="col-md-10 text-right">
                     <ul class="menu">
-                        <li <% if page == 'home' %> class="active" <% end %> ><a href="#">Home</a></li>
+                        <li <% if page == 'home' %> class="active" <% end %> ><a href="<%= root_path %>">Home</a></li>
                         <li <% if page == 'loja' %> class="active" <% end %> >
                             <% if session[:store].blank? %>  
                                 <a href="<%= loja_path %>">Unidades/Cardápios</a>
@@ -13,8 +13,8 @@
                                 <a href="<%= cardapio_path %>">Unidades/Cardápios</a>
                             <% end %>
                         </li>
-                        <li><a href="#">A Pizza Prime</a></li>
-                        <li><a href="#">Trabalhe Conosco/Contato</a></li>
+                        <li><a href="<%= root_path %>">A Pizza Prime</a></li>
+                        <li><a href="<%= root_path %>">Trabalhe Conosco/Contato</a></li>
                         <li><a href="http://www.mobile2you.com.br/pizzaprime/" target="_blank">Blog</a></li>
                         <li>
                             <% if session[:store].blank? %>  
