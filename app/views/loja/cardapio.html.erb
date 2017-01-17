@@ -538,7 +538,7 @@
             </div>
             <% end %>
             <div class="center">
-                <img src="/images/Doces.png" onclick="javascript: location.href='<%= cardapio_path %>/Sweet'"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
+                <img src="/images/doces.png" onclick="javascript: location.href='<%= cardapio_path %>/Sweet'"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
             </div>
             <br>
             <% if !params[:guia].blank? && params[:guia] == 'Sweet' %>
@@ -797,8 +797,7 @@
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
         <% end %>
-
-
+        
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
@@ -806,6 +805,7 @@
         <script type="text/javascript" src="/js/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
         <script type="text/javascript" src="/js/untitled.js"></script>
+
         <script>
             $(document).ready( function(){ 
 
@@ -813,11 +813,11 @@
 
                 $('#flash').modal('show');
 
-                var scene = new ScrollMagic.Scene({triggerElement: '#tradicionais'})
+                var scene = new ScrollMagic.Scene({triggerElement: '#tradicionais', triggerHook: 0.7})
                     .setClassToggle(".tradicio", "black")
                     .addTo(controller); // final da scene var
 
-                var scene = new ScrollMagic.Scene({triggerElement: '#bebidas'})
+                var scene = new ScrollMagic.Scene({triggerElement: '#bebidas', triggerHook: 0.7})
                     .setClassToggle(".marginBebe", "black")
                     .addTo(controller); // final da scene var
 
