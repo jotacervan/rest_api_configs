@@ -87,7 +87,6 @@ class LojaController < ApplicationController
       if session[:borda].nil?
         session[:borda] = @store.borders.first.id.to_s
       end
-      render stream: true
     end
   end
 
