@@ -42,7 +42,7 @@ function bebeMais(str){
 	var url = $(str).parent().attr('data-url');
 	var nova = qtd + 1
 	var completo = url + '/' + nova
-	
+
 	$.ajax({
 		url: completo,
 		method: 'GET',

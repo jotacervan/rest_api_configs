@@ -82,7 +82,7 @@ class LojaController < ApplicationController
         session[:massa] = 'Fina'
       end
       if session[:tamanho].nil?
-        session[:tamanho] = @store.tamanhos.first.id.to_s
+        session[:tamanho] = @store.tamanhos.last.id.to_s
       end
       if session[:borda].nil?
         session[:borda] = @store.borders.first.id.to_s
@@ -114,14 +114,14 @@ class LojaController < ApplicationController
       session[:phone] = resultado['phone']
       session[:cpf] = resultado['cpf']
 
-      redirect_to cardapio_path, notice: 'Login efetuado com sucesso'
+      redirect_to cardapio_path, :notice => 'Login efetuado com sucesso'
     else
       if response.code == 401
-        redirect_to cardapio_path, alert: 'Usuário não encontrado, Cadastre-se para continuar!'
+        redirect_to cardapio_path, :alert => 'Usuário não encontrado, Cadastre-se para continuar!'
       elsif response.code == 402
-        redirect_to cardapio_path, alert: 'Senha incorreta!'
+        redirect_to cardapio_path, :alert => 'Senha incorreta!'
       else
-        redirect_to cardapio_path, alert: 'Não foi possível efetuar o login corretamente, por favor tente novamente mais tarde!'
+        redirect_to cardapio_path, :alert => 'Não foi possível efetuar o login corretamente, por favor tente novamente mais tarde!'
       end
       
     end
@@ -129,6 +129,8 @@ class LojaController < ApplicationController
     }
 
   end
+
+
 
   def loginfacebook
     @user = User.koala(request.env['omniauth.auth']['credentials'])
@@ -148,7 +150,7 @@ class LojaController < ApplicationController
       session[:phone] = resultado['phone']
       session[:cpf] = resultado['cpf']
 
-      redirect_to cardapio_path(session[:state],session[:neighbor],session[:id],session[:size])
+      redirect_to cardapio_path
 
     }
     
@@ -194,9 +196,9 @@ class LojaController < ApplicationController
     RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         if response.code == 401
           session[:logged] = nil
-          redirect_to cardapio_path, alert: 'Faça o login para continuar'
+          redirect_to cardapio_path, :alert => 'Faça o login para continuar'
         elsif response.code == 500
-          redirect_to cardapio_path, alert: 'Faça o login para continuar'
+          redirect_to cardapio_path, :alert => 'Faça o login para continuar'
         else
           @store = Store.find(session[:store]['id'])
           @about = JSON.parse(response.body)
@@ -217,7 +219,7 @@ class LojaController < ApplicationController
   end
 
   def checkout_confirm
-    redirect_to checkout_path, notice: 'Finalização inativa para testes!'
+    redirect_to checkout_path, :notice => 'Finalização inativa para testes!'
   end
 
 
@@ -262,7 +264,7 @@ class LojaController < ApplicationController
       session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
     end
 
-    redirect_to cardapio_path, notice: 'Pizza Adicionada com Sucesso!'
+    redirect_to cardapio_path, :notice => 'Pizza Adicionada com Sucesso!'
   end
 
 

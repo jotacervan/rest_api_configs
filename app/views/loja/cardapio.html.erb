@@ -762,7 +762,7 @@
         </div><!-- /.modal -->
         <!-- FINAL MODALS -->
 
-        <% if flash[:alert] %>
+        <% if !flash[:alert].blank? %>
             <div id="flash" class="modal fade" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -778,10 +778,10 @@
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
+            <%= flash[:alert] = nil %>
         <% end %>
 
-        <% if flash[:notice] %>
+        <% if !flash[:notice].blank? %>
             <div id="flash" class="modal fade" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -797,6 +797,7 @@
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+            <%= flash[:notice] = nil %>
         <% end %>
         
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
