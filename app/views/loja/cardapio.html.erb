@@ -712,12 +712,12 @@
                         if session[:bebidas].blank?
                         %>
 
-                            <p data-id="<%= b.id %>" data-url="<%= request.url.gsub('cardapio', '') %>bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i>0</i><span class="right" onclick="bebeMais(this)">+</span></p>
+                            <p data-id="<%= b.id %>" data-url="<%= request.url.gsub('/cardapio', '') %>bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i>0</i><span class="right" onclick="bebeMais(this)">+</span></p>
                         <% else %>
                             <% if session[:bebidas][b.id.to_s].nil? %>
-                                <p data-id="<%= b.id %>" data-url="<%= request.url.gsub('cardapio', '') %>bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i>0</i><span class="right" onclick="bebeMais(this)">+</span></p>
+                                <p data-id="<%= b.id %>" data-url="<%= request.url.gsub('/cardapio', '') %>bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i>0</i><span class="right" onclick="bebeMais(this)">+</span></p>
                             <% else %>
-                                <p data-id="<%= b.id %>" data-url="<%= request.url.gsub('cardapio', '') %>bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i><%= session[:bebidas][b.id.to_s]['qtd'] %></i><span class="right" onclick="bebeMais(this)">+</span></p>
+                                <p data-id="<%= b.id %>" data-url="<%= request.url.gsub('/cardapio', '') %>bebidas/<%= price.price.to_i %>/<%= b.id %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i><%= session[:bebidas][b.id.to_s]['qtd'] %></i><span class="right" onclick="bebeMais(this)">+</span></p>
                             <% end %>
                         <% end %>
                         <% end %>
