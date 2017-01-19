@@ -155,9 +155,14 @@
 }
 
 .banner{
-    background: url(../images/fundobanner.png) repeat;
+    /*background: url(../images/fundobanner.png) repeat;*/
     width:100%;
     text-align: center;
+    overflow: hidden;
+}
+
+.banner > img{
+    width:100%;
 }
 
 .banner > img.logobanner{
