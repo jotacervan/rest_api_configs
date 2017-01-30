@@ -646,7 +646,10 @@
 .redDesc{
     color: #a12327;
     margin:-7px 0;
-    height:40px;
+    height:50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .divider{
