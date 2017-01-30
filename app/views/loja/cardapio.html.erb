@@ -272,10 +272,9 @@
                 <img src="/images/especiais.png" onclick="javascript: location.href='<%= cardapio_path %>/Especiais'" alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
             </div>
             <br>
-            <% if !params[:guia].blank? && params[:guia] == 'Especiais' %>
             <div class="row pizzas">
             
-                <% @store.pizzas.where(:category_name => params[:guia] ).each do |p| %>
+                <% @store.pizzas.where(:category_name => 'Especiais' ).each do |p| %>
                     
                     <div class="col-md-3">
                         <div class="tradicio img-pizza">
@@ -402,15 +401,14 @@
                 <% end %>
             
             </div>
-            <% end %>
             <div class="center">
                 <img src="/images/primes.png" onclick="javascript: location.href='<%= cardapio_path %>/Primes'"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
             </div>
             <br>
-            <% if !params[:guia].blank? && params[:guia] == 'Primes' %>
+            
             <div class="row pizzas">
             
-                <% @store.pizzas.where(:category_name => params[:guia] ).each do |p| %>
+                <% @store.pizzas.where(:category_name => 'Primes' ).each do |p| %>
                     
                     <div class="col-md-3">
                         <div class="tradicio img-pizza">
@@ -537,15 +535,15 @@
                 <% end %>
             
             </div>
-            <% end %>
+
             <div class="center">
                 <img src="/images/doces.png" onclick="javascript: location.href='<%= cardapio_path %>/Sweet'"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
             </div>
             <br>
-            <% if !params[:guia].blank? && params[:guia] == 'Sweet' %>
+            
             <div class="row pizzas">
             
-                <% @store.pizzas.where(:category_name => params[:guia] ).each do |p| %>
+                <% @store.pizzas.where(:category_name => 'Sweet' ).each do |p| %>
                     
                     <div class="col-md-3">
                         <div class="tradicio img-pizza">
@@ -672,7 +670,7 @@
                 <% end %>
             
             </div>
-            <% end %>
+            
             <div class="center">
                 <img src="/images/docesPrime.png" onclick="javascript: location.href='<%= cardapio_path %>/docesPrime'"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
             </div>
