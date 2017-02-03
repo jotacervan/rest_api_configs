@@ -106,6 +106,30 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
         </div>
 
 
+        <div id="footer">
+            <div class="content row">
+                <div class="col-md-2">
+                    <img src="/images/logo-slide.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%;">
+                </div>
+                <div class="col-md-3 center links" style="border-right: 3px dotted #fff">
+                    <p class="footer-title">Mapa do Site</p>
+                    
+                    <a href="">Home</a><br>
+                    <% if session[:store].blank? %>  
+                        <a href="<%= loja_path %>">Unidades/Cardápios</a><br>
+                    <% else %>
+                        <a href="<%= cardapio_path %>">Unidades/Cardápios</a><br>
+                    <% end %>
+                    <a href="">A Pizza Prime</a><br>
+                    <a href="">Trabalhe Conosco/Contato</a><br>
+                    <a href="">Blog</a><br>
+                </div>
+                <div class="col-md-3 center" >
+                    <p class="footer-title">Acompanhe a nossa<br>fan page :)</p>                  
+                </div>
+            </div>
+        </div>
+
         <% @stores.each do |s| %>
             <% if !s.coordinates.nil? %>
             <div class='hidden store' data-ref='<%= s.id %>' data-lat='<%= s.coordinates[0] %>' data-long='<%= s.coordinates[1] %>'><%= s.name %></div>

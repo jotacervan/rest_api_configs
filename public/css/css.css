@@ -36,6 +36,11 @@
     z-index:999;
 }
 
+#footer{
+    background:#a12327;
+    padding:10px 0;
+}
+
 .fundo_cep{
     background: url('../images/fundomapa.png') no-repeat;
     background-size: 120% ;
@@ -49,6 +54,18 @@
     font-family: 'Milk';
     font-size:60px;
     margin-bottom:60px;
+}
+
+.footer-title{
+    font-family: 'Milk';
+    font-size:30px;
+    color:#fbd302;
+}
+
+.links a{
+    color:#fff;
+    text-decoration: none;
+    font-size:18px;
 }
 
 .faixaFundo{

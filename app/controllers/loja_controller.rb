@@ -218,7 +218,37 @@ class LojaController < ApplicationController
   end
 
   def checkout_confirm
-    redirect_to checkout_path, :notice => 'Finalização inativa para testes!'
+
+    @pedido = {} 
+    @pedido[:pedido] = {}
+    @pedido[:pedido][:pizzas] = []
+    session[:pizzas].each do |key, p|
+        novo = p
+        @pedido[:pedido][:pizzas].push(novo)
+    end # pizzas
+    @pedido[:pedido][:sweet_pizzas] = {}
+    @pedido[:pedido][:beverages] = []
+    session[:bebidas].each do |key, p|
+      novo = { :id => key, :qtd => p['qtd'], :fidelity => true }
+      @pedido[:pedido][:beverages].push(novo)
+    end 
+
+    if params[:checkout][:address] == 'Retirada na Loja'
+      RestClient.post('http://pizzaprime.herokuapp.com/webservices/orders/createOrder', { :pedido => @pedido, :store_id => session[:store]['id'], :pic_in_store => true, :payment_id => params[:checkout][:payment] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        
+        redirect_to cardapio_path, notice: 'Pedido Enviado com Sucesso'
+
+      }
+    else
+      RestClient.post('http://pizzaprime.herokuapp.com/webservices/orders/createOrder', { :pedido => @pedido, :store_id => session[:store]['id'], :pic_in_store => true, :payment_id => params[:checkout][:payment], :address_id => params[:checkout][:address] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        
+        redirect_to cardapio_path, notice: 'Pedido Enviado com Sucesso'
+        
+      }
+    end
+
+
+    
   end
 
 

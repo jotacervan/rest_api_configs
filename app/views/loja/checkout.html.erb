@@ -114,7 +114,7 @@
 
 	                <% end %>
 
-
+	                	
 	                   </div>
 	                   <div class="col-md-6">
 	                   		<h3>Informações de Pagamento e Entrega</h3>
@@ -123,7 +123,7 @@
 	                   			<p>Forma de Pagamento:</p>
 	                   			<%= f.select(:payment, {}, {}, {:class => 'form-control'}) do %>
 	                   				<% @store.payments.each do |pay| %>
-		                   				<%= content_tag(:option, pay.name ) %>
+		                   				<%= content_tag(:option, pay.name, value: pay.id ) %>
 		                   			<% end %>
 	                   			<% end %>
 
@@ -140,7 +140,7 @@
 	                   				<%= f.select(:address, {}, {}, {:class => 'form-control'}) do %>
 	                   					<%= content_tag(:option, 'Retirada na Loja') %>
 		                   				<% @addresses.each do |pay| %>
-			                   				<%= content_tag(:option,  pay['name']+ ' - ' + pay['street'] + ' - ' + pay['number'] ) %>
+			                   				<%= content_tag(:option,  pay['name']+ ' - ' + pay['street'] + ' - ' + pay['number'], value: pay['id'] ) %>
 			                   			<% end %>
 		                   			<% end %>
 	                   			<% end %>
@@ -166,7 +166,30 @@
             </div>
 
         </div>
-       
+       <br><br>
+       <div id="footer">
+            <div class="content row">
+                <div class="col-md-2">
+                    <img src="/images/logo-slide.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%;">
+                </div>
+                <div class="col-md-3 center links" style="border-right: 3px dotted #fff">
+                    <p class="footer-title">Mapa do Site</p>
+                    
+                    <a href="">Home</a><br>
+                    <% if session[:store].blank? %>  
+                        <a href="<%= loja_path %>">Unidades/Cardápios</a><br>
+                    <% else %>
+                        <a href="<%= cardapio_path %>">Unidades/Cardápios</a><br>
+                    <% end %>
+                    <a href="">A Pizza Prime</a><br>
+                    <a href="">Trabalhe Conosco/Contato</a><br>
+                    <a href="">Blog</a><br>
+                </div>
+                <div class="col-md-3 center" >
+                    <p class="footer-title">Acompanhe a nossa<br>fan page :)</p>                  
+                </div>
+            </div>
+        </div>
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
