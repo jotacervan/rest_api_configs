@@ -19,6 +19,12 @@ body {
   src: url('../fonts/peach_milk.ttf');
 }
 
+@font-face {
+  font-family: 'fontera';
+
+  src: url('../fonts/fontera.ttf');
+}
+
 article,
 aside,
 details,
