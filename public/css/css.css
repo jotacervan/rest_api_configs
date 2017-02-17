@@ -827,7 +827,30 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
     margin-top:0;
 }
 
+.dropdown{
+    margin:7px 0 0;
+    display:none;
+}
 
+.dropdown-menu{
+    margin:0 0 0 -150px;
+}
+
+.hamburguer{
+    border:0;
+    background:none;
+    color:#fff;
+    font-size:40px;
+}
+
+@media ( max-width: 1000px ){
+    .menu{
+        display:none!important;
+    }
+    .dropdown{
+        display:block;
+    }
+}
 
 
 

@@ -1,3 +1,11 @@
+function row(str){
+	event.preventDefault();
+	var ref = $(str).attr('href');
+	$('body,html').animate({
+		scrollTop: $(ref).offset().top
+	})
+}
+
 function segundosabor(){
 	$('#cart_sabor2').empty();
 	$('.segundo-sabor').toggleClass('hidden');

@@ -2,6 +2,31 @@
             <div class="content row">
                 <div class="col-md-2">
                     <img src="/images/logo-slide.png" onclick="javascript: location.href='<%= root_path %>'" alt="Pizza Prime" title="Pizza Prime" class="logo pointer" />
+                    <div class="dropdown right">
+                      <button id="dLabel" class="hamburguer" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bars"></i>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        <li <% if page == 'home' %> class="active" <% end %> ><a href="<%= root_path %>">Home</a></li>
+                        <li <% if page == 'loja' %> class="active" <% end %> >
+                            <% if session[:store].blank? %>  
+                                <a href="<%= loja_path %>">Unidades/Cardápios</a>
+                            <% else %>
+                                <a href="<%= cardapio_path %>">Unidades/Cardápios</a>
+                            <% end %>
+                        </li>
+                        <li><a href="#apizza" onclick="row(this)">A Pizza Prime</a></li>
+                        <li><a href="#trabalhe" onclick="row(this)" >Trabalhe Conosco/Contato</a></li>
+                        <li><a href="http://blog.pizzaprime.com.br/" target="_blank">Blog</a></li>
+                        <li>
+                            <% if session[:store].blank? %>  
+                                <a href="<%= loja_path %>"><strong>Peça Agora</strong></a>
+                            <% else %>
+                                <a href="<%= cardapio_path %>"><strong>Peça Agora</strong></a>
+                            <% end %>
+                        </li>
+                      </ul>
+                    </div>
                 </div>
                 <div class="col-md-10 text-right">
                     
@@ -14,8 +39,8 @@
                                 <a href="<%= cardapio_path %>">Unidades/Cardápios</a>
                             <% end %>
                         </li>
-                        <li><a href="#apizza">A Pizza Prime</a></li>
-                        <li><a href="#trabalhe">Trabalhe Conosco/Contato</a></li>
+                        <li><a href="#apizza" onclick="row(this)">A Pizza Prime</a></li>
+                        <li><a href="#trabalhe" onclick="row(this)" >Trabalhe Conosco/Contato</a></li>
                         <li><a href="http://blog.pizzaprime.com.br/" target="_blank">Blog</a></li>
                         <li>
                             <% if session[:store].blank? %>  
