@@ -20,10 +20,14 @@
                         <li><a href="<%= root_path %>#trabalhe">Trabalhe Conosco/Contato</a></li>
                         <li><a href="http://blog.pizzaprime.com.br/" target="_blank">Blog</a></li>
                         <li>
-                            <% if session[:store].blank? %>  
+                            <% if session[:store].blank? %>
                                 <a href="<%= loja_path %>"><strong>Peça Agora</strong></a>
                             <% else %>
-                                <a href="<%= cardapio_path %>"><strong>Peça Agora</strong></a>
+                                <% if session[:logged].blank? %>
+                                    <a href="<%= cardapio_path %>"><strong>Peça Agora</strong></a>
+                                <% else %>
+                                    <a href="<%= profile_path %>"><strong>Meu Perfil</strong></a>
+                                <% end %>
                             <% end %>
                         </li>
                       </ul>
@@ -44,10 +48,14 @@
                         <li><a href="<%= root_path %>#trabalhe">Trabalhe Conosco/Contato</a></li>
                         <li><a href="http://blog.pizzaprime.com.br/" target="_blank">Blog</a></li>
                         <li>
-                            <% if session[:store].blank? %>  
+                            <% if session[:store].blank? %>
                                 <a href="<%= loja_path %>"><strong>Peça Agora</strong></a>
                             <% else %>
-                                <a href="<%= cardapio_path %>"><strong>Peça Agora</strong></a>
+                                <% if session[:logged].blank? %>
+                                    <a href="<%= cardapio_path %>"><strong>Peça Agora</strong></a>
+                                <% else %>
+                                    <a href="<%= profile_path %>"><strong>Meu Perfil</strong></a>
+                                <% end %>
                             <% end %>
                         </li>
                     </ul>

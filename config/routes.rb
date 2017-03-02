@@ -21,9 +21,17 @@ Rails.application.routes.draw do
     get 'integral' => 'loja#integral', as: :integral
     get 'bebidas/:price/:id/:qtd' => 'loja#bebidas', as: :bebidas
     get 'bebemenos/:id' => 'loja#bebemenos', as: :bebemenos
+    get 'profile' => 'loja#profile', as: :profile
+
+    get 'removeaddress/:id' => 'loja#removeaddress', as: :removeaddress
+    get 'removecard/:id' => 'loja#removecard', as: :removecard
+
+    post 'updateabout' => 'loja#updateabout', as: :updateabout
+    post 'addaddress' => 'loja#addaddress', as: :addaddress
+    post 'addcard' => 'loja#addcard', as: :addcard
 
     get 'home' => 'home#index', as: :home
-    get 'logout' => 'home#logout', as: :logout
+    get 'logout' => 'loja#logout', as: :logout
 
     get 'auth/facebook' => 'loja#loginfacebook', as: :auth_provider
     get 'auth/facebook/callback' => 'loja#loginfacebook'

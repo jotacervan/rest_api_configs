@@ -33,6 +33,80 @@ class LojaController < ApplicationController
     end
   end
 
+  def logout
+    cookies[:session_id] = nil
+    
+    session[:logged] = nil
+    session[:name] = nil
+    session[:email] = nil
+    session[:picture] = nil
+    session[:gender] = nil
+    session[:facebook] = nil
+    session[:balance] = nil
+    session[:phone] = nil
+    session[:cpf] = nil
+
+    redirect_to cardapio_path, notice: 'Logout efetuado com Sucesso'
+  end
+
+  def addaddress
+    RestClient.post('http://pizzaprime.herokuapp.com/webservices/account/addAddress', { :name => params[:address][:name], :zip => params[:address][:cep], :street => params[:address][:street], :number => params[:address][:number], :state => params[:address][:state], :phone => params[:address][:phone], :city => params[:address][:city], :type => params[:address][:type].to_i, :complement => params[:address][:complement], :neighborhood => params[:address][:neighborhood]  }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        
+        redirect_to profile_path, notice: 'Endereço inserido com Sucesso'
+        #render json: response.body
+
+    }
+  end
+
+  def addcard
+    opa = params[:card][:vencimento].split('/')
+    cartao = params[:card][:number].split('-')
+    nome = "Terminado em #{cartao[3]}"
+    card = PagarMe::Card.new({
+      :card_number => params[:card][:number].gsub('-', ''),
+      :card_holder_name => params[:card][:titular],
+      :card_expiration_month => opa[0],
+      :card_expiration_year => opa[1],
+      :card_cvv => params[:card][:cvv]
+    });
+
+    teste = card.create
+
+    RestClient.post('http://pizzaprime.herokuapp.com/webservices/account/addCard', { :name => nome, :brand => teste.brand, :cpf => params[:card][:cpf], :id => teste.id   }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        
+        redirect_to profile_path, notice: 'Cartão inserido com Sucesso'
+        #render json: response.body
+
+    }
+  end
+
+  def removecard
+    RestClient.delete('http://pizzaprime.herokuapp.com/webservices/account/removeCard', :params => { 'card' => params[:id] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        
+        redirect_to profile_path, notice: 'Cartão removido com Sucesso'
+        #render json: response.body
+
+    }
+  end
+
+  def removeaddress
+    RestClient.delete('http://pizzaprime.herokuapp.com/webservices/account/removeAddress', :params => { 'address' => params[:id] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        
+        redirect_to profile_path, notice: 'Endereço removido com Sucesso'
+        #render json: response.body
+
+    }
+  end
+
+  def updateabout
+    RestClient.put('http://pizzaprime.herokuapp.com/webservices/account/updateAbout', { :phone => params[:datas][:phone], :name => params[:datas][:name], :gender => params[:datas][:gender] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        
+        redirect_to profile_path, notice: 'Perfil Editado com Sucesso'
+        #render json: response.body
+
+    }
+  end
+
   def busca_cidades
 
     consult = RestClient.get 'https://maps.googleapis.com/maps/api/geocode/json?address='+params[:cep][:numero]+'+'+params[:cep][:logradouro].gsub(" ","+")+',+'+params[:cep][:localidade].gsub(" ","+")+',+'+params[:cep][:uf].gsub(" ","+")+'&key=AIzaSyA4VtmtyiHJXI_l5esvm_7Vhdw8epH_3_Q'
@@ -129,6 +203,27 @@ class LojaController < ApplicationController
 
   end
 
+
+  def profile 
+    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+        if response.code == 401
+          session[:logged] = nil
+          redirect_to cardapio_path, :alert => 'Faça o login para continuar'
+        elsif response.code == 500
+          redirect_to cardapio_path, :alert => 'Faça o login para continuar'
+        else
+          @store = Store.find(session[:store]['id'])
+          @about = JSON.parse(response.body)
+        end
+    }
+    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/cards', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+        @cards = JSON.parse(response.body)
+    }
+
+    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+        @addresses = JSON.parse(response.body)
+    }
+  end
 
 
   def loginfacebook

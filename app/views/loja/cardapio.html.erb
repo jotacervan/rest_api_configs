@@ -71,7 +71,6 @@
         <div class="content">
              <% if session[:logged].nil? %>
         	   <div class="minha-caixa" data-toggle="modal" data-target="#login">
-               
                     <p class="center">Faça o Login</p>
                 </div>
                 <% else %>
@@ -178,7 +177,12 @@
                             <% if session[:logged].nil? %>
                                 <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
                             <% else %>
-                                <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <% if @store.is_open == false %>
+                                    <a href="#" onclick="alert('Loja está fechada no momento!')" class="btn btn-ok">EU QUERO</a>
+                                <% else %>
+                                    <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <% end %>
+
                             <% end %>
                         </div>
                         <br>
@@ -313,7 +317,11 @@
                             <% if session[:logged].nil? %>
                                 <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
                             <% else %>
-                                <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <% if @store.is_open == false %>
+                                    <a href="#" onclick="alert('Loja está fechada no momento!')" class="btn btn-ok">EU QUERO</a>
+                                <% else %>
+                                    <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <% end %>
                             <% end %>
                         </div>
                         <br>
@@ -447,7 +455,11 @@
                             <% if session[:logged].nil? %>
                                 <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
                             <% else %>
-                                <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <% if @store.is_open == false %>
+                                    <a href="#" onclick="alert('Loja está fechada no momento!')" class="btn btn-ok">EU QUERO</a>
+                                <% else %>
+                                    <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <% end %>
                             <% end %>
                         </div>
                         <br>
@@ -582,7 +594,11 @@
                             <% if session[:logged].nil? %>
                                 <a href="#login" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
                             <% else %>
-                                <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <% if @store.is_open == false %>
+                                    <a href="#" onclick="alert('Loja está fechada no momento!')" class="btn btn-ok">EU QUERO</a>
+                                <% else %>
+                                    <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                <% end %>
                             <% end %>
                         </div>
                         <br>
@@ -834,6 +850,7 @@
 
                 </div>
             </div>
+            
             <div class="content row" style="color:#fff; margin:40px auto 0; border-top:1px solid #6a1112; padding:10px 0 5px">
                 <div class="col-md-6 text-right">
                     Pizza Prime &copy; 2017 - Todos os direitos reservados
