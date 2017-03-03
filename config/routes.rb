@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     post 'updateabout' => 'loja#updateabout', as: :updateabout
     post 'addaddress' => 'loja#addaddress', as: :addaddress
     post 'addcard' => 'loja#addcard', as: :addcard
+    get 'cadastre' => 'home#cadastre', as: :cadastre
+
+    post 'novouser' => 'home#novouser', as: :novouser
 
     get 'home' => 'home#index', as: :home
     get 'logout' => 'loja#logout', as: :logout

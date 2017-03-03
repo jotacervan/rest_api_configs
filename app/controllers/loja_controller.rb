@@ -50,7 +50,7 @@ class LojaController < ApplicationController
   end
 
   def addaddress
-    RestClient.post('http://pizzaprime.herokuapp.com/webservices/account/addAddress', { :name => params[:address][:name], :zip => params[:address][:cep], :street => params[:address][:street], :number => params[:address][:number], :state => params[:address][:state], :phone => params[:address][:phone], :city => params[:address][:city], :type => params[:address][:type].to_i, :complement => params[:address][:complement], :neighborhood => params[:address][:neighborhood]  }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+    RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/account/addAddress', { :name => params[:address][:name], :zip => params[:address][:cep], :street => params[:address][:street], :number => params[:address][:number], :state => params[:address][:state], :phone => params[:address][:phone], :city => params[:address][:city], :type => params[:address][:type].to_i, :complement => params[:address][:complement], :neighborhood => params[:address][:neighborhood]  }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         
         redirect_to profile_path, notice: 'Endereço inserido com Sucesso'
         #render json: response.body
@@ -72,7 +72,7 @@ class LojaController < ApplicationController
 
     teste = card.create
 
-    RestClient.post('http://pizzaprime.herokuapp.com/webservices/account/addCard', { :name => nome, :brand => teste.brand, :cpf => params[:card][:cpf], :id => teste.id   }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+    RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/account/addCard', { :name => nome, :brand => teste.brand, :cpf => params[:card][:cpf], :id => teste.id   }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         
         redirect_to profile_path, notice: 'Cartão inserido com Sucesso'
         #render json: response.body
@@ -81,7 +81,7 @@ class LojaController < ApplicationController
   end
 
   def removecard
-    RestClient.delete('http://pizzaprime.herokuapp.com/webservices/account/removeCard', :params => { 'card' => params[:id] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+    RestClient.delete('http://dev-pizzaprime.herokuapp.com/webservices/account/removeCard', :params => { 'card' => params[:id] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         
         redirect_to profile_path, notice: 'Cartão removido com Sucesso'
         #render json: response.body
@@ -90,7 +90,7 @@ class LojaController < ApplicationController
   end
 
   def removeaddress
-    RestClient.delete('http://pizzaprime.herokuapp.com/webservices/account/removeAddress', :params => { 'address' => params[:id] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+    RestClient.delete('http://dev-pizzaprime.herokuapp.com/webservices/account/removeAddress', :params => { 'address' => params[:id] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         
         redirect_to profile_path, notice: 'Endereço removido com Sucesso'
         #render json: response.body
@@ -99,7 +99,7 @@ class LojaController < ApplicationController
   end
 
   def updateabout
-    RestClient.put('http://pizzaprime.herokuapp.com/webservices/account/updateAbout', { :phone => params[:datas][:phone], :name => params[:datas][:name], :gender => params[:datas][:gender] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+    RestClient.put('http://dev-pizzaprime.herokuapp.com/webservices/account/updateAbout', { :phone => params[:datas][:phone], :name => params[:datas][:name], :gender => params[:datas][:gender] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         
         redirect_to profile_path, notice: 'Perfil Editado com Sucesso'
         #render json: response.body
@@ -126,7 +126,7 @@ class LojaController < ApplicationController
       @error_cep = true
       render 'index'
     else
-
+      
       @store = Store.mapStores([Store.find(ids.distinct(:store_id).first)]).first
       session[:store] = {}
       session[:store][:id] = @store[:id].to_s
@@ -171,7 +171,7 @@ class LojaController < ApplicationController
   end
 
   def login
-    RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signin',  {  email: params[:login][:email], password: params[:login][:password]  }){|response, request|
+    RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/login/signin',  {  email: params[:login][:email], password: params[:login][:password]  }){|response, request|
 
     if response.code == 200
       cookies[:session_id] = response.cookies['_session_id']
@@ -205,7 +205,7 @@ class LojaController < ApplicationController
 
 
   def profile 
-    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+    RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         if response.code == 401
           session[:logged] = nil
           redirect_to cardapio_path, :alert => 'Faça o login para continuar'
@@ -216,11 +216,11 @@ class LojaController < ApplicationController
           @about = JSON.parse(response.body)
         end
     }
-    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/cards', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+    RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/cards', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         @cards = JSON.parse(response.body)
     }
 
-    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+    RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         @addresses = JSON.parse(response.body)
     }
   end
@@ -229,7 +229,7 @@ class LojaController < ApplicationController
   def loginfacebook
     @user = User.koala(request.env['omniauth.auth']['credentials'])
 
-    RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signinFacebook',  {  name: @user['name'].to_s, email: @user['email'].to_s, facebook: @user['id'].to_s  }){ |response, request, result| 
+    RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/login/signinFacebook',  {  name: @user['name'].to_s, email: @user['email'].to_s, facebook: @user['id'].to_s  }){ |response, request, result| 
 
       cookies[:session_id] = response.cookies['_session_id']
       
@@ -287,7 +287,7 @@ class LojaController < ApplicationController
 
 
   def cart
-    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+    RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         if response.code == 401
           session[:logged] = nil
           redirect_to cardapio_path, :alert => 'Faça o login para continuar'
@@ -301,11 +301,11 @@ class LojaController < ApplicationController
   end
 
   def checkout
-    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/cards', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+    RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/cards', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         @cards = JSON.parse(response.body)
     }
 
-    RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+    RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         @addresses = JSON.parse(response.body)
     }
 
@@ -315,29 +315,46 @@ class LojaController < ApplicationController
   def checkout_confirm
 
     @pedido = {} 
-    @pedido[:pedido] = {}
-    @pedido[:pedido][:pizzas] = []
+    @pedido[:pizzas] = []
     session[:pizzas].each do |key, p|
         novo = p
-        @pedido[:pedido][:pizzas].push(novo)
+        @pedido[:pizzas].push(novo)
     end # pizzas
-    @pedido[:pedido][:sweet_pizzas] = {}
-    @pedido[:pedido][:beverages] = []
-    session[:bebidas].each do |key, p|
-      novo = { :id => key, :qtd => p['qtd'], :fidelity => true }
-      @pedido[:pedido][:beverages].push(novo)
-    end 
+    @pedido[:sweet_pizzas] = {}
+    @pedido[:beverages] = []
+    if session[:bebidas].nil?
+    else
+      session[:bebidas].each do |key, p|
+        novo = { :id => key, :qtd => p['qtd'], :fidelity => false }
+        @pedido[:beverages].push(novo)
+      end 
+    end
+
+    
 
     if params[:checkout][:address] == 'Retirada na Loja'
-      RestClient.post('http://pizzaprime.herokuapp.com/webservices/orders/createOrder', { :pedido => @pedido, :store_id => session[:store]['id'], :pic_in_store => true, :payment_id => params[:checkout][:payment] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
-        
-        redirect_to cardapio_path, notice: 'Pedido Enviado com Sucesso'
+
+      @pedido[:store_id] = session[:store]['id']
+      @pedido[:pick_in_store] = true
+      @pedido[:payment_id] = params[:checkout][:payment]
+      @pedido[:address_id] = params[:checkout][:address]
+
+      RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/orders/createOrder',  @pedido  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        render json: response.body
+        #redirect_to cardapio_path, notice: 'Pedido Enviado com Sucesso'
 
       }
     else
-      RestClient.post('http://pizzaprime.herokuapp.com/webservices/orders/createOrder', { :pedido => @pedido, :store_id => session[:store]['id'], :pic_in_store => true, :payment_id => params[:checkout][:payment], :address_id => params[:checkout][:address] }, :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+      
+      @pedido[:store_id] = session[:store]['id']
+      @pedido[:pick_in_store] = false
+      @pedido[:payment_id] = params[:checkout][:payment]
+      @pedido[:address_id] = params[:checkout][:address]
+
+      RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/orders/createOrder',   @pedido  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         
-        redirect_to cardapio_path, notice: 'Pedido Enviado com Sucesso'
+        render json: @pedido
+        #redirect_to cardapio_path, notice: 'Pedido Enviado com Sucesso'
         
       }
     end
@@ -380,7 +397,7 @@ class LojaController < ApplicationController
       session[:pizzas][params[:cart][:name]][:integral] = false
     end
     session[:pizzas][params[:cart][:name]][:obs] = params[:cart][:obs]
-    session[:pizzas][params[:cart][:name]][:fidelity] = true
+    session[:pizzas][params[:cart][:name]][:fidelity] = false
     
     if params[:cart][:sabor2] == 'none'
       session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] } ]
@@ -405,7 +422,7 @@ class LojaController < ApplicationController
       session[:pizzas][params[:cart][:name]][:integral] = false
     end
     session[:pizzas][params[:cart][:name]][:obs] = params[:cart][:obs]
-    session[:pizzas][params[:cart][:name]][:fidelity] = true
+    session[:pizzas][params[:cart][:name]][:fidelity] = false
     
     if params[:cart][:sabor2] == 'none'
       session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] } ]

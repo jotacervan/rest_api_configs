@@ -1,0 +1,37 @@
+<div id="footer">
+            <div>
+            <div class="content row">
+                <div class="col-md-2">
+                    <img src="/images/logo-slide.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%;">
+                </div>
+                <div class="col-md-3 center links" >
+                    <p class="footer-title">Mapa do Site</p>
+                    
+                    <a href="">Home</a><br>
+                    <% if session[:store].blank? %>  
+                        <a href="<%= loja_path %>">Unidades/Cardápios</a><br>
+                    <% else %>
+                        <a href="<%= cardapio_path %>">Unidades/Cardápios</a><br>
+                    <% end %>
+                    <a href="">A Pizza Prime</a><br>
+                    <a href="">Trabalhe Conosco/Contato</a><br>
+                    <a href="">Blog</a><br>
+                </div>
+                <div class="col-md-7 center" >
+                    <p class="footer-title">Acompanhe a nossa fan page :)</p>                  
+
+                    <div class="fb-page" data-href="https://www.facebook.com/Pizza.Prime.Brasil/" data-tabs="timeline" data-width="400" data-height="200" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Pizza.Prime.Brasil/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Pizza.Prime.Brasil/">Pizza Prime</a></blockquote></div>
+
+                </div>
+            </div>
+            
+            <div class="content row" style="color:#fff; margin:40px auto 0; border-top:1px solid #6a1112; padding:10px 0 5px">
+                <div class="col-md-6 text-right">
+                    Pizza Prime &copy; 2017 - Todos os direitos reservados
+                </div>
+                <div class="col-md-6">
+                    CNPJ nº 12.034.651/0001-81
+                </div>
+            </div>
+            </div>
+        </div>

@@ -5,8 +5,8 @@ development:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      uri: 'mongodb://caio:18jan90@candidate.60.mongolayer.com:10572,candidate.12.mongolayer.com:11195/pizzaprime?replicaSet=set-569462bd1a1a497cf20001ad'
-      
+      #uri: 'mongodb://caio:18jan90@candidate.60.mongolayer.com:10572,candidate.12.mongolayer.com:11195/pizzaprime?replicaSet=set-569462bd1a1a497cf20001ad'
+      uri: 'mongodb://caio:18jan90@candidate.60.mongolayer.com:10572,candidate.12.mongolayer.com:11195/dev-pizza?replicaSet=set-569462bd1a1a497cf20001ad'
       #database: pizzaprimeweb_development
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
