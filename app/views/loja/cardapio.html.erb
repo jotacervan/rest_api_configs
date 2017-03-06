@@ -81,6 +81,36 @@
         	   </div>
             <% end %>
             <br>
+
+            <% if @addresses.blank?  %>
+                
+            <% else %>
+
+                <div id="selend" class="modal fade" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Selecione o seu Endereço</h4>
+                      </div>
+                      <div class="modal-body">
+                        <% @addresses.each do |a| %>
+                            <div class="selend" onclick="javascript: location.href='<%= selend_path(a['id']) %>'">
+                                <p><strong><%= a['name'] %></strong><br>
+                                <%= a['street'] %> Nº <%= a['number'] %>, <%= a['neighborhood'] %><br>
+                                <%= a['city'] %> - <%= a['state'] %>
+                                </p>
+
+                            </div>
+                            
+                        <% end %>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+            <% end %>
+
         	<div class="center">
         		<img src="/images/pin.png" alt="Local Pizza Prime" title="Local Pizza Prime">
         		<h2 class="unit-title">UNIDADE <%= @store.name %></h2>
@@ -180,7 +210,11 @@
                                 <% if @store.is_open == false %>
                                     <a href="#" onclick="alert('Loja está fechada no momento!')" class="btn btn-ok">EU QUERO</a>
                                 <% else %>
-                                    <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% if session[:address_id].nil? %>
+                                        <a href="#" onclick="alert('Nenhum endereço disponível, por favor complete seu cadastro em Meu Perfil e tente novamente!')" class="btn btn-ok">EU QUERO</a>
+                                    <% else %>
+                                        <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% end %>
                                 <% end %>
 
                             <% end %>
@@ -320,7 +354,11 @@
                                 <% if @store.is_open == false %>
                                     <a href="#" onclick="alert('Loja está fechada no momento!')" class="btn btn-ok">EU QUERO</a>
                                 <% else %>
-                                    <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% if session[:address_id].nil? %>
+                                        <a href="#" onclick="alert('Nenhum endereço disponível, por favor complete seu cadastro em Meu Perfil e tente novamente!')" class="btn btn-ok">EU QUERO</a>
+                                    <% else %>
+                                        <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% end %>
                                 <% end %>
                             <% end %>
                         </div>
@@ -458,7 +496,11 @@
                                 <% if @store.is_open == false %>
                                     <a href="#" onclick="alert('Loja está fechada no momento!')" class="btn btn-ok">EU QUERO</a>
                                 <% else %>
-                                    <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% if session[:address_id].nil? %>
+                                        <a href="#" onclick="alert('Nenhum endereço disponível, por favor complete seu cadastro em Meu Perfil e tente novamente!')" class="btn btn-ok">EU QUERO</a>
+                                    <% else %>
+                                        <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% end %>
                                 <% end %>
                             <% end %>
                         </div>
@@ -597,7 +639,11 @@
                                 <% if @store.is_open == false %>
                                     <a href="#" onclick="alert('Loja está fechada no momento!')" class="btn btn-ok">EU QUERO</a>
                                 <% else %>
-                                    <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% if session[:address_id].nil? %>
+                                        <a href="#" onclick="alert('Nenhum endereço disponível, por favor complete seu cadastro em Meu Perfil e tente novamente!')" class="btn btn-ok">EU QUERO</a>
+                                    <% else %>
+                                        <a href="#<%= p.id %>" data-toggle="modal" class="btn btn-ok">EU QUERO</a>
+                                    <% end %>
                                 <% end %>
                             <% end %>
                         </div>
@@ -675,7 +721,7 @@
                                                     <p>Selecione o 2º sabor:</p>
                                                     <%= f.select(:sabor2) do %>
                                                         <%= content_tag(:option, '2º Sabor', value: 'none') %>
-                                                        <% @store.pizzas.each do |p| %>
+                                                        <% @store.sweet_pizzas.each do |p| %>
                                                             <%= content_tag(:option, p[:name], value: p[:id]) %>
                                                         <% end %>
                                                     <% end %>
@@ -838,7 +884,7 @@
             $(document).ready( function(){ 
 
                 var controller = new ScrollMagic.Controller();
-
+                $('#selend').modal('show');
                 $('#flash').modal('show');
 
                 var scene = new ScrollMagic.Scene({triggerElement: '#tradicionais', triggerHook: 0.7})

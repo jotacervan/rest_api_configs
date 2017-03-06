@@ -8,7 +8,7 @@ class HomeController < ApplicationController
   def cadastre
     @states = Store.distinct(:state)
   end
-
+  
   def novouser
     RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/login/signup',  { name: params[:user][:name],  email: params[:user][:email], cpf: params[:user][:cpf], password: params[:user][:password]  }){|response, request|
 
@@ -25,23 +25,6 @@ class HomeController < ApplicationController
     end
     
     }
-  end
-
-  def logout
-  	cookies[:session_id] = nil
-      
-      
-      session[:logged] = nil
-      session[:name] = nil
-      session[:email] = nil
-      session[:picture] = nil
-      session[:gender] = nil
-      session[:facebook] = nil
-      session[:balance] = nil
-      session[:phone] = nil
-      session[:cpf] = nil
-
-      redirect_to cardapio_path, notice: 'Logout efetuado com sucesso!'
   end
 
 end

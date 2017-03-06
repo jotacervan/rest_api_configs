@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     get 'removeaddress/:id' => 'loja#removeaddress', as: :removeaddress
     get 'removecard/:id' => 'loja#removecard', as: :removecard
 
+    get 'selend/:id' => 'loja#selend', as: :selend
+
     post 'updateabout' => 'loja#updateabout', as: :updateabout
     post 'addaddress' => 'loja#addaddress', as: :addaddress
     post 'addcard' => 'loja#addcard', as: :addcard

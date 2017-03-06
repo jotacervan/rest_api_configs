@@ -113,43 +113,58 @@
 	                	<% end %>
 
 	                <% end %>
-
-	                	
+	                
 	                   </div>
 	                   <div class="col-md-6">
 	                   		<h3>Informações de Pagamento e Entrega</h3>
 	                   		<hr>
 	                   		<%= form_for :checkout, url: checkout_confirm_path do |f| %>
 	                   			<p>Forma de Pagamento:</p>
-	                   			<%= f.select(:payment, {}, {}, {:class => 'form-control'}) do %>
-	                   				<% @store.payments.each do |pay| %>
-		                   				<%= content_tag(:option, pay.name, value: pay.id ) %>
-		                   			<% end %>
-	                   			<% end %>
-
 	                   			<% if @cards.length < 1 %>
-	                   				<br>
-	                   				<p><strong>Voce não possui cartões cadastrados!</strong></p>
-	                   			<% end %>
 
-	                   			<% if @addresses.length < 1 %>
-	                   				<p><strong>Você não possui endereços cadastrados</strong></p>
-	                   			<% else %>
-	                   				<br>
-	                   				<p>Endereço de entrega:</p>
-	                   				<%= f.select(:address, {}, {}, {:class => 'form-control'}) do %>
-	                   					<%= content_tag(:option, 'Retirada na Loja') %>
-		                   				<% @addresses.each do |pay| %>
-			                   				<%= content_tag(:option,  pay['name']+ ' - ' + pay['street'] + ' - ' + pay['number'], value: pay['id'] ) %>
+		                   			<%= f.select(:payment, {}, {}, {:class => 'form-control'}) do %>
+		                   				<% @store.payments.each do |pay| %>
+		                   					<% if pay.is_app != true %>
+			                   					<%= content_tag(:option, pay.name, value: pay.id ) %>
+			                   				<% end %>
 			                   			<% end %>
 		                   			<% end %>
+
+	                   			<% else %>
+
+	                   				<%= f.select(:payment, {}, {}, {:class => 'form-control'}) do %>
+		                   				<% @store.payments.each do |pay| %>
+			                   				<%= content_tag(:option, pay.name, value: pay.id ) %>
+			                   			<% end %>
+		                   			<% end %>
+		                   			<br>
+		                   			<p>Selecione seu Cartão:</p>
+		                   			<%= f.select(:card, {}, {}, {:class => 'form-control'}) do %>
+		                   				<% @cards.each do |c| %>
+		                   					<%= content_tag(:option, c['name'], value: c['id'] ) %>
+		                   				<% end %>
+		                   			<% end %>
+
 	                   			<% end %>
 
+                   				<br>
+                   				<p>Endereço de entrega:</p>
+                   				<%= f.select(:address, {}, {}, {:class => 'form-control'}) do %>
+                   					<%= content_tag(:option,  session[:user]['logradouro'] + ' - ' + session[:user]['number'] + ' - ' + session[:user]['localidade'] + ' - ' + session[:user]['uf'], value: session[:address_id] ) %>
+                   					<%= content_tag(:option, 'Retirada na Loja') %>
+                   				<% end %>
+	                   			<br>
+	                   			<p>Cupon de Desconto:</p>
+	                   			<%= f.text_field :coupon, :class => 'form-control', :placeholder => 'Cupon' %>
+	                   			<br>
+	                   			<p>Observações:</p>
+	                   			<%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
 	                   			<div class="text-right">
 		                   			<h3>Total: <%= number_to_currency(total, unit: 'R$ ', separator: ',') %></h3>
 	                    			<br>
 	                    			<%= f.submit 'Finalizar Compra', :class => 'btn btn-success' %>
                     			</div>
+
 	                   		<% end %>
 	                   </div>
                    </div>
