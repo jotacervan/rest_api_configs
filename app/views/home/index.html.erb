@@ -23,11 +23,20 @@
 
         <%= render :partial => 'header', :locals => {:page => 'home', :links => 'site'} %>
         
-        <div class="banner text-center cycle-slideshow" data-cycle-fx="scrollHorz">
+        <div class="banner text-center cycle-slideshow" data-cycle-fx="scrollHorz" data-cycle-next="#next" data-cycle-prev="#prev" data-cycle-slides="> div" data-cycle-timeout="0">
             <br>
-            <img src="/images/slide1.png" alt="Pizza Prime" title="Pizza Prime" >
-            <img src="/images/banner_catupiry.png" alt="Pizza Prime" title="Pizza Prime" >
+            <div>
+                <img src="/images/slide1.png" id="Image-Maps-Com-image-maps-2017-03-07-072812" alt="Pizza Prime" title="Pizza Prime" >
+                <div class="iphone" onclick="javascript: window.open('https://itunes.apple.com/br/app/pizzaprime-a-sua-pizza/id1141550430?mt=8')"></div>
+                <div class="android" onclick="javascript: window.open('https://play.google.com/store/apps/details?id=br.com.mobile2you.pizzaprime.pizzaprime')"></div>
+            </div>
+            <div>
+                <img src="/images/banner_catupiry.png" alt="Pizza Prime" title="Pizza Prime" >
+            </div>
         </div>
+        
+        <div id="prev"><i class="fa fa-angle-left fa-2x"></i></div>
+        <div id="next"><i class="fa fa-angle-right fa-2x"></i></div>
         <br>
         <div id="apizza" class="content historia_de_sucesso">
             <h1 id='trigger1' >História de Sucesso</h1>

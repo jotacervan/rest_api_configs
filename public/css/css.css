@@ -28,6 +28,23 @@
     text-align:left;
 }
 
+#prev, #next{
+    position:absolute;
+    margin-top:-450px;
+    z-index:999;
+    padding:15px;
+    font-size:30px;
+    cursor:pointer;
+}
+
+#prev{
+    left:0;
+}
+
+#next{
+    right:0;
+}
+
 .header{
     background:#a12327;
     position:fixed;
@@ -196,7 +213,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
     overflow: hidden;
 }
 
-.banner > img{
+.banner > div{
+    width:100%;
+}
+
+.banner > div > img{
     width:100%;
 }
 
@@ -228,6 +249,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
     color: #a12327;
     font-weight: 700;
     text-transform: uppercase;
+}
+
+.iphone, .android{
+    cursor:pointer;
+}
+
+.iphone{
+    width:200px;
+    height:70px;
+    position:absolute;
+    z-index:999;
+    margin-top:-100px;
+    margin-left:260px;
+}
+
+.android{
+    
+    width:200px;
+    height:70px;
+    position:absolute;
+    z-index:999;
+    margin-top:-100px;
+    margin-left:490px;   
 }
 
 .combo{
