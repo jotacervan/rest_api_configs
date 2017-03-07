@@ -11,6 +11,14 @@ function segundosabor(){
 	$('.segundo-sabor').toggleClass('hidden');
 }
 
+function loja(str){
+    var r = confirm('Este cardápio não corresponde à sua unidade. Deseja ser direcionado para outro cardápio?');
+
+    if(r == true){
+        location.href = str;
+    }
+}
+
 function bebeMenos(str){
 	var qtd = parseInt($(str).parent().children('i').text());
 

@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   	get 'loja' => 'loja#index', as: :loja
   	post 'busca_cidades' => 'loja#busca_cidades', as: :busca_cidades
   	get 'cardapio' => 'loja#cardapio', as: :cardapio
-    get 'cardapio/:guia' => 'loja#cardapio'
+    get 'cardapio/:state' => 'loja#cardapio_state', as: :cardapio_state
+    get 'cardapio/:state/:name' => 'loja#cardapio_state_name', as: :cardapio_state_name
   	post 'login' => 'loja#login', as: :login
   	get 'pizzas/:guide' => 'loja#pizzas', as: :pizzas
   	get 'modeljson' => 'loja#modeljson', as: :modeljson
