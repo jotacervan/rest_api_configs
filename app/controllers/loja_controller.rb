@@ -160,7 +160,7 @@ class LojaController < ApplicationController
 
     RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/getAvailableStores', { :params => {  zip: @address.zip, address_id: @address.id  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
       if response.code == 340
-        redirect_to cardapio_path, alert: 'Nenhuma loja está disponível em sua região, Cadastre um endereço diferente!'
+        redirect_to cardapio_path, alert: 'Ainda não há nenhuma loja que atende a sua região. Cadastre um endereço diferente em Meu Perfil'
       elsif response.code == 401
         redirect_to cardapio_path, alert: 'Faça o login para continuar'
       elsif response.code == 500
