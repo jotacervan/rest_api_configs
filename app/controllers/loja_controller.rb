@@ -256,7 +256,12 @@ class LojaController < ApplicationController
       if session[:address_id].nil?
         if session[:logged] == true
           RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
-              @addresses = JSON.parse(response.body)
+              if response.code == 401
+                session[:logged] = false
+                redirect_to cardapio_path, notice: 'Faça o login para continuar'
+              else
+                @addresses = JSON.parse(response.body)
+              end
           }
 
           if @addresses.length == 0

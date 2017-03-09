@@ -57,7 +57,7 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
                     <div style="background-image: url('<%= c.picture %>')">
                         <div>
                             <h3><%= c.name %><br></h3>
-                            <p><%= number_to_currency(c.price_tables.first.price, unit: "R$ ", separator: ',') %></p>
+                            <span style="text-transform: initial; font-size:1em; padding:5px 20px"><%= c.subtitle %></span>
                             <span>Peça Agora</span>
                             <i class="fa fa-plus"></i>
                         </div>
