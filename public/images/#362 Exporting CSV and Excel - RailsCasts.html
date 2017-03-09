@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>#362 Exporting CSV and Excel - RailsCasts</title>
+    <meta name="description" content="Short Ruby on Rails screencasts containing tips, tricks and tutorials. Great for both novice and experienced web developers." />
+    <meta name="keywords" content="rails, ruby on rails, screencasts, railscast, railscasts, tips, tricks, tutorials, training, podcasts, programming" />
+    <link rel="alternate" type="application/rss+xml" title="Episodes RSS" href="http://feeds.feedburner.com/railscasts" />
+    <link href="/assets/application-f33052609391fcb2333fb8c560544e00.css" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://cdn.sublimevideo.net/js/3s7oes9q.js" type="text/javascript"></script>
+    <script src="/assets/application-fe460ed6c034ee8c95a2a78f52d7a5d9.js" type="text/javascript"></script>
+    <meta content="authenticity_token" name="csrf-param" />
+<meta content="JWj0dPTYz4vHiFAFv/XxJAQ3GchPAX3F9X/0VUxLlDU=" name="csrf-token" />
+    
+  </head>
+  <body>
+    <div id="top">
+      <div class="logo"><a href="/"><img alt="RailsCasts - Ruby on Rails Screencasts" height="56" src="/assets/railscasts_logo-7101a7cd0a48292a0c07276981855edb.png" width="423" /></a></div>
+      <div class="user_nav">
+          <a href="/login?return_to=http%3A%2F%2Frailscasts.com%2Fepisodes%2F362-exporting-csv-and-excel">Sign in through GitHub</a>
+      </div>
+      <ul class="subscribe horizontal">
+        <li>
+          <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=218282043"><img alt="Itunes" height="34" src="/assets/icons/itunes-ea9253b9b183d9788bef2cdfe326f38e.png" width="34" /></a>
+          <span class="name">watch on iTunes</span>
+        </li>
+        <li>
+          <a href="http://twitter.com/railscasts"><img alt="Twitter" height="34" src="/assets/icons/twitter-f0259ab802804e09139fb29f47678b2c.png" width="34" /></a>
+          <span class="name">follow on Twitter</span>
+        </li>
+        <li>
+          <a href="http://www.facebook.com/pages/railscasts/197415140659"><img alt="Facebook" height="34" src="/assets/icons/facebook-0ab869e74b54d9c58f33c1c75264d869.png" width="34" /></a>
+          <span class="name">follow on Facebook</span>
+        </li>
+        <li>
+          <a href="http://feeds.feedburner.com/railscasts"><img alt="Rss" height="34" src="/assets/icons/rss-04cb962054caa957a6fa3924c48594d8.png" width="34" /></a>
+          <span class="name">subscribe to RSS feed</span>
+        </li>
+      </ul>
+    </div>
+
+    <div id="nav_bar">
+      <ul class="nav horizontal">
+        <li><a href="http://railscasts.com/">Browse Episodes</a></li>
+        <li><a href="/pro">RailsCasts Pro</a></li>
+        <li><a href="/notifications">Notifications</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/feedback">Feedback</a></li>
+      </ul>
+      <form accept-charset="UTF-8" action="http://railscasts.com/episodes" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+        <input id="search" name="search" size="35" type="text" />
+        <input type="submit" value="Search Episodes" />
+</form>    </div>
+
+    <div id="announcement_banner">
+  <p>Please read for an updated status on RailsCasts:</p>
+
+  <p><a href="/announcements/12">Learn more</a> or <a href="/announcements/12/hide" data-remote="true">hide this</a></p>
+</div>
+
+
+
+    <div id="main">
+
+      
+  <div id="episode">
+    <script id="video_template" type="text/html"><video width="960" height="600" poster="/static/episodes/posters/loading.png" controls="controls" preload="none" class="sv_force_fullscreen"><source src="http://media.railscasts.com/assets/episodes/videos/362-exporting-csv-and-excel.mp4" type="video/mp4"/><source src="http://media.railscasts.com/assets/episodes/videos/362-exporting-csv-and-excel.m4v" type="video/mp4"/><source src="http://media.railscasts.com/assets/episodes/videos/362-exporting-csv-and-excel.webm" type="video/webm"/><source src="http://media.railscasts.com/assets/episodes/videos/362-exporting-csv-and-excel.ogv" type="video/ogg"/></video></script>
+    <div class="info">
+      <div class="screenshot"><a href="/episodes/362-exporting-csv-and-excel?autoplay=true" class="play_video"><img alt="Exporting CSV and Excel" height="125" src="/static/episodes/stills/362-exporting-csv-and-excel.png" width="200" /></a></div>
+      <h1><span class="position">#362</span> Exporting CSV and Excel</h1>
+      <div class="details">Jul 02, 2012 | 6 minutes | <a href="/?tag_id=4">Views</a></div>
+      <div class="description">As you will see it is easy to add a CSV export option to Rails. Here I also show how to export for Excel in a variety of formats.</div>
+      <div class="watch"><a href="/episodes/362-exporting-csv-and-excel?autoplay=true" class="play_video pretty_button">Click to Play Video &#9654;</a></div>
+      <div class="social"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-text="Watching Exporting CSV and Excel on RailsCasts" data-url="http://railscasts.com/episodes/362-exporting-csv-and-excel" data-via="railscasts">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+        <ul class="downloads horizontal">
+          <li>Download:</li>
+          <li><a href="http://media.railscasts.com/assets/episodes/sources/362-exporting-csv-and-excel.zip">source code</a><span class="overlay">Project Files in Zip (56.3 KB)</span></li><li><a href="http://media.railscasts.com/assets/episodes/videos/362-exporting-csv-and-excel.mp4">mp4</a><span class="overlay">Full Size H.264 Video (21 MB)</span></li><li><a href="http://media.railscasts.com/assets/episodes/videos/362-exporting-csv-and-excel.m4v">m4v</a><span class="overlay">Smaller H.264 Video (8.94 MB)</span></li><li><a href="http://media.railscasts.com/assets/episodes/videos/362-exporting-csv-and-excel.webm">webm</a><span class="overlay">Full Size VP8 Video (9.65 MB)</span></li><li><a href="http://media.railscasts.com/assets/episodes/videos/362-exporting-csv-and-excel.ogv">ogv</a><span class="overlay">Full Size Theora Video (22.1 MB)</span></li>
+        </ul>
+      <div class="clear"></div>
+</div>    <ul class="nav horizontal"><li class="selected"><a href="/episodes/362-exporting-csv-and-excel" class="selected tab">Show Notes</a></li><li><a href="/episodes/362-exporting-csv-and-excel?view=asciicast" class="tab">ASCIIcast</a></li><li><a href="/episodes/362-exporting-csv-and-excel?view=comments" class="tab">125 Comments</a></li><li><a href="/episodes/362-exporting-csv-and-excel?view=similar" class="tab">Similar Episodes</a></li><li class="next"><a href="/episodes/363-facebook-open-graph">Next Episode &gt;</a></li><li class="previous"><a href="/episodes/261-testing-javascript-with-jasmine-revised">&lt; Previous Episode</a></li></ul>
+    <div class="nav_section">
+      <div class="inner">
+  <div class="extra_nav">
+      <span class="browse_code">
+        <img alt="Browse_code" class="icon" height="21" src="/assets/icons/browse_code-b10fbdd9228fe0070ff9c2362fe59b34.png" width="22" />
+        <a href="https://github.com/railscasts/362-exporting-csv-and-excel">Browse Source Code</a>
+      </span>
+  </div>
+
+  <div class="show_notes">
+    <p><strong>Resources</strong></p>
+
+<ul>
+<li><a href="http://ruby-doc.org/stdlib-1.9.3/libdoc/csv/rdoc/CSV.html">CSV</a></li>
+</ul>
+
+      <div class="code_block">
+        <div class="code_header">
+          config/application.rb
+        </div>
+        <div class="CodeRay">
+  <div class="code"><pre>require <span class="s"><span class="dl">'</span><span class="k">csv</span><span class="dl">'</span></span></pre></div>
+</div>
+
+      </div>
+
+
+      <div class="code_block">
+        <div class="code_header">
+          index.hml.erb
+        </div>
+        <div class="CodeRay">
+  <div class="code"><pre><span class="ta">&lt;p&gt;</span>
+  Download:
+  <span class="il"><span class="idl">&lt;%=</span> link_to <span class="s"><span class="dl">&quot;</span><span class="k">CSV</span><span class="dl">&quot;</span></span>, products_path(<span class="sy">format:</span> <span class="s"><span class="dl">&quot;</span><span class="k">csv</span><span class="dl">&quot;</span></span>) <span class="idl">%&gt;</span></span> |
+  <span class="il"><span class="idl">&lt;%=</span> link_to <span class="s"><span class="dl">&quot;</span><span class="k">Excel</span><span class="dl">&quot;</span></span>, products_path(<span class="sy">format:</span> <span class="s"><span class="dl">&quot;</span><span class="k">xls</span><span class="dl">&quot;</span></span>) <span class="idl">%&gt;</span></span>
+<span class="ta">&lt;/p&gt;</span></pre></div>
+</div>
+
+      </div>
+
+
+      <div class="code_block">
+        <div class="code_header">
+          products_controller.rb
+        </div>
+        <div class="CodeRay">
+  <div class="code"><pre><span class="r">def</span> <span class="fu">index</span>
+  <span class="iv">@products</span> = <span class="co">Product</span>.order(<span class="sy">:name</span>)
+  respond_to <span class="r">do</span> |format|
+    format.html
+    format.csv { send_data <span class="iv">@products</span>.to_csv }
+    format.xls <span class="c"># { send_data @products.to_csv(col_sep: &quot;\t&quot;) }</span>
+  <span class="r">end</span>
+<span class="r">end</span></pre></div>
+</div>
+
+      </div>
+
+
+      <div class="code_block">
+        <div class="code_header">
+          models/product.rb
+        </div>
+        <div class="CodeRay">
+  <div class="code"><pre><span class="r">def</span> <span class="pc">self</span>.<span class="fu">to_csv</span>(options = {})
+  <span class="co">CSV</span>.generate(options) <span class="r">do</span> |csv|
+    csv &lt;&lt; column_names
+    all.each <span class="r">do</span> |product|
+      csv &lt;&lt; product.attributes.values_at(*column_names)
+    <span class="r">end</span>
+  <span class="r">end</span>
+<span class="r">end</span></pre></div>
+</div>
+
+      </div>
+
+
+      <div class="code_block">
+        <div class="code_header">
+          config/initializers/mime_types.rb
+        </div>
+        <div class="CodeRay">
+  <div class="code"><pre><span class="co">Mime</span>::<span class="co">Type</span>.register <span class="s"><span class="dl">&quot;</span><span class="k">application/xls</span><span class="dl">&quot;</span></span>, <span class="sy">:xls</span></pre></div>
+</div>
+
+      </div>
+
+
+      <div class="code_block">
+        <div class="code_header">
+          views/products/index.xls.erb
+        </div>
+        <div class="CodeRay">
+  <div class="code"><pre><span class="pp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="ta">&lt;Workbook</span> <span class="an">xmlns</span>=<span class="s"><span class="dl">&quot;</span><span class="k">urn:schemas-microsoft-com:office:spreadsheet</span><span class="dl">&quot;</span></span>
+  <span class="an">xmlns:o</span>=<span class="s"><span class="dl">&quot;</span><span class="k">urn:schemas-microsoft-com:office:office</span><span class="dl">&quot;</span></span>
+  <span class="an">xmlns:x</span>=<span class="s"><span class="dl">&quot;</span><span class="k">urn:schemas-microsoft-com:office:excel</span><span class="dl">&quot;</span></span>
+  <span class="an">xmlns:ss</span>=<span class="s"><span class="dl">&quot;</span><span class="k">urn:schemas-microsoft-com:office:spreadsheet</span><span class="dl">&quot;</span></span>
+  <span class="an">xmlns:html</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://www.w3.org/TR/REC-html40</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>
+  <span class="ta">&lt;Worksheet</span> <span class="an">ss:Name</span>=<span class="s"><span class="dl">&quot;</span><span class="k">Sheet1</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>
+    <span class="ta">&lt;Table&gt;</span>
+      <span class="ta">&lt;Row&gt;</span>
+        <span class="ta">&lt;Cell&gt;</span><span class="ta">&lt;Data</span> <span class="an">ss:Type</span>=<span class="s"><span class="dl">&quot;</span><span class="k">String</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>ID<span class="ta">&lt;/Data&gt;</span><span class="ta">&lt;/Cell&gt;</span>
+        <span class="ta">&lt;Cell&gt;</span><span class="ta">&lt;Data</span> <span class="an">ss:Type</span>=<span class="s"><span class="dl">&quot;</span><span class="k">String</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Name<span class="ta">&lt;/Data&gt;</span><span class="ta">&lt;/Cell&gt;</span>
+        <span class="ta">&lt;Cell&gt;</span><span class="ta">&lt;Data</span> <span class="an">ss:Type</span>=<span class="s"><span class="dl">&quot;</span><span class="k">String</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Release Date<span class="ta">&lt;/Data&gt;</span><span class="ta">&lt;/Cell&gt;</span>
+        <span class="ta">&lt;Cell&gt;</span><span class="ta">&lt;Data</span> <span class="an">ss:Type</span>=<span class="s"><span class="dl">&quot;</span><span class="k">String</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Price<span class="ta">&lt;/Data&gt;</span><span class="ta">&lt;/Cell&gt;</span>
+      <span class="ta">&lt;/Row&gt;</span>
+    <span class="il"><span class="idl">&lt;%</span> <span class="iv">@products</span>.each <span class="r">do</span> |product| <span class="idl">%&gt;</span></span>
+      <span class="ta">&lt;Row&gt;</span>
+        <span class="ta">&lt;Cell&gt;</span><span class="ta">&lt;Data</span> <span class="an">ss:Type</span>=<span class="s"><span class="dl">&quot;</span><span class="k">Number</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="il"><span class="idl">&lt;%=</span> product.id <span class="idl">%&gt;</span></span><span class="ta">&lt;/Data&gt;</span><span class="ta">&lt;/Cell&gt;</span>
+        <span class="ta">&lt;Cell&gt;</span><span class="ta">&lt;Data</span> <span class="an">ss:Type</span>=<span class="s"><span class="dl">&quot;</span><span class="k">String</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="il"><span class="idl">&lt;%=</span> product.name <span class="idl">%&gt;</span></span><span class="ta">&lt;/Data&gt;</span><span class="ta">&lt;/Cell&gt;</span>
+        <span class="ta">&lt;Cell&gt;</span><span class="ta">&lt;Data</span> <span class="an">ss:Type</span>=<span class="s"><span class="dl">&quot;</span><span class="k">String</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="il"><span class="idl">&lt;%=</span> product.released_on <span class="idl">%&gt;</span></span><span class="ta">&lt;/Data&gt;</span><span class="ta">&lt;/Cell&gt;</span>
+        <span class="ta">&lt;Cell&gt;</span><span class="ta">&lt;Data</span> <span class="an">ss:Type</span>=<span class="s"><span class="dl">&quot;</span><span class="k">Number</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span><span class="il"><span class="idl">&lt;%=</span> product.price <span class="idl">%&gt;</span></span><span class="ta">&lt;/Data&gt;</span><span class="ta">&lt;/Cell&gt;</span>
+      <span class="ta">&lt;/Row&gt;</span>
+    <span class="il"><span class="idl">&lt;%</span> <span class="r">end</span> <span class="idl">%&gt;</span></span>
+    <span class="ta">&lt;/Table&gt;</span>
+  <span class="ta">&lt;/Worksheet&gt;</span>
+<span class="ta">&lt;/Workbook&gt;</span></pre></div>
+</div>
+
+      </div>
+
+
+  </div>
+</div>
+      <div class="progress" style="display: none"><img alt="loading" src="/assets/progress_large-b0fa49d32dce1cea0e4f9c082c1fa5f5.gif" /></div>
+    </div>
+</div>
+    </div>
+    <div id="footer">
+      <div class="inner">
+        &copy;2017 RailsCasts - <a href="/privacy">Privacy Policy</a> - Hosted by <a href="https://www.digitalocean.com/?utm_source=railscasts.com">Digital Ocean</a>
+      </div>
+    </div>
+
+      <!-- Google Analytics -->
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-7696481-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+  </body>
+</html>

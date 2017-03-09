@@ -76,6 +76,12 @@ background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 70
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#91000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
+#footer > div > div{
+    border:2px dotted #f1f1f1;
+    border-radius:10px;
+    padding:20px;
+}
+
 .fundo_cep{
     background: url('../images/fundomapa.png') no-repeat;
     background-size: 120% ;
