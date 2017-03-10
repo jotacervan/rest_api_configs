@@ -59,7 +59,16 @@
         <div>
             <div class="center content">
             <br>
-                 <h2 class="fundo-faixa">PEDIDO ENVIADO COM SUCESSO!</h2>
+                <% if @codigo == 500 %>
+                    <h4><%= @resposta %></h4>
+                <% elsif @codigo == 401 %>
+                    <h4><%= @resposta %></h4>
+                <% elsif @codigo == 340 %>
+                    <h4><%= @resposta %></h4>
+                <% else %>
+                    <h2 class="fundo-faixa">PEDIDO ENVIADO COM SUCESSO!</h2>
+
+                <% end %>
             <br><br><br><br><br>
             </div>
         </div>

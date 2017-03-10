@@ -475,16 +475,51 @@ class LojaController < ApplicationController
 
       @pedido[:pick_in_store] = 1
       RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/orders/createOrder',  @pedido  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
-        @resposta = JSON.parse(response.body)
+        if response.code == 401
+          @resposta = 'Usuário não logado, faça o login para continuar'
+        elsif response.code == 340
+          @resposta = 'Não foi possível realizar seu pedido, verique seus dados de cadastro e tente novamente'
+        elsif response.code == 500
+          @resposta = 'Não foi possível realizar seu pedido, verique seus dados de cadastro e tente novamente'
+        else
+          @resposta = JSON.parse(response.body)
+          session[:caixa] = nil
+          session[:pizzas] = nil
+          session[:bebidas] = nil
+          session[:tamanho] = nil
+          session[:massa] = nil
+          session[:borda] = nil
+          session[:integral] = nil
+        end
+        
+        @codigo = response.code
+
         #redirect_to cardapio_path, notice: 'Pedido Enviado com Sucesso'
       }
     else
       
       RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/orders/createOrder',   @pedido  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         
-        @resposta = JSON.parse(response.body)
+        if response.code == 401
+          @resposta = 'Usuário não logado, faça o login para continuar'
+        elsif response.code == 340
+          @resposta = 'Não foi possível realizar seu pedido, verique seus dados de cadastro e tente novamente'
+        elsif response.code == 500
+          @resposta = 'Não foi possível realizar seu pedido, verique seus dados de cadastro e tente novamente'
+        else
+          @resposta = JSON.parse(response.body)
+          session[:caixa] = nil
+          session[:pizzas] = nil
+          session[:bebidas] = nil
+          session[:tamanho] = nil
+          session[:massa] = nil
+          session[:borda] = nil
+          session[:integral] = nil
+        end
         #redirect_to cardapio_path, notice: 'Pedido Enviado com Sucesso'
          
+         @codigo = response.code
+
       }
     end
     
