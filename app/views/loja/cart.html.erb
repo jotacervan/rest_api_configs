@@ -53,6 +53,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                <% if !session[:pizzas].nil? %>
                 <% session[:pizzas].each do |p|  %>
                     <% 
                     pizza = Pizza.find(p[1]['tastes'][0]['id']) 
@@ -228,6 +229,185 @@
 
 
 
+                <% end %>
+                <% end %>
+                <% if !session[:sweet_pizzas].nil? %>
+                <% session[:sweet_pizzas].each do |p|  %>
+                    <% 
+                    pizza = SweetPizza.find(p[1]['tastes'][0]['id']) 
+                    border = Border.find(p[1]['border_id'])
+                    tamanho = Tamanho.find(p[1]['size_id'])
+                    pedido_total = 0
+
+                    border.price_tables.where(:tamanho_id => p[1]['size_id'], :store_ids => session[:store]['id']).each do |b| 
+                        pedido_total += b.price
+                    end
+
+                    if p[1]['tastes'].length > 1
+
+                        value1 = 0
+                        value2 = 0
+                        pizza22 = SwwetPizza.find(p[1]['tastes'][1]['id'])
+
+                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :sweet_pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:store]['id']).each do |t|
+                            value1 = t.price
+                        end
+                        pizza22.price_tables.where(:tamanho_id => p[1]['size_id'], :sweet_pizza_id => p[1]['tastes'][1]['id'], :store_ids => session[:store]['id']).each do |t|
+                            value2 = t.price
+                        end
+                        
+                        if value1 > value2
+                            pedido_total += value1
+                        else
+                            pedido_total += value2
+                        end
+
+
+                    else
+
+                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :sweet_pizza_id => p[1]['tastes'][0]['id'], :store_ids =>session[:store]['id']).each do |t|
+                            pedido_total += t.price
+                        end
+
+                    end
+
+                    pedido_total = pedido_total * p[1]['quantity']
+
+                    if p[1]['integral'] == true
+                        pedido_total += pizza.stores.where(:id => session[:store]['id']).first.integral
+                    end
+
+                    total += pedido_total
+                    %>
+                    <tr>
+                        <td><%= p[1]['quantity'] %></td>
+                        <td><img src="<%= pizza.picture %>" alt="Pizza Prime" title="Pizza Prime" style="width:100px" /></td>
+                        <td><%= tamanho.name %></td>
+                        <td><%= p[0] %></td>
+                        <td><%= p[1]['pasta'] %></td>
+                        <td><%= border[:name] %></td>
+                        <td><% if p[1]['integral'] == true %> Sim <% else %> Não <% end %></td>
+                        <td>
+                            
+                            <% if p[1]['tastes'].length > 1 %> 
+
+                                <% pizza2 = Pizza.find(p[1]['tastes'][1]['id']) %>
+
+                                <%= pizza2[:name] %>
+
+                            <% else %> N/S <% end %>
+                            
+                        </td>
+                        <td><%= number_to_currency(pedido_total, unit: 'R$ ', separator: ',') %></td>
+                        <td>
+                            <i class="fa fa-pencil fa-2x" data-toggle="modal" data-target="#<%= pizza.id %>" style="cursor:pointer" ></i>
+                            &nbsp; &nbsp;
+                            <i class="fa fa-trash fa-2x" style="cursor:pointer" onclick="location.href='<%= sweet_del_path(p[0]) %>'"></i>
+                        </td>
+                    </tr>
+                    
+
+                    <div id="<%= pizza.id %>" class="modal fade" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content defaultcolor">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Editar Produto</h4>
+                                  </div>
+                                  <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="img-pizza">
+                                                <img src="<%= pizza.picture %>" alt="<%= pizza.name %>" title="<%= pizza.name %>" style="filter:none; -webkit-filter:none;" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h3 class="center"><%= pizza.name %></h3>
+                                            <br>
+                                            <p><%= pizza.description %></p>
+                                            <%= form_for :cart, url: edit_sweet_path do |f| %>
+                                                <%= f.hidden_field :name, :value => pizza.name %>
+                                                <%= f.hidden_field :size, :value => tamanho.id %>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Escolha a borda</p>
+                                                        <%= f.select(:borders ) do %>
+                                                            <%= content_tag(:option, border[:name], value: border[:id].to_s) %>
+                                                            <% @store.borders.each do |border| %>
+                                                                <%= content_tag(:option, border[:name], value: border[:id]) %>
+                                                            <% end %>
+                                                        <% end %>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Quantidade: </p>
+                                                        <%= f.number_field :quantity, :class => 'form-control', :placeholder => 'Quantidade', :value => p[1]['quantity'] %>
+                                                        <br>
+                                                    </div>                                         
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Massa</p>
+                                                        <%= f.select(:massa ) do %>
+                                                            <%= content_tag(:option, p[1]['pasta']) %>
+                                                            <%= content_tag(:option, 'Fina') %>
+                                                            <%= content_tag(:option, 'Média') %>
+                                                            <%= content_tag(:option, 'Grossa') %>
+                                                        <% end %>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    <br>
+                                                        <% if p[1]['integral'] == true %>
+                                                            <p><%= f.check_box :integral, :checked => true %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% else %>
+                                                            <p><%= f.check_box :integral %> &nbsp; &nbsp; Pizza Integral </p>
+                                                        <% end %>
+                                                    </div>
+                                                </div>
+                                                
+                                                <br>
+                                                <p>Observações: </p>
+                                                <%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações', :value => p[1]['obs'] %>
+                                                <br>
+                                                <p class="btn btn-default" onclick="segundosabor()">Adicionar 2º sabor</p><br>
+                                                <br>
+                                                <%= f.hidden_field :sabor1, :value => p[1]['tastes'][0]['id'] %>
+                                                <div class="segundo-sabor hidden">
+                                                    <p>Selecione o 2º sabor:</p>
+                                                    <%= f.select(:sabor2) do %>
+                                                        <% if p[1]['tastes'].length > 1 %> 
+
+                                                            <% pizza2 = SweetPizza.find(p[1]['tastes'][1]['id']) %>
+
+                                                             <%= content_tag(:option, pizza2[:name], value: pizza2[:id].to_s) %>
+
+                                                        <% else %> 
+                                                           <%= content_tag(:option, '2º Sabor', value: 'none') %>
+
+                                                        <% end %>
+                                                        
+                                                        <% @store.sweet_pizzas.each do |p| %>
+                                                            <%= content_tag(:option, p[:name], value: p[:id]) %>
+                                                        <% end %>
+                                                    <% end %>
+                                                    <br>
+                                                </div>
+
+                                                <%= f.submit 'Editar Carrinho', :class => 'right btn btn-success' %>
+                                                <div class="clear"></div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+
+
+                <% end %>
                 <% end %>
                     </tbody>
 

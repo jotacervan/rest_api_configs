@@ -670,7 +670,7 @@
                                             <h3 class="center"><%= p.name %></h3>
                                             <br>
                                             <p><%= p.description %></p>
-                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                            <%= form_for :cart, url: add_sweet_path do |f| %>
                                                 <%= f.hidden_field :name, :value => p.name %>
                                                 <%= f.hidden_field :size, :value => session[:tamanho] %>
                                                 <div class="row">

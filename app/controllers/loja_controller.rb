@@ -485,6 +485,7 @@ class LojaController < ApplicationController
           @resposta = JSON.parse(response.body)
           session[:caixa] = nil
           session[:pizzas] = nil
+          session[:sweet_pizzas] = nil
           session[:bebidas] = nil
           session[:tamanho] = nil
           session[:massa] = nil
@@ -510,6 +511,7 @@ class LojaController < ApplicationController
           @resposta = JSON.parse(response.body)
           session[:caixa] = nil
           session[:pizzas] = nil
+          session[:sweet_pizzas] = nil
           session[:bebidas] = nil
           session[:tamanho] = nil
           session[:massa] = nil
@@ -539,13 +541,30 @@ class LojaController < ApplicationController
     redirect_to cart_path
   end
 
+  def sweet_del
+    if session[:caixa] > 1
+      session[:caixa] -= 1
+      session[:sweet_pizzas].delete(params[:name])
+    else
+      session[:caixa] = nil
+      session[:sweet_pizzas] = nil
+    end
+
+    redirect_to cart_path
+  end
+
   def add_cart
     if session[:caixa].nil?
       session[:caixa] = 1
       session[:pizzas] = {}
     else
-      if session[:pizzas][params[:cart][:name]].nil?
+      if session[:pizzas].nil?
+        session[:pizzas] = {}
         session[:caixa] += 1
+      else
+        if session[:pizzas][params[:cart][:name]].nil?
+          session[:caixa] += 1
+        end
       end
     end
     
@@ -571,6 +590,42 @@ class LojaController < ApplicationController
     redirect_to cardapio_path, :notice => 'Pizza Adicionada com Sucesso!'
   end
 
+  def add_sweet
+    if session[:caixa].nil?
+      session[:caixa] = 1
+      session[:sweet_pizzas] = {}
+    else
+      if session[:sweet_pizzas].nil?
+        session[:sweet_pizzas] = {}
+        session[:caixa] += 1
+      else
+        if session[:sweet_pizzas][params[:cart][:name]].nil?
+          session[:caixa] += 1
+        end
+      end
+    end
+    
+    session[:sweet_pizzas][params[:cart][:name]] = {}
+    session[:sweet_pizzas][params[:cart][:name]][:size_id] = params[:cart][:size]
+    session[:sweet_pizzas][params[:cart][:name]][:border_id] = params[:cart][:borders]
+    session[:sweet_pizzas][params[:cart][:name]][:quantity] = params[:cart][:quantity].to_i
+    session[:sweet_pizzas][params[:cart][:name]][:pasta] = params[:cart][:massa]
+    if params[:cart][:integral] == '1'
+      session[:sweet_pizzas][params[:cart][:name]][:integral] = true
+    else
+      session[:sweet_pizzas][params[:cart][:name]][:integral] = false
+    end
+    session[:sweet_pizzas][params[:cart][:name]][:obs] = params[:cart][:obs]
+    session[:sweet_pizzas][params[:cart][:name]][:fidelity] = false
+    
+    if params[:cart][:sabor2] == 'none'
+      session[:sweet_pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] } ]
+    else
+      session[:sweet_pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+    end
+
+    redirect_to cardapio_path, :notice => 'Pizza Adicionada com Sucesso!'
+  end
 
   def edit_cart
 
@@ -597,6 +652,30 @@ class LojaController < ApplicationController
 
   end
 
+  def edit_sweet
+
+    session[:sweet_pizzas][params[:cart][:name]] = {}
+    session[:sweet_pizzas][params[:cart][:name]][:size_id] = params[:cart][:size]
+    session[:sweet_pizzas][params[:cart][:name]][:border_id] = params[:cart][:borders]
+    session[:sweet_pizzas][params[:cart][:name]][:quantity] = params[:cart][:quantity].to_i
+    session[:sweet_pizzas][params[:cart][:name]][:pasta] = params[:cart][:massa]
+    if params[:cart][:integral] == '1'
+      session[:sweet_pizzas][params[:cart][:name]][:integral] = true
+    else
+      session[:sweet_pizzas][params[:cart][:name]][:integral] = false
+    end
+    session[:sweet_pizzas][params[:cart][:name]][:obs] = params[:cart][:obs]
+    session[:sweet_pizzas][params[:cart][:name]][:fidelity] = false
+    
+    if params[:cart][:sabor2] == 'none'
+      session[:sweet_pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] } ]
+    else
+      session[:sweet_pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+    end
+
+    redirect_to cart_path
+
+  end
 
   def modeljson
 

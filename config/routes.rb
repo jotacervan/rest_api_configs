@@ -12,8 +12,11 @@ Rails.application.routes.draw do
     get 'checkout' => 'loja#checkout', as: :checkout
     post 'checkout_confirm' => 'loja#checkout_confirm', as: :checkout_confirm
   	post 'add_cart' => 'loja#add_cart', as: :add_cart
+    post 'add_sweet' => 'loja#add_sweet', as: :add_sweet
     post 'edit_cart' => 'loja#edit_cart', as: :edit_cart
+    post 'edit_sweet' => 'loja#edit_sweet', as: :edit_sweet
     get 'del/:name' => 'loja#del', as: :del
+    get 'sweet_del/:name' => 'loja#sweet_del', as: :sweet_del
     post 'cep' => 'loja#cep', as: :cep
     post 'rss' => 'loja#rss', as: :rss
     get 'tamanho/:id' => 'loja#tamanho', as: :tamanho

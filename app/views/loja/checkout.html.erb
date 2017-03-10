@@ -12,6 +12,15 @@
         <title>Pizza Prime</title>
     </head>
     <body>
+    	<div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.8&appId=662174687264933";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
         <%= render :partial => 'header', :locals => {:page => 'loja'} %><br>
         <br>
         <br>
@@ -37,6 +46,7 @@
 	                <div class="resumo col-md-6">
 	                	<h3 class="center">Resumo</h3>
 	                	<hr>
+	                <% if !session[:pizzas].nil? %>
 	                <% session[:pizzas].each do |p|  %>
 	                    <% 
 	                    pizza = Pizza.find(p[1]['tastes'][0]['id']) 
@@ -96,6 +106,70 @@
 	                    <p><strong>Preço: </strong> <%= number_to_currency(pedido_total, unit: 'R$ ', separator: ',') %></p>
 	                    <hr>
 
+	                <% end %>
+	                <% end %>
+
+	                <% if !session[:sweet_pizzas].nil? %>
+	                <% session[:sweet_pizzas].each do |p|  %>
+	                    <% 
+	                    pizza = SweetPizza.find(p[1]['tastes'][0]['id']) 
+	                    border = Border.find(p[1]['border_id'])
+	                    tamanho = Tamanho.find(p[1]['size_id'])
+	                    pedido_total = 0
+
+	                    border.price_tables.where(:tamanho_id => p[1]['size_id'], :store_ids => session[:store]['id']).each do |b| 
+	                        pedido_total += b.price
+	                    end
+
+	                    if p[1]['tastes'].length > 1
+
+	                        value1 = 0
+	                        value2 = 0
+	                        pizza22 = SweetPizza.find(p[1]['tastes'][1]['id'])
+
+	                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :sweet_pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:store]['id']).each do |t|
+	                            value1 = t.price
+	                        end
+	                        pizza22.price_tables.where(:tamanho_id => p[1]['size_id'], :sweet_pizza_id => p[1]['tastes'][1]['id'], :store_ids => session[:store]['id']).each do |t|
+	                            value2 = t.price
+	                        end
+	                        
+	                        if value1 > value2
+	                            pedido_total += value1
+	                        else
+	                            pedido_total += value2
+	                        end
+
+
+	                    else    
+
+	                        pizza.price_tables.where(:tamanho_id => p[1]['size_id'], :sweet_pizza_id => p[1]['tastes'][0]['id'], :store_ids => session[:store]['id']).each do |t|
+	                            pedido_total += t.price
+	                        end
+
+	                    end
+
+	                        
+
+	                    pedido_total = pedido_total * p[1]['quantity']
+
+	                    if p[1]['integral'] == true
+	                        pedido_total += pizza.stores.where(:id => session[:store]['id']).first.integral
+	                    end
+
+	                    total += pedido_total
+	                    %>
+	                    <!-- RESUMO DE CADA PEDIDO -->
+	                    <% if p[1]['tastes'].length > 1 %>
+	                    	<p><strong>Qtd:</strong> <%= p[1]['quantity'] %> - <strong>Pizza:</strong>  <%= p[0] %> + <%= pizza22[:name] %> - <%= tamanho[:name] %></p>
+	                    <% else %>
+	                    	<p><strong>Qtd:</strong> <%= p[1]['quantity'] %> - <strong>Pizza:</strong>  <%= p[0] %> - <%= tamanho[:name] %></p>
+	                    <% end %>
+	                    <p><strong>Borda: </strong> <%= border[:name] %></p>
+	                    <p><strong>Preço: </strong> <%= number_to_currency(pedido_total, unit: 'R$ ', separator: ',') %></p>
+	                    <hr>
+
+	                <% end %>
 	                <% end %>
 	                
 	                <% if !session[:bebidas].blank? %>
@@ -182,29 +256,7 @@
 
         </div>
        <br><br>
-       <div id="footer">
-            <div class="content row">
-                <div class="col-md-2">
-                    <img src="/images/logo-slide.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%;">
-                </div>
-                <div class="col-md-3 center links" style="border-right: 3px dotted #fff">
-                    <p class="footer-title">Mapa do Site</p>
-                    
-                    <a href="">Home</a><br>
-                    <% if session[:store].blank? %>  
-                        <a href="<%= loja_path %>">Unidades/Cardápios</a><br>
-                    <% else %>
-                        <a href="<%= cardapio_path %>">Unidades/Cardápios</a><br>
-                    <% end %>
-                    <a href="">A Pizza Prime</a><br>
-                    <a href="">Trabalhe Conosco/Contato</a><br>
-                    <a href="">Blog</a><br>
-                </div>
-                <div class="col-md-3 center" >
-                    <p class="footer-title">Acompanhe a nossa<br>fan page :)</p>                  
-                </div>
-            </div>
-        </div>
+       <%= render 'footer' %>
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
