@@ -68,7 +68,7 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
                 <%
                 else
                 %>
-                    <div id="cont2"  class="margeado col-md-3 combo">
+                    <div id="cont2"  class="margeado col-md-3 combo" onclick="location.href='<%= combo_path(c['id']) %>'">
                         <div style="background-image: url('<%= c['picture'] %>')">
                             <div>
                                 <h3><%= c['title'] %><br></h3>

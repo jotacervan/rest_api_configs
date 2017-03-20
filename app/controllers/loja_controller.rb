@@ -355,6 +355,31 @@ class LojaController < ApplicationController
     end
   end
 
+  def combo
+    @states = Store.distinct(:state)
+    RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: params[:id], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+      if response.code == 340
+        redirect_to cardapio_path, alert: 'Ainda não há nenhuma loja que atende a sua região. Cadastre um endereço diferente em Meu Perfil'
+      elsif response.code == 401
+        redirect_to cardapio_path, alert: 'Faça o login para continuar'
+      elsif response.code == 500
+        redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
+      else
+        @combo = JSON.parse(response.body)
+      end  
+    }
+    @store = Store.find(session[:store]['id'])
+    if session[:massa].nil?
+      session[:massa] = 'Fina'
+    end
+    if session[:tamanho].nil?
+      session[:tamanho] = @store.tamanhos.last.id.to_s
+    end
+    if session[:borda].nil?
+      session[:borda] = @store.borders.first.id.to_s
+    end
+  end
+
   def cep
     @states = Store.distinct(:state)
     consult = RestClient.get 'http://viacep.com.br/ws/'+params[:cep][:cep]+'/json/'
@@ -362,9 +387,11 @@ class LojaController < ApplicationController
   end
 
   def login
+
     RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/login/signin',  {  email: params[:login][:email], password: params[:login][:password]  }){|response, request|
 
     if response.code == 200
+
       cookies[:session_id] = response.cookies['_session_id']
       
       resultado = JSON.parse(response.body)
@@ -394,8 +421,8 @@ class LojaController < ApplicationController
 
   end
 
+  def profile
 
-  def profile 
     RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         if response.code == 401
           session[:logged] = nil
@@ -407,6 +434,7 @@ class LojaController < ApplicationController
           @about = JSON.parse(response.body)
         end
     }
+
     RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/cards', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         @cards = JSON.parse(response.body)
     }
@@ -414,8 +442,12 @@ class LojaController < ApplicationController
     RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         @addresses = JSON.parse(response.body)
     }
+
   end
 
+  def add_combo
+    redirect_to home_path
+  end
 
   def loginfacebook
     @user = User.koala(request.env['omniauth.auth']['credentials'])
@@ -438,9 +470,8 @@ class LojaController < ApplicationController
       redirect_to cardapio_path
 
     }
-    
   end
-  
+
   def bebidas
     if session[:logged].blank?
       session[:bebidas] = nil
