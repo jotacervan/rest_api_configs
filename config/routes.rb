@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     get 'bebemenos/:id' => 'loja#bebemenos', as: :bebemenos
     get 'profile' => 'loja#profile', as: :profile
 
+    post 'applycoupon' => 'loja#applycoupon', as: :applycoupon
+
     get 'removeaddress/:id' => 'loja#removeaddress', as: :removeaddress
     get 'removecard/:id' => 'loja#removecard', as: :removecard
 

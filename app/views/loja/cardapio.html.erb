@@ -30,7 +30,7 @@
         		<div class="content center">
         			<ul class="states">
         				<% @states.each do |state| %>
-        					<li <% if state == session[:store]['uf'] %> class="active" <% end %> >
+        					<li onclick="location.href='<%= cardapio_state_path(state) %>'" <% if state == session[:store]['uf'] %> class="active" <% end %> >
                                 <% 
                                 
                                 case state 
@@ -56,7 +56,7 @@
         			</ul>
                     <ul class="neighbor">
                         <% @neighborhood.each do |n| %>
-                            <li <% if n.neighborhood == session[:store]['name'] %> class="active" <% end %> >	
+                            <li onclick="location.href='<%= cardapio_state_name_path(n.state,n.id) %>'" <% if n.neighborhood == session[:store]['name'] %> class="active" <% end %> >	
                                 <%= n.neighborhood %>
                             </li>
                         <% end %>

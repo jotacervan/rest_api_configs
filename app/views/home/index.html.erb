@@ -51,18 +51,36 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
         </div>
         <br>
         <div class="content combos row">
-            <% @combos.take(4).each do |c| %>
-                
-                <div id="cont2"  class="margeado col-md-3 combo">
-                    <div style="background-image: url('<%= c.picture %>')">
-                        <div>
-                            <h3><%= c.name %><br></h3>
-                            <span style="text-transform: initial; font-size:1em; padding:5px 20px"><%= c.subtitle %></span>
-                            <span>Peça Agora</span>
-                            <i class="fa fa-plus"></i>
+            <% @combos.take(4).each do |c| 
+
+                if session[:store].blank? && session[:user].blank?
+                %>
+                    <div id="cont2"  class="margeado col-md-3 combo" data-target="#login" data-toggle="modal">
+                        <div style="background-image: url('<%= c.picture %>')">
+                            <div>
+                                <h3><%= c.name %><br></h3>
+                                <span style="text-transform: initial; font-size:1em; padding:5px 20px"><%= c.subtitle %></span>
+                                <span>Peça Agora</span>
+                                <i class="fa fa-plus"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <%
+                else
+                %>
+                    <div id="cont2"  class="margeado col-md-3 combo">
+                        <div style="background-image: url('<%= c['picture'] %>')">
+                            <div>
+                                <h3><%= c['title'] %><br></h3>
+                                <span style="text-transform: initial; font-size:1em; padding:5px 20px"><%= c['subtitle'] %></span>
+                                <span>Peça Agora</span>
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                <%
+                end
+                %>
             <% end %>
         </div><br>
         
@@ -123,6 +141,40 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
 
         <%= render :partial => 'footer', :locals => {:page => 'home'} %>
 
+        <!-- MODALS -->
+        <div id="login" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Faça seu Login</h4>
+              </div>
+              <div class="modal-body">
+                
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                    <div class="center">
+                        <p class="center">Faça seu login para continuar, <a href="<%= cadastre_path %>">Cadastre-se</a></p>
+                        <p class="center">ou</p>
+                        <img src="/images/facebook.png" style="cursor:pointer" onclick="location.href='<%= auth_provider_path %>'" alt="Pizza Prime Facebook" title="Pizza Prime Facebook"/>
+                    </div>
+                    <br>
+                        <br>
+                        <%= form_for :login, url: login_path do |f| %>
+                            <%= f.text_field :email, :class => 'form-control', :placeholder => 'Email' %><br>
+                            <%= f.password_field :password, :class => 'form-control', :placeholder => 'Senha' %><br>
+                            <%= f.submit 'Login', :class => 'btn btn-danger' %>
+                        <% end %>
+                    </div>             
+                </div>
+
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+
         <% @stores.each do |s| %>
             <% if !s.coordinates.nil? %>
             <div class='hidden store' data-ref='<%= s.id %>' data-lat='<%= s.coordinates[0] %>' data-long='<%= s.coordinates[1] %>'><%= s.name %></div>
@@ -155,8 +207,6 @@ Já atuamos em quatro Estados: São Paulo, Rio Grande do Sul, Santa Catarina e P
                 var scene = new ScrollMagic.Scene({triggerElement: '#trigger2', triggerHook: 0.8})
                     .setClassToggle("#cont2", "tiramargem")
                     .addTo(controller);
-
-
             });
             
         </script>

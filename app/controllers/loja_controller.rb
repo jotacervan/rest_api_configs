@@ -192,6 +192,69 @@ class LojaController < ApplicationController
     
   end
 
+  def applycoupon
+
+    @pedido = {} 
+    @pedido[:pizzas] = []
+    session[:pizzas].each do |key, p|
+        novo = p
+        @pedido[:pizzas].push(novo)
+    end # pizzas
+    @pedido[:sweet_pizzas] = []
+    if session[:sweet_pizzas].nil?
+    else
+      session[:sweet_pizzas].each do |key, p|
+          novo = p
+          @pedido[:sweet_pizzas].push(novo)
+      end # sweet_pizzas
+    end
+    @pedido[:beverages] = []
+    if session[:bebidas].nil?
+    else
+      session[:bebidas].each do |key, p|
+        novo = { :id => key, :quantity => p['qtd'], :fidelity => false }
+        @pedido[:beverages].push(novo)
+      end 
+    end
+
+    @pedido[:store_id] = session[:store]['id']
+
+    @pedido[:address_id] = session[:address_id]
+
+    @cupon = {}
+    @cupon[:order] = @pedido
+    @cupon[:store_id] = session[:store]['id']
+    @cupon[:udid] = request.remote_ip
+    @cupon[:coupon] = params[:coupon][:name]
+
+
+    RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/coupons/checkCoupon',   @cupon  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+        if response.code == 401
+          @resposta = 'Usuário não logado, faça o login para continuar'
+        elsif response.code == 340
+          @resposta = 'Nenhuma Loja foi encontrada'
+        elsif response.code == 341
+          @resposta = 'Cupom Expirado!'
+        elsif response.code == 342
+          @resposta = 'Cupom não encontrado'
+        elsif response.code == 343
+          @resposta = 'Condições não Satisfeitas'
+        elsif response.code == 344
+          @resposta = 'Cupom já utilizado'
+        elsif response.code == 500
+          @resposta = 'Não foi possível realizar seu pedido, verique seus dados de cadastro e tente novamente'
+        else
+          @teste = JSON.parse(response.body)
+          session[:coupon] = @teste
+          @resposta = 'Cupom aplicado com Sucesso'
+        end
+        
+        @codigo = response.code
+
+        redirect_to checkout_path, :notice => @resposta
+      }
+  end
+
   def cardapio_state
     if session[:store].blank? && session[:user].blank?
       redirect_to loja_path
@@ -433,6 +496,10 @@ class LojaController < ApplicationController
         @cards = JSON.parse(response.body)
     }
 
+    # RestClient.post('http://dev-pizzaprime.herokuapp.com/webservices/orders/getShipment',  { :address_id => session[:address_id], :store_id => session[:store]['id'] }  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
+    #     @frete = JSON.parse(response.body)
+    # }
+    
     @store = Store.find(session[:store]['id'])
   end
 
@@ -466,6 +533,10 @@ class LojaController < ApplicationController
 
     if Payment.find(params[:checkout][:payment]).is_app == true
       @pedido[:card_id] = params[:checkout][:card]
+    end
+
+    if !session[:coupon].nil?
+      @pedido[:coupon_id] = session[:coupon]['id']
     end
 
     @pedido[:address_id] = session[:address_id]

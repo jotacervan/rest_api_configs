@@ -228,20 +228,47 @@
                    					<%= content_tag(:option, 'Retirada na Loja') %>
                    				<% end %>
 	                   			<br>
-	                   			<p>Cupon de Desconto:</p>
-	                   			<%= f.text_field :coupon, :class => 'form-control', :placeholder => 'Cupon' %>
-	                   			<br>
 	                   			<p>Observações:</p>
 	                   			<%= f.text_area :obs, :class => 'form-control', :placeholder => 'Observações' %>
 	                   			<div class="text-right">
+	                   				<% if !session[:coupon].nil? %>
+	                   				<br>
+	                   				<div>
+	                   					Cupom de desconto: <%= session[:coupon]['name'] %><br>
+	                   					Desconto: <%= number_to_percentage(session[:coupon]['discount'] * 100, precision: 1, strip_insignificant_zeros: true) %>	
+	                   				</div>
+	                   					<% total =  session[:coupon]['discount'] * total %>
+	                   				<% end %>
 		                   			<h3>Total: <%= number_to_currency(total, unit: 'R$ ', separator: ',') %></h3>
 	                    			<br>
+	                    			<button type="button" data-toggle="modal" data-target="#cupom" class="btn btn-info">Aplicar cupom de desconto</button>
 	                    			<%= f.submit 'Finalizar Compra', :class => 'btn btn-success' %>
                     			</div>
 
 	                   		<% end %>
 	                   </div>
                    </div>
+
+                   <div id="cupom" class="modal fade" tabindex="-1" role="dialog">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title">Aplicar cupom de desconto</h4>
+					      </div>
+					      <%= form_for :coupon, url: applycoupon_path() do |f| %>
+					      <div class="modal-body">
+					        <p>Cupom:</p>
+					        <%= f.text_field :name, :class => 'form-control', :placeholder => 'Cupom' %>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					        <%= f.submit 'Aplicar Cupom', :class => 'btn btn-primary' %>
+					      </div>
+					      <% end %>
+					    </div><!-- /.modal-content -->
+					  </div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
 
                 <div> 
                 </div>
@@ -257,6 +284,46 @@
         </div>
        <br><br>
        <%= render 'footer' %>
+
+
+        <% if !flash[:alert].blank? %>
+            <div id="flash" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Mensagem do Sistema</h4>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <div class="alert alert-danger"><%= flash[:alert] %></div>
+
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <%= flash[:alert] = nil %>
+        <% end %>
+        
+        <% if !flash[:notice].blank? %>
+            <div id="flash" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Mensagem do Sistema</h4>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <div class="alert alert-info"><%= flash[:notice] %></div>
+
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <%= flash[:notice] = nil %>
+        <% end %>
+        
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
