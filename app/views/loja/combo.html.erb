@@ -56,11 +56,155 @@
         	</div>
         </div>
         <div class="content">
+                <div class="minha-caixa" onclick="location.href='<%= cart_path %>'">
+                  <img src="/images/icon-caixa.png" alt="Minha Caixa" title="Minha Caixa">
+                  Minha Caixa <span class="badge"> <% if session[:caixa].nil? %> 0 <% else %> <%= session[:caixa] %> <% end %> </span>
+
+               </div>
         <div class="row content text-center">
             <div class="col-md-12">
+
                 <h2 class="fundo-faixa"><%= @combo['title'] %></h2>
+
+                <% if flash[:notice] %>
+                    <div class="alert alert-info"><%= flash[:notice] %></div>
+                <% end %>
+                
                 <div><%= @combo['subtitle'] %></div>
                 <div style="font-size:26px"><%= number_to_currency(@combo['amount'], :separator => ',', :unit => 'R$ ') %></div>
+                <br>
+                <div class="barraCombo row">
+                <% if session[:combo].nil? %>
+                    <% combo = nil %>
+                <% else %>
+                    <% combo = session[:combo].find { |x| x['id'] == @combo['id'] } %>
+                <% end %>
+                
+                
+                    <% if @combo['pizzas']['quantity'] > 0 %>
+                        <div class="col-md-3">
+                            <div class="info-box" >
+                                <span class="info-box-icon" style="background-color:#a12327; color:#fff"><i class="fa fa-pie-chart"></i></span>
+                                
+                                <div class="info-box-content">
+                                  <h3 style="margin-top:10px">Pizzas</h3>
+                                    <% if combo.nil? %>
+                                        <h4>0 de <%= @combo['pizzas']['quantity'] %></h4>
+                                    <% else %>
+                                        <% if combo['pizzas'].nil? %>
+                                            <h4>0 de <%= @combo['pizzas']['quantity'] %></h4>
+                                        <% else %>
+                                            <h4><%= combo['pizzas'].length %> de <%= @combo['pizzas']['quantity'] %></h4>
+                                        <% end %>
+                                    <% end %>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    <% end %>
+                    
+                    <% if @combo['beverages']['quantity'] > 0 %>
+                        <div class="col-md-3">
+                            <div class="info-box" >
+                                <span class="info-box-icon" data-toggle="modal" data-target="#refri" style="cursor:pointer; color:#fff; background-color:green" ><i class="fa fa-plus"></i></span>
+                                
+                                <div class="info-box-content">
+                                  <h3 style="margin-top:10px">Refrigerante</h3>
+                                    <% if combo.nil? %>
+                                        <h4>0 de <%= @combo['beverages']['quantity'] %></h4>
+                                    <% else %>
+                                        <% if combo['beverages'].nil? %>
+                                            <h4>0 de <%= @combo['beverages']['quantity'] %></h4>
+                                        <% else %>
+                                            <h4><%= combo['beverages'].length %> de <%= @combo['beverages']['quantity'] %></h4>
+                                        <% end %>
+                                    <% end %>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                            
+                        </div>
+                    <% end %>
+
+                    <div id="refri" class="modal fade" tabindex="-1" role="dialog">
+                      <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Adicionar Bebida</h4>
+                          </div>
+                          <%= form_for :cart, url: add_combo_beverages_path do |f| %>
+                          <div class="modal-body">
+                            <%= f.hidden_field :id, :value => @combo['id'] %>
+                            <%= f.select(:borders ) do %>
+                                <% if !@combo['beverages']['beverages'].blank? %>
+                                    <% @combo['beverages']['beverages'].each do |border| %>
+                                        <%= content_tag(:option, border['name'], value: border['id']) %>
+                                    <% end %>
+                                <% end %>
+                            <% end %>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            <%= f.submit 'Adicionar', :class => 'btn btn-primary' %>
+                          </div>
+                          <% end %>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
+                    <% if @combo['sweet_pizzas']['quantity'] > 0 %>
+                        <div class="col-md-3">
+                            <div class="info-box" >
+                                <span class="info-box-icon" style="background-color:#fbd302; color:#a12327"><i class="fa fa-pie-chart"></i></span>
+                                
+                                <div class="info-box-content">
+                                  <h3 style="margin-top:10px">Pizzas Doce</h3>
+                                    <% if combo.nil? %>
+                                        <h4>0 de <%= @combo['sweet_pizzas']['quantity'] %></h4>
+                                    <% else %>
+                                        <% if combo['sweet_pizzas'].nil? %>
+                                            <h4>0 de <%= @combo['sweet_pizzas']['quantity'] %></h4>
+                                        <% else %>
+                                            <h4><%= combo['sweet_pizzas'].length %> de <%= @combo['sweet_pizzas']['quantity'] %></h4>
+                                        <% end %>
+                                    <% end %>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                            
+                        </div>
+                    <% end %>
+
+                    <% if !@combo['souvenir'].nil? %>
+                        <div class="col-md-3">
+                            <div class="info-box" >
+                                <span class="info-box-icon"><i class="fa fa-plus"></i></span>
+                                
+                                <div class="info-box-content">
+                                  <h3 style="margin-top:10px">Brinde</h3>
+                                <% if combo.nil? %>
+                                    <a href="#">Escolher</a>
+                                <% else %>
+                                    <% if combo['souvenir'].nil? %>
+                                        <a href="#">Escolher</a>
+                                    <% else %>
+                                        <a href="#">Escolher</a>
+                                    <% end %>
+                                <% end %>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                           
+                        </div>
+                    <% end %>
+
+                </div>
+
             </div>
         </div><br>
         <br>
@@ -116,6 +260,7 @@
                                             <br>
                                             <p><%= p['description'] %></p>
                                             <%= form_for :cart, url: add_combo_path do |f| %>
+                                                <%= f.hidden_field :id, :value => @combo['id'] %>
                                                 <%= f.hidden_field :name, :value => p['name'] %>
                                                 <%= f.hidden_field :size, :value => session[:tamanho] %>
                                                 <div class="row">
@@ -187,6 +332,10 @@
 
                 <% end %>
             
+                <div class="center">
+                    <img src="/images/doces.png"  alt="Pizza Prime" title="Pizza Prime" class="imgResp pointer">
+                </div>
+                <br>
 
                 <% @combo['sweet_pizzas']['sweet_pizzas'].each do |p| %>
                     
@@ -237,17 +386,18 @@
                                             <h3 class="center"><%= p['name'] %></h3>
                                             <br>
                                             <p><%= p['description'] %></p>
-                                            <%= form_for :cart, url: add_combo_path do |f| %>
+                                            <%= form_for :cart, url: add_combo_sweet_path do |f| %>
+                                                <%= f.hidden_field :id, :value => @combo['id'] %>
                                                 <%= f.hidden_field :name, :value => p['name'] %>
                                                 <%= f.hidden_field :size, :value => session[:tamanho] %>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <p>Escolha a borda</p>
                                                         <%= f.select(:borders ) do %>
-                                                            <% @borda = Border.find(session[:borda]) %>
-                                                            <%= content_tag(:option, @borda.name, value: @borda.id) %>
-                                                            <% @store.borders.each do |border| %>
-                                                                <%= content_tag(:option, border[:name], value: border[:id]) %>
+                                                            <% if !@combo['border'].blank? %>
+                                                                <% @combo['borders'].each do |border| %>
+                                                                    <%= content_tag(:option, border[:name], value: border[:id]) %>
+                                                                <% end %>
                                                             <% end %>
                                                         <% end %>
                                                         <br>
@@ -289,7 +439,7 @@
                                                     <p>Selecione o 2º sabor:</p>
                                                     <%= f.select(:sabor2) do %>
                                                         <%= content_tag(:option, '2º Sabor', value: 'none') %>
-                                                        <% @combo['sweet_pizzas']['sweet_pizzas'].each do |p| %>
+                                                        <% @combo['pizzas']['pizzas'].each do |p| %>
                                                             <%= content_tag(:option, p['name'], value: p['id']) %>
                                                         <% end %>
                                                     <% end %>
@@ -301,7 +451,7 @@
                                             <% end %>
                                         </div>
                                     </div>
-                                    
+
                                   </div>
                                 </div><!-- /.modal-content -->
                               </div><!-- /.modal-dialog -->
@@ -313,32 +463,6 @@
             </div>
 
 
-            <br>
-            <div class="center">
-                <img src="/images/bebidas.png" alt="Pizza Prime" title="Pizza Prime" id="bebidas" class="imgResp">
-            </div><br>
-            <br>
-            <div class="row center marginBebe">
-                <div class="col-md-4 rightBorder">
-                    <p class="faixaFundo">Produto</p>
-                    <% @combo['beverages']['beverages'].each do |b| %>
-                        <p class="nomeBebidas"><%= b['name'] %></p>
-                    <% end %>
-                </div>
-                <div class="col-md-4">
-                    <p class="faixaFundo">Valor</p>
-                </div>
-                <div class="col-md-4 leftBorder">
-                    
-                    <p class="faixaFundo">Quantidade</p>
-                    <div class="quatityBeve">
-                        <% @combo['beverages']['beverages'].each do |b| %>
-
-                            <p data-id="<%= b['id'] %>" data-url="<%= request.url.gsub(request.fullpath, '') %>/bebidas/afe/<%= b['id'] %>" class="nomeBebidas selectBebe"><span class="left" onclick="bebeMenos(this)">-</span><i>0</i><span class="right" onclick="bebeMais(this)">+</span></p>
-                        <% end %>
-                    </div>
-                </div>
-            </div>
 
 
             </div>

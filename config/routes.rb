@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     get 'checkout' => 'loja#checkout', as: :checkout
     post 'checkout_confirm' => 'loja#checkout_confirm', as: :checkout_confirm
     post 'add_combo' => 'loja#add_combo', as: :add_combo
+    post 'add_combo_sweet' => 'loja#add_combo_sweet', as: :add_combo_sweet
+    post 'add_combo_beverages' => 'loja#add_combo_beverages', as: :add_combo_beverages
   	post 'add_cart' => 'loja#add_cart', as: :add_cart
     post 'add_sweet' => 'loja#add_sweet', as: :add_sweet
     post 'edit_cart' => 'loja#edit_cart', as: :edit_cart
@@ -28,6 +30,7 @@ Rails.application.routes.draw do
     get 'bebemenos/:id' => 'loja#bebemenos', as: :bebemenos
     get 'profile' => 'loja#profile', as: :profile
     get 'combo/:id' => 'loja#combo', as: :combo
+    get 'limparcart' => 'loja#limparcart', as: :limparcart
 
     post 'applycoupon' => 'loja#applycoupon', as: :applycoupon
 

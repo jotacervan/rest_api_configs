@@ -187,6 +187,71 @@
 	                	<% end %>
 
 	                <% end %>
+
+	                <% if !session[:combo].blank? %>
+
+                    <% session[:combo].each do |combo| %>
+                        <% 
+                        RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: combo['id'], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+                          if response.code == 340
+                            @com = nil
+                          elsif response.code == 401
+                            @com = nil
+                          elsif response.code == 500
+                            @com = nil
+                          else
+                            @com = JSON.parse(response.body)
+                          end
+
+                        }
+                        %>
+                        <div>
+                            <% if @com.nil? %>
+                                <h3>Não foi possivel checar o combo, Tente novamente mais tarde</h3>
+                            <% else %>
+                            	
+                                <h3><%= @com['title'] %></h3>
+                                <% if !combo['pizzas'].nil? %>
+                                    <% combo['pizzas'].each do |pi| %>
+                                        <% if pi['tastes'].length > 1 %>
+                                            <% pizza1 = Pizza.find(pi['tastes'][0]['id']) %>
+                                            <% pizza2 = Pizza.find(pi['tastes'][1]['id']) %>
+                                            <p><strong>Pizza: </strong> <%= pizza1.name %> / <%= pizza2.name %></p>
+                                        <% else %>
+                                            <% pizza1 = Pizza.find(pi['tastes'][0]['id']) %>
+                                            <p><strong>Pizza:</strong> <%= pizza1.name %></p>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                                <% if !combo['sweet_pizzas'].nil? %>
+                                    <% combo['sweet_pizzas'].each do |pi| %>
+                                        <% if pi['tastes'].length > 1 %>
+                                            <% pizza1 = SweetPizza.find(pi['tastes'][0]['id']) %>
+                                            <% pizza2 = SweetPizza.find(pi['tastes'][1]['id']) %>
+                                            <p><strong>Pizza: </strong> <%= pizza1.name %> / <%= pizza2.name %></p>
+                                        <% else %>
+                                            <% pizza1 = SweetPizza.find(pi['tastes'][0]['id']) %>
+                                            <p><strong>Pizza:</strong> <%= pizza1.name %></p>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                                <% if !combo['beverages'].nil? %>
+                                    <% combo['beverages'].each do |pi| %>
+                                        
+                                        <% pizza1 = Beverage.find(pi['id']) %>
+                                        <p><strong>Bebida:</strong> <%= pizza1.name %></p>
+                                        
+                                    <% end %>
+                                <% end %>
+
+                                <% total += @com['amount'] %>
+
+                            <% end %>
+                        </div>
+
+                    <% end %>
+
+                <% end %>
 	                
 	                   </div>
 	                   <div class="col-md-6">

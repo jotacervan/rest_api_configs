@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 
   def index
+
     if session[:store].blank? && session[:user].blank?
       @combos = Combo.all
     else

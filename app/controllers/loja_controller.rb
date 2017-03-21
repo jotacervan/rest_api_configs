@@ -196,10 +196,12 @@ class LojaController < ApplicationController
 
     @pedido = {} 
     @pedido[:pizzas] = []
-    session[:pizzas].each do |key, p|
-        novo = p
-        @pedido[:pizzas].push(novo)
-    end # pizzas
+    if !session[:pizzas].nil? 
+      session[:pizzas].each do |key, p|
+          novo = p
+          @pedido[:pizzas].push(novo)
+      end # pizzas
+    end
     @pedido[:sweet_pizzas] = []
     if session[:sweet_pizzas].nil?
     else
@@ -215,6 +217,10 @@ class LojaController < ApplicationController
         novo = { :id => key, :quantity => p['qtd'], :fidelity => false }
         @pedido[:beverages].push(novo)
       end 
+    end
+
+    if !session[:combo].nil?
+      @pedido[:combos] = session[:combo]
     end
 
     @pedido[:store_id] = session[:store]['id']
@@ -355,6 +361,496 @@ class LojaController < ApplicationController
     end
   end
 
+  def add_combo_beverages
+    if session[:caixa].nil?
+
+      session[:caixa] = 1
+      session[:combo] = []
+      @novocombo = {}
+      @novocombo[:id] = params[:cart][:id]
+      @novocombo[:quantity] = 1
+      @novocombo[:beverages] = []
+      beverages = {}
+      beverages[:id] = params[:cart][:borders]
+      beverages[:quantity] = 1
+      beverages[:fidelity] = false
+      
+      
+      @novocombo[:beverages] << beverages
+
+      session[:combo] << @novocombo
+
+      @message = 'Bebida adicionada com Sucesso'
+
+    else # if session[:caixa].nil
+
+      if session[:combo].blank?
+
+        session[:combo] = []
+        @novocombo = {}
+        @novocombo[:id] = params[:cart][:id]
+        @novocombo[:quantity] = 1
+        @novocombo[:beverages] = []
+        beverages = {}
+        beverages[:id] = params[:cart][:borders]
+        beverages[:quantity] = 1
+        beverages[:fidelity] = false
+        
+        
+        @novocombo[:beverages] << beverages
+
+        session[:combo] << @novocombo
+
+        @message = 'Bebida adicionada com Sucesso'
+        session[:caixa] += 1
+
+      else
+
+        @achar = session[:combo].find { |x| x['id'] == params[:cart][:id] }
+
+        if @achar.nil?
+
+          @novocombo = {}
+          @novocombo[:id] = params[:cart][:id]
+          @novocombo[:quantity] = 1
+          @novocombo[:beverages] = []
+          beverages = {}
+          beverages[:id] = params[:cart][:borders]
+          beverages[:quantity] = 1
+          beverages[:fidelity] = false
+          
+          
+          @novocombo[:beverages] << beverages
+
+          session[:combo] << @novocombo
+
+          @message = 'Bebida adicionada com Sucesso'
+          session[:caixa] += 1
+
+        else # if @achar.nil?
+
+          if !@achar['beverages'].nil?
+
+            RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: params[:cart][:id], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+                if response.code == 340
+                  redirect_to cardapio_path, alert: 'Ainda não há nenhuma loja que atende a sua região. Cadastre um endereço diferente em Meu Perfil'
+                elsif response.code == 401
+                  redirect_to cardapio_path, alert: 'Faça o login para continuar'
+                elsif response.code == 500
+                  redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
+                else
+                  @combo = JSON.parse(response.body)
+
+                  if @combo['beverages']['quantity'] <= @achar['beverages'].length
+                    @message = 'Limite de Bebidas do combo alcançado'
+                  else
+                    beverages = {}
+                    beverages[:id] = params[:cart][:borders]
+                    beverages[:quantity] = 1
+                    beverages[:fidelity] = false
+                    
+                    
+                    @achar['beverages'] << beverages
+
+
+                    @message = 'Bebida adicionada com Sucesso'
+                  end
+
+                end  
+            }
+
+          else
+
+            beverages = {}
+            beverages[:id] = params[:cart][:borders]
+            beverages[:quantity] = 1
+            beverages[:fidelity] = false
+            
+            @achar['beverages'] = []
+            @achar['beverages'] << beverages
+
+
+            @message = 'Bebida adicionada com Sucesso'
+
+          end
+
+        end
+
+      end
+
+    end
+
+    redirect_to combo_path(params[:cart][:id]), :notice => @message
+  end
+
+  def add_combo_sweet
+    if session[:caixa].nil?
+
+      session[:caixa] = 1
+      session[:combo] = []
+      @novocombo = {}
+      @novocombo[:id] = params[:cart][:id]
+      @novocombo[:quantity] = 1
+      @novocombo[:sweet_pizzas] = []
+      pizzas = {}
+      pizzas[:size_id] = params[:cart][:size]
+      pizzas[:border_id] = params[:cart][:borders]
+      pizzas[:quantity] = params[:cart][:quantity].to_i
+      pizzas[:pasta] = params[:cart][:massa]
+      if params[:cart][:integral] == '1'
+        pizzas[:integral] = true
+      else
+        pizzas[:integral] = false
+      end
+      pizzas[:obs] = params[:cart][:obs]
+      pizzas[:fidelity] = false
+      
+      if params[:cart][:sabor2] == 'none'
+        pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+      else
+        pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+      end
+      
+      @novocombo[:sweet_pizzas] << pizzas
+
+      session[:combo] << @novocombo
+
+      @message = 'Pizza adicionada com Sucesso'
+
+    else # if session[:caixa].nil
+
+      if session[:combo].blank?
+
+        session[:combo] = []
+        @novocombo = {}
+        @novocombo[:id] = params[:cart][:id]
+        @novocombo[:quantity] = 1
+        @novocombo[:sweet_pizzas] = []
+        pizzas = {}
+        pizzas[:size_id] = params[:cart][:size]
+        pizzas[:border_id] = params[:cart][:borders]
+        pizzas[:quantity] = params[:cart][:quantity].to_i
+        pizzas[:pasta] = params[:cart][:massa]
+        if params[:cart][:integral] == '1'
+          pizzas[:integral] = true
+        else
+          pizzas[:integral] = false
+        end
+        pizzas[:obs] = params[:cart][:obs]
+        pizzas[:fidelity] = false
+        
+        if params[:cart][:sabor2] == 'none'
+          pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+        else
+          pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+        end
+        
+        @novocombo[:sweet_pizzas] << pizzas
+
+        session[:combo] << @novocombo
+        session[:caixa] += 1
+
+        @message = 'Pizza adicionada com Sucesso'
+
+      else
+       
+        @achar = session[:combo].find { |x| x['id'] == params[:cart][:id] }
+
+        if @achar.nil?
+
+          @novocombo = {}
+          @novocombo[:id] = params[:cart][:id]
+          @novocombo[:quantity] = 1
+          @novocombo[:sweet_pizzas] = []
+          pizzas = {}
+          pizzas[:size_id] = params[:cart][:size]
+          pizzas[:border_id] = params[:cart][:borders]
+          pizzas[:quantity] = params[:cart][:quantity].to_i
+          pizzas[:pasta] = params[:cart][:massa]
+          if params[:cart][:integral] == '1'
+            pizzas[:integral] = true
+          else
+            pizzas[:integral] = false
+          end
+          pizzas[:obs] = params[:cart][:obs]
+          pizzas[:fidelity] = false
+          
+          if params[:cart][:sabor2] == 'none'
+            pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+          else
+            pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+          end
+          
+          @novocombo[:sweet_pizzas] << pizzas
+
+          session[:combo] << @novocombo
+          session[:caixa] += 1
+
+          @message = 'Pizza adicionada com Sucesso'
+
+        else # if @achar.nil?
+
+          if !@achar['sweet_pizzas'].nil?
+
+            RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: params[:cart][:id], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+                if response.code == 340
+                  redirect_to cardapio_path, alert: 'Ainda não há nenhuma loja que atende a sua região. Cadastre um endereço diferente em Meu Perfil'
+                elsif response.code == 401
+                  redirect_to cardapio_path, alert: 'Faça o login para continuar'
+                elsif response.code == 500
+                  redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
+                else
+                  @combo = JSON.parse(response.body)
+
+                  if @combo['sweet_pizzas']['quantity'] <= @achar['sweet_pizzas'].length
+                    @message = 'Limite de pizzas do combo alcançado'
+                  else
+                    pizzas = {}
+                    pizzas[:size_id] = params[:cart][:size]
+                    pizzas[:border_id] = params[:cart][:borders]
+                    pizzas[:quantity] = params[:cart][:quantity].to_i
+                    pizzas[:pasta] = params[:cart][:massa]
+                    if params[:cart][:integral] == '1'
+                      pizzas[:integral] = true
+                    else
+                      pizzas[:integral] = false
+                    end
+                    pizzas[:obs] = params[:cart][:obs]
+                    pizzas[:fidelity] = false
+                    
+                    if params[:cart][:sabor2] == 'none'
+                      pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+                    else
+                      pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+                    end
+                      
+                      @achar['sweet_pizzas'] << pizzas
+                      @message = 'Pizza adicionada com sucesso'
+                  end
+
+                end  
+            }
+
+          else
+
+            pizzas = {}
+            pizzas[:size_id] = params[:cart][:size]
+            pizzas[:border_id] = params[:cart][:borders]
+            pizzas[:quantity] = params[:cart][:quantity].to_i
+            pizzas[:pasta] = params[:cart][:massa]
+            if params[:cart][:integral] == '1'
+              pizzas[:integral] = true
+            else
+              pizzas[:integral] = false
+            end
+            pizzas[:obs] = params[:cart][:obs]
+            pizzas[:fidelity] = false
+            
+            if params[:cart][:sabor2] == 'none'
+              pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+            else
+              pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+            end
+              
+              @achar['sweet_pizzas'] = [] 
+              @achar['sweet_pizzas'] << pizzas
+              @message = 'Pizza adicionada com sucesso'
+
+          end
+
+        end # else @achar.nil?
+
+      end
+    end
+    
+  redirect_to combo_path(params[:cart][:id]), :notice => @message
+
+  end
+
+
+  def add_combo
+    if session[:caixa].nil?
+
+      session[:caixa] = 1
+      session[:combo] = []
+      @novocombo = {}
+      @novocombo[:id] = params[:cart][:id]
+      @novocombo[:quantity] = 1
+      @novocombo[:pizzas] = []
+      pizzas = {}
+      pizzas[:size_id] = params[:cart][:size]
+      pizzas[:border_id] = params[:cart][:borders]
+      pizzas[:quantity] = params[:cart][:quantity].to_i
+      pizzas[:pasta] = params[:cart][:massa]
+      if params[:cart][:integral] == '1'
+        pizzas[:integral] = true
+      else
+        pizzas[:integral] = false
+      end
+      pizzas[:obs] = params[:cart][:obs]
+      pizzas[:fidelity] = false
+      
+      if params[:cart][:sabor2] == 'none'
+        pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+      else
+        pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+      end
+      
+      @novocombo[:pizzas] << pizzas
+
+      session[:combo] << @novocombo
+
+      @message = 'Pizza adicionada com Sucesso'
+
+    else # if session[:caixa].nil
+
+      if session[:combo].blank?
+
+        session[:combo] = []
+        @novocombo = {}
+        @novocombo[:id] = params[:cart][:id]
+        @novocombo[:quantity] = 1
+        @novocombo[:pizzas] = []
+        pizzas = {}
+        pizzas[:size_id] = params[:cart][:size]
+        pizzas[:border_id] = params[:cart][:borders]
+        pizzas[:quantity] = params[:cart][:quantity].to_i
+        pizzas[:pasta] = params[:cart][:massa]
+        if params[:cart][:integral] == '1'
+          pizzas[:integral] = true
+        else
+          pizzas[:integral] = false
+        end
+        pizzas[:obs] = params[:cart][:obs]
+        pizzas[:fidelity] = false
+        
+        if params[:cart][:sabor2] == 'none'
+          pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+        else
+          pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+        end
+        
+        @novocombo[:pizzas] << pizzas
+
+        session[:combo] << @novocombo
+        session[:caixa] += 1
+
+        @message = 'Pizza adicionada com Sucesso'
+
+      else
+       
+        @achar = session[:combo].find { |x| x['id'] == params[:cart][:id] }
+
+        if @achar.nil?
+
+          @novocombo = {}
+          @novocombo[:id] = params[:cart][:id]
+          @novocombo[:quantity] = 1
+          @novocombo[:pizzas] = []
+          pizzas = {}
+          pizzas[:size_id] = params[:cart][:size]
+          pizzas[:border_id] = params[:cart][:borders]
+          pizzas[:quantity] = params[:cart][:quantity].to_i
+          pizzas[:pasta] = params[:cart][:massa]
+          if params[:cart][:integral] == '1'
+            pizzas[:integral] = true
+          else
+            pizzas[:integral] = false
+          end
+          pizzas[:obs] = params[:cart][:obs]
+          pizzas[:fidelity] = false
+          
+          if params[:cart][:sabor2] == 'none'
+            pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+          else
+            pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+          end
+          
+          @novocombo[:pizzas] << pizzas
+
+          session[:combo] << @novocombo
+          session[:caixa] += 1
+
+          @message = 'Pizza adicionada com Sucesso'
+
+        else # if @achar.nil?
+
+          if !@achar['pizzas'].nil?
+
+            RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: params[:cart][:id], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+                if response.code == 340
+                  redirect_to cardapio_path, alert: 'Ainda não há nenhuma loja que atende a sua região. Cadastre um endereço diferente em Meu Perfil'
+                elsif response.code == 401
+                  redirect_to cardapio_path, alert: 'Faça o login para continuar'
+                elsif response.code == 500
+                  redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
+                else
+                  @combo = JSON.parse(response.body)
+
+                  if @combo['pizzas']['quantity'] <= @achar['pizzas'].length
+                    @message = 'Limite de pizzas do combo alcançado'
+                  else
+                    pizzas = {}
+                    pizzas[:size_id] = params[:cart][:size]
+                    pizzas[:border_id] = params[:cart][:borders]
+                    pizzas[:quantity] = params[:cart][:quantity].to_i
+                    pizzas[:pasta] = params[:cart][:massa]
+                    if params[:cart][:integral] == '1'
+                      pizzas[:integral] = true
+                    else
+                      pizzas[:integral] = false
+                    end
+                    pizzas[:obs] = params[:cart][:obs]
+                    pizzas[:fidelity] = false
+                    
+                    if params[:cart][:sabor2] == 'none'
+                      pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+                    else
+                      pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+                    end
+                      
+                      @achar['pizzas'] << pizzas
+                      @message = 'Pizza adicionada com sucesso'
+                  end
+
+                end  
+            }
+
+          else
+
+            pizzas = {}
+            pizzas[:size_id] = params[:cart][:size]
+            pizzas[:border_id] = params[:cart][:borders]
+            pizzas[:quantity] = params[:cart][:quantity].to_i
+            pizzas[:pasta] = params[:cart][:massa]
+            if params[:cart][:integral] == '1'
+              pizzas[:integral] = true
+            else
+              pizzas[:integral] = false
+            end
+            pizzas[:obs] = params[:cart][:obs]
+            pizzas[:fidelity] = false
+            
+            if params[:cart][:sabor2] == 'none'
+              pizzas[:tastes] = [ { :id => params[:cart][:sabor1] } ]
+            else
+              pizzas[:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
+            end
+              @achar['pizzas'] = []
+              @achar['pizzas'] << pizzas
+              @message = 'Pizza adicionada com sucesso'
+
+          end
+
+        end # else @achar.nil?
+
+      end
+    end
+    
+  redirect_to combo_path(params[:cart][:id]), :notice => @message
+
+  end
+
   def combo
     @states = Store.distinct(:state)
     RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: params[:id], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
@@ -368,6 +864,7 @@ class LojaController < ApplicationController
         @combo = JSON.parse(response.body)
       end  
     }
+
     @store = Store.find(session[:store]['id'])
     if session[:massa].nil?
       session[:massa] = 'Fina'
@@ -445,9 +942,7 @@ class LojaController < ApplicationController
 
   end
 
-  def add_combo
-    redirect_to home_path
-  end
+  
 
   def loginfacebook
     @user = User.koala(request.env['omniauth.auth']['credentials'])
@@ -538,10 +1033,12 @@ class LojaController < ApplicationController
 
     @pedido = {} 
     @pedido[:pizzas] = []
-    session[:pizzas].each do |key, p|
-        novo = p
-        @pedido[:pizzas].push(novo)
-    end # pizzas
+    if !session[:pizzas].nil?
+      session[:pizzas].each do |key, p|
+          novo = p
+          @pedido[:pizzas].push(novo)
+      end # pizzas
+    end
     @pedido[:sweet_pizzas] = []
     if session[:sweet_pizzas].nil?
     else
@@ -557,6 +1054,10 @@ class LojaController < ApplicationController
         novo = { :id => key, :quantity => p['qtd'], :fidelity => false }
         @pedido[:beverages].push(novo)
       end 
+    end
+
+    if !session[:combo].nil?
+      @pedido[:combos] = session[:combo]
     end
 
     @pedido[:store_id] = session[:store]['id']    
@@ -593,6 +1094,8 @@ class LojaController < ApplicationController
           session[:massa] = nil
           session[:borda] = nil
           session[:integral] = nil
+          session[:combo] = nil
+          session[:coupon] = nil
         end
         
         @codigo = response.code
@@ -651,6 +1154,21 @@ class LojaController < ApplicationController
       session[:caixa] = nil
       session[:sweet_pizzas] = nil
     end
+
+    redirect_to cart_path
+  end
+
+  def limparcart
+    session[:caixa] = nil
+    session[:pizzas] = nil
+    session[:sweet_pizzas] = nil
+    session[:bebidas] = nil
+    session[:tamanho] = nil
+    session[:massa] = nil
+    session[:borda] = nil
+    session[:integral] = nil
+    session[:combo] = nil
+    session[:coupon] = nil
 
     redirect_to cart_path
   end
