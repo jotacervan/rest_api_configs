@@ -192,7 +192,7 @@
 
                     <% session[:combo].each do |combo| %>
                         <% 
-                        RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: combo['id'], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+                        RestClient.get('http://pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: combo['id'], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
                           if response.code == 340
                             @com = nil
                           elsif response.code == 401

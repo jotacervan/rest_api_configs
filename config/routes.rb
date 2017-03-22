@@ -31,6 +31,10 @@ Rails.application.routes.draw do
     get 'profile' => 'loja#profile', as: :profile
     get 'combo/:id' => 'loja#combo', as: :combo
     get 'limparcart' => 'loja#limparcart', as: :limparcart
+    get 'remove_combo/:id' => 'loja#remove_combo', as: :remove_combo
+    get 'remove_pizza_combo/:id' => 'loja#remove_pizza_combo', as: :remove_pizza_combo
+    get 'remove_doce_combo/:id' => 'loja#remove_doce_combo', as: :remove_doce_combo
+    get 'remove_bebida_combo/:id' => 'loja#remove_bebida_combo', as: :remove_bebida_combo
 
     post 'applycoupon' => 'loja#applycoupon', as: :applycoupon
 

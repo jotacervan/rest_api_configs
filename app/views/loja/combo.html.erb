@@ -78,6 +78,8 @@
                     <% combo = nil %>
                 <% else %>
                     <% combo = session[:combo].find { |x| x['id'] == @combo['id'] } %>
+                    <a href="<%= remove_combo_path(combo['id']) %>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> &nbsp; Remover Combo</a>
+                    <br><br>
                 <% end %>
                 
                 
@@ -101,6 +103,9 @@
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
+                            <% if !combo.nil?  %>
+                            <a href="<%= remove_pizza_combo_path(combo['id']) %>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> &nbsp; Remover Pizzas</a>
+                            <% end %>
                         </div>
                     <% end %>
                     
@@ -124,10 +129,12 @@
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
-                            
+                            <% if !combo.nil?  %>
+                            <a href="<%= remove_bebida_combo_path(combo['id']) %>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> &nbsp; Remover Bebidas</a>
+                            <% end %>
                         </div>
                     <% end %>
-
+                    
                     <div id="refri" class="modal fade" tabindex="-1" role="dialog">
                       <div class="modal-dialog modal-sm" role="document">
                         <div class="modal-content">
@@ -175,7 +182,9 @@
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
-                            
+                            <% if !combo.nil?  %>
+                            <a href="<%= remove_doce_combo_path(combo['id']) %>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> &nbsp; Remover Pizzas Doce</a>
+                            <% end %>
                         </div>
                     <% end %>
 
@@ -199,7 +208,9 @@
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
-                           
+                            <% if !combo.nil?  %>
+                           <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> &nbsp; Remover Brinde</a>
+                           <% end %>
                         </div>
                     <% end %>
 

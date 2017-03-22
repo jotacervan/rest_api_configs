@@ -450,7 +450,7 @@
 
                     <% session[:combo].each do |combo| %>
                         <% 
-                        RestClient.get('http://dev-pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: combo['id'], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
+                        RestClient.get('http://pizzaprime.herokuapp.com/webservices/stores/findCombo', { :params => {  combo_id: combo['id'], store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
                           if response.code == 340
                             @com = nil
                           elsif response.code == 401
@@ -480,6 +480,10 @@
                                             <p><strong>Pizza:</strong> <%= pizza1.name %></p>
                                         <% end %>
                                     <% end %>
+                                <% else %>
+                                    <% if @com['pizzas']['quantity'] > 0 %>
+                                        <a href="<%= combo_path(combo['id']) %>" style="color:red"><strong>Falta escolher <%= pluralize(@com['pizzas']['quantity'], 'pizza', 'pizzas' ) %></strong></a><br>
+                                    <% end %>
                                 <% end %>
                                 <% if !combo['sweet_pizzas'].nil? %>
                                     <% combo['sweet_pizzas'].each do |pi| %>
@@ -492,6 +496,10 @@
                                             <p><strong>Pizza:</strong> <%= pizza1.name %></p>
                                         <% end %>
                                     <% end %>
+                                <% else %>
+                                    <% if @com['sweet_pizzas']['quantity'] > 0 %>
+                                        <a href="<%= combo_path(combo['id']) %>" style="color:red"><strong>Falta escolher <%= pluralize(@com['sweet_pizzas']['quantity'], 'pizza doce', 'pizzas doce' ) %></strong></a><br>
+                                    <% end %>
                                 <% end %>
                                 <% if !combo['beverages'].nil? %>
                                     <% combo['beverages'].each do |pi| %>
@@ -500,9 +508,15 @@
                                         <p><strong>Bebida:</strong> <%= pizza1.name %></p>
                                         
                                     <% end %>
+                                <% else %>
+                                    <% if @com['beverages']['quantity'] > 0 %>
+                                        <a href="<%= combo_path(combo['id']) %>" style="color:red"><strong>Falta escolher <%= pluralize(@com['beverages']['quantity'], 'bebida', 'bebidas' ) %></strong></a><br>
+                                    <% end %>
                                 <% end %>
 
                                 <% total += @com['amount'] %>
+                                <br>
+                                <a class="btn btn-danger btn-xs" href="<%= remove_combo_path(combo['id']) %>"><i class="fa fa-trash"></i> &nbsp; remover combo</a>
 
                             <% end %>
                         </div>
