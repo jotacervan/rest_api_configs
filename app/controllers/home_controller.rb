@@ -33,7 +33,7 @@ class HomeController < ApplicationController
           session[:integral] = nil
           session[:combo] = nil
           session[:coupon] = nil
-        
+          
         elsif response.code == 500
           redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
         else
