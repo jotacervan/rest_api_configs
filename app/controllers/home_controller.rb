@@ -32,10 +32,35 @@ class HomeController < ApplicationController
           session[:integral] = nil
           session[:combo] = nil
           session[:coupon] = nil
-          redirect_to cardapio_path, alert: 'Faça o login para continuar'
+          redirect_to home_path, alert: 'Faça o login para continuar'
           
         elsif response.code == 500
           redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
+        elsif response.code == 302
+          cookies[:session_id] = nil
+          
+          session[:address_id] = nil
+          session[:store] = nil
+          session[:user] = nil
+          session[:logged] = nil
+          session[:name] = nil
+          session[:email] = nil
+          session[:picture] = nil
+          session[:gender] = nil
+          session[:facebook] = nil
+          session[:balance] = nil
+          session[:phone] = nil
+          session[:cpf] = nil
+          session[:caixa] = nil
+          session[:pizzas] = nil
+          session[:bebidas] = nil
+          session[:tamanho] = nil
+          session[:massa] = nil
+          session[:borda] = nil
+          session[:integral] = nil
+          session[:combo] = nil
+          session[:coupon] = nil
+          redirect_to home_path, alert: 'Faça o login para continuar'
         else
           @combos = JSON.parse(response.body)
         end  
