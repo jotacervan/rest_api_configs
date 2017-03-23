@@ -159,9 +159,10 @@ class LojaController < ApplicationController
         redirect_to cardapio_path
 
       end
+
     else
 
-        @store = Store.mapStores([[zone.first.store]]).first
+        @store = Store.mapStores([zone.first.store]).first
         session[:store] = {}
         session[:store][:id] = @store[:id].to_s
         session[:store][:name] = @store[:name]
