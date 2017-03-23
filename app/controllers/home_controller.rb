@@ -9,7 +9,6 @@ class HomeController < ApplicationController
         if response.code == 340
           redirect_to cardapio_path, alert: 'Ainda não há nenhuma loja que atende a sua região. Cadastre um endereço diferente em Meu Perfil'
         elsif response.code == 401
-          redirect_to cardapio_path, alert: 'Faça o login para continuar'
           cookies[:session_id] = nil
           
           session[:address_id] = nil
@@ -33,6 +32,7 @@ class HomeController < ApplicationController
           session[:integral] = nil
           session[:combo] = nil
           session[:coupon] = nil
+          redirect_to cardapio_path, alert: 'Faça o login para continuar'
           
         elsif response.code == 500
           redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'

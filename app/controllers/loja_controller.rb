@@ -125,34 +125,56 @@ class LojaController < ApplicationController
     # Google Api Key = AIzaSyA4VtmtyiHJXI_l5esvm_7Vhdw8epH_3_Q
     @address = JSON.parse(consult)
 
-    ids = Mongoid.default_client["zones"].find(area:
-        { "$geoIntersects" =>
-          { "$geometry" =>
-              { type: "Point", coordinates: [@address['results'][0]['geometry']['location']['lat'], @address['results'][0]['geometry']['location']['lng']] }
+    zip = params[:cep][:cep].gsub("-","").to_i
+    zone = Zone.where(:initial_zip.lte => zip, :final_zip.gte => zip)
+    if zone.count == 0
+
+      ids = Mongoid.default_client["zones"].find(area:
+          { "$geoIntersects" =>
+            { "$geometry" =>
+                { type: "Point", coordinates: [@address['results'][0]['geometry']['location']['lat'], @address['results'][0]['geometry']['location']['lng']] }
+            }
           }
-        }
-      )
+        )
 
-    if ids.count == 0
-      @states = Store.distinct(:state)
-      @error_cep = true
-      render 'index'
+      if ids.count == 0
+        @states = Store.distinct(:state)
+        @error_cep = true
+        render 'index'
+      else
+        
+        @store = Store.mapStores([Store.find(ids.distinct(:store_id).first)]).first
+        session[:store] = {}
+        session[:store][:id] = @store[:id].to_s
+        session[:store][:name] = @store[:name]
+        session[:store][:uf] = params[:cep][:uf]
+        session[:user] = {}
+        session[:user][:bairro] = params[:cep][:bairro]
+        session[:user][:cep] = params[:cep][:cep]
+        session[:user][:uf] = params[:cep][:uf]
+        session[:user][:localidade] = params[:cep][:localidade]
+        session[:user][:logradouro] = params[:cep][:logradouro]
+        session[:user][:number] = params[:cep][:numero] 
+
+        redirect_to cardapio_path
+
+      end
     else
-      
-      @store = Store.mapStores([Store.find(ids.distinct(:store_id).first)]).first
-      session[:store] = {}
-      session[:store][:id] = @store[:id].to_s
-      session[:store][:name] = @store[:name]
-      session[:store][:uf] = params[:cep][:uf]
-      session[:user] = {}
-      session[:user][:bairro] = params[:cep][:bairro]
-      session[:user][:cep] = params[:cep][:cep]
-      session[:user][:uf] = params[:cep][:uf]
-      session[:user][:localidade] = params[:cep][:localidade]
-      session[:user][:logradouro] = params[:cep][:logradouro]
-      session[:user][:number] = params[:cep][:numero] 
 
-      redirect_to cardapio_path
+        @store = Store.mapStores([[zone.first.store]]).first
+        session[:store] = {}
+        session[:store][:id] = @store[:id].to_s
+        session[:store][:name] = @store[:name]
+        session[:store][:uf] = params[:cep][:uf]
+        session[:user] = {}
+        session[:user][:bairro] = params[:cep][:bairro]
+        session[:user][:cep] = params[:cep][:cep]
+        session[:user][:uf] = params[:cep][:uf]
+        session[:user][:localidade] = params[:cep][:localidade]
+        session[:user][:logradouro] = params[:cep][:logradouro]
+        session[:user][:number] = params[:cep][:numero] 
+
+        redirect_to cardapio_path
 
     end
   end
