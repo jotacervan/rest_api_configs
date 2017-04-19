@@ -542,6 +542,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 #svg-map a.active path{ fill:#a12327 !important }
 #svg-map a.active .circle { fill:#a12327 !important; cursor:pointer }
 
+.unico > strong{
+    color:#a12327;
+}
+
+.unit-desc{
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size:16px;
+}
+
+.unit-desc > img{
+    margin-right:10px;
+}
 
 .unities > div > div{
     background:#ccc;

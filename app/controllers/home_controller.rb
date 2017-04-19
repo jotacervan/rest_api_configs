@@ -69,6 +69,12 @@ class HomeController < ApplicationController
       @stores = Store.all
   end
 
+  def unidades
+  end
+
+  def novo_hamburgo
+  end
+
   def cadastre
     @states = Store.distinct(:state)
   end

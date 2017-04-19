@@ -287,13 +287,14 @@ class LojaController < ApplicationController
   end
 
   def cardapio_state
-    if session[:store].blank? && session[:user].blank?
-      redirect_to loja_path
-    else
+    
       @states = Store.distinct(:state)
       @neighborhood = Store.where(:state => params[:state])
 
       @store = Store.find(@neighborhood.first.id)
+      if @store.neighborhood == 'Hamburgo Velho'
+        redirect_to novo_hamburgo_path
+      end
       if session[:massa].nil?
         session[:massa] = 'Fina'
       end
@@ -304,19 +305,20 @@ class LojaController < ApplicationController
         session[:borda] = @store.borders.first.id.to_s
       end
       
-    end
 
     render 'cardapio_state_name'
   end
 
   def cardapio_state_name
-    if session[:store].blank? && session[:user].blank?
-      redirect_to loja_path
-    else
+    
       @states = Store.distinct(:state)
       @neighborhood = Store.where(:state => params[:state])
       
       @store = Store.find(params[:name])
+      if @store.neighborhood == 'Hamburgo Velho'
+        redirect_to novo_hamburgo_path
+      end
+      
       if session[:massa].nil?
         session[:massa] = 'Fina'
       end
@@ -327,7 +329,6 @@ class LojaController < ApplicationController
         session[:borda] = @store.borders.first.id.to_s
       end
       
-    end
   end
 
   def cardapio
@@ -337,6 +338,9 @@ class LojaController < ApplicationController
       @states = Store.distinct(:state)
       @neighborhood = Store.where(:state => session[:store]['uf'])
       @store = Store.find(session[:store]['id'])
+      if @store.neighborhood == 'Hamburgo Velho'
+        redirect_to novo_hamburgo_path
+      end
       if session[:massa].nil?
         session[:massa] = 'Fina'
       end

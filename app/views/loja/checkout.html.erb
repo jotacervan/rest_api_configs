@@ -47,7 +47,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
 
-        <%= render :partial => 'header', :locals => {:page => 'loja'} %><br>
+        <%= render :partial => 'home/header', :locals => {:page => 'loja'} %><br>
         <br>
         <br>
         <br>
@@ -374,7 +374,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
 
         </div>
        <br><br>
-       <%= render 'footer' %>
+       <%= render 'home/footer' %>
 
 
         <% if !flash[:alert].blank? %>

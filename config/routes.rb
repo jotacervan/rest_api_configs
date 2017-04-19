@@ -36,6 +36,9 @@ Rails.application.routes.draw do
     get 'remove_doce_combo/:id' => 'loja#remove_doce_combo', as: :remove_doce_combo
     get 'remove_bebida_combo/:id' => 'loja#remove_bebida_combo', as: :remove_bebida_combo
 
+    get 'unidades' => 'home#unidades', as: :unidades
+    get 'novo_hamburgo' => 'home#novo_hamburgo', as: :novo_hamburgo
+
     post 'applycoupon' => 'loja#applycoupon', as: :applycoupon
 
     get 'removeaddress/:id' => 'loja#removeaddress', as: :removeaddress
