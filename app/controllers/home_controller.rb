@@ -32,7 +32,7 @@ class HomeController < ApplicationController
           session[:integral] = nil
           session[:combo] = nil
           session[:coupon] = nil
-          redirect_to home_path, alert: 'Faça o login para continuar'
+          redirect_to home_path, alert: 'Faça seu login para continuar comprando'
           
         elsif response.code == 500
           redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
@@ -60,7 +60,7 @@ class HomeController < ApplicationController
           session[:integral] = nil
           session[:combo] = nil
           session[:coupon] = nil
-          redirect_to home_path, alert: 'Faça o login para continuar'
+          redirect_to home_path, alert: 'Faça seu login para continuar comprando'
         else
           @combos = JSON.parse(response.body)
         end  
@@ -87,7 +87,7 @@ class HomeController < ApplicationController
       redirect_to cardapio_path, :notice => 'Usuário criado com sucesso'
     else
       if response.code == 403
-        redirect_to cardapio_path, :alert => 'Usuário já cadastrado, Faça o login para continuar!'
+        redirect_to cardapio_path, :alert => 'Usuário já cadastrado, Faça o login para continuar comprando!'
       elsif response.code == 500
         redirect_to cadastre_path, :alert => 'Não foi possível cadastrar usuário, por favor tente novamente mais tarde!'
       end

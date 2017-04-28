@@ -187,7 +187,7 @@ class LojaController < ApplicationController
       if response.code == 340
         redirect_to cardapio_path, alert: 'Ainda não há nenhuma loja que atende a sua região. Cadastre um endereço diferente em Meu Perfil'
       elsif response.code == 401
-        redirect_to cardapio_path, alert: 'Faça o login para continuar'
+        redirect_to cardapio_path, alert: 'Faça seu login para continuar comprando'
       elsif response.code == 500
         redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
       else
@@ -261,7 +261,7 @@ class LojaController < ApplicationController
 
     RestClient.post('http://pizzaprime.herokuapp.com/webservices/coupons/checkCoupon',   @cupon  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         if response.code == 401
-          @resposta = 'Usuário não logado, faça o login para continuar'
+          @resposta = 'Usuário não logado, faça seu login para continuar comprando'
         elsif response.code == 340
           @resposta = 'Nenhuma Loja foi encontrada'
         elsif response.code == 341
@@ -356,7 +356,7 @@ class LojaController < ApplicationController
           RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/addresses', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
               if response.code == 401
                 session[:logged] = false
-                redirect_to cardapio_path, notice: 'Faça o login para continuar'
+                redirect_to cardapio_path, notice: 'Faça seu login para continuar comprando'
               else
                 @addresses = JSON.parse(response.body)
               end
@@ -886,7 +886,7 @@ class LojaController < ApplicationController
       if response.code == 340
         redirect_to cardapio_path, alert: 'Ainda não há nenhuma loja que atende a sua região. Cadastre um endereço diferente em Meu Perfil'
       elsif response.code == 401
-        redirect_to cardapio_path, alert: 'Faça o login para continuar'
+        redirect_to cardapio_path, alert: 'Faça seu login para continuar comprando'
       elsif response.code == 500
         redirect_to cardapio_path, alert: 'Não foi possivel checar seu endereço, por favor tente novamente mais tarde'
       else
@@ -952,9 +952,9 @@ class LojaController < ApplicationController
     RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         if response.code == 401
           session[:logged] = nil
-          redirect_to cardapio_path, :alert => 'Faça o login para continuar'
+          redirect_to cardapio_path, :alert => 'Faça seu login para continuar comprando'
         elsif response.code == 500
-          redirect_to cardapio_path, :alert => 'Faça o login para continuar'
+          redirect_to cardapio_path, :alert => 'Faça seu login para continuar comprando'
         else
           @store = Store.find(session[:store]['id'])
           @about = JSON.parse(response.body)
@@ -1036,9 +1036,9 @@ class LojaController < ApplicationController
     RestClient.get('http://pizzaprime.herokuapp.com/webservices/account/about', {  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         if response.code == 401
           session[:logged] = nil
-          redirect_to cardapio_path, :alert => 'Faça o login para continuar'
+          redirect_to cardapio_path, :alert => 'Faça seu login para continuar comprando'
         elsif response.code == 500
-          redirect_to cardapio_path, :alert => 'Faça o login para continuar'
+          redirect_to cardapio_path, :alert => 'Faça seu login para continuar comprando'
         else
           @store = Store.find(session[:store]['id'])
           @about = JSON.parse(response.body)
@@ -1108,7 +1108,7 @@ class LojaController < ApplicationController
       @pedido[:pick_in_store] = 1
       RestClient.post('http://pizzaprime.herokuapp.com/webservices/orders/createOrder',  @pedido  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         if response.code == 401
-          @resposta = 'Usuário não logado, faça o login para continuar'
+          @resposta = 'Usuário não logado, faça seu login para continuar comprando'
         elsif response.code == 340
           @resposta = 'Não foi possível realizar seu pedido, verique seus dados de cadastro e tente novamente'
         elsif response.code == 500
@@ -1136,7 +1136,7 @@ class LojaController < ApplicationController
       RestClient.post('http://pizzaprime.herokuapp.com/webservices/orders/createOrder',   @pedido  , :cookies => { '_session_id' => cookies[:session_id] } ){ |response, request, result, &block|
         
         if response.code == 401
-          @resposta = 'Usuário não logado, faça o login para continuar'
+          @resposta = 'Usuário não logado, faça seu login para continuar comprando'
         elsif response.code == 340
           @resposta = 'Não foi possível realizar seu pedido, verique seus dados de cadastro e tente novamente'
         elsif response.code == 500

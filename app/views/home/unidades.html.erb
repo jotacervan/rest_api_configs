@@ -55,8 +55,6 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                  <img src="/images/norte.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
                  <img src="/images/delivery.png" alt="Pizza Prime" title="Pizza Prime" style="margin-top:30px" />
                  <br><br>
-
-                 <img src="/images/pin.png" alt="Local Pizza Prime" title="Local Pizza Prime">
                  <% macapa = Store.where(:name => 'Macapá').first %>
                  <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(macapa.state,macapa.id) %>'">UNIDADE <%= macapa.name %></h2>
                  <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Leopoldo Machado, nº 2466 - Central | 68900-067 | Macapá/AP</p>
@@ -69,7 +67,6 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                  <img src="/images/sudeste.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
                  <img src="/images/delivery.png" alt="Pizza Prime" title="Pizza Prime" style="margin-top:30px" />
                  <br><br>
-                 
              </div>
             <br>
             <div class="row">
@@ -78,8 +75,8 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                         <% aclima = Store.where(:name => 'Aclimação/Ipiranga').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(aclima.state,aclima.id) %>'">ACLIMAÇÃO/IPIRANGA</h2>
                      <p class="unit-desc pointer"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Espírito Santo, 219 - Aclimação | 01526-020 |São Paulo/SP</p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3341-7455 / (11) 3207-1382 / (11) 3207-3395 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Sáb: 17:30 às 23:30 | Dom: 18:00 às 23:00 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3341-7455 / (11) 3207-1382 / (11) 3207-3395 </p>
                      <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
@@ -87,8 +84,8 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                      <% bela = Store.where(:name => 'Bela Vista').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(bela.state,bela.id) %>'" >BELA VISTA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Al. Joaquim Eugênio de Lima, 219 - Bela Vista | 01403-001 | São Paulo/SP</p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3141-0162 / (11)2892-4728 / (11)3171-3369 t</p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 17:30 às 23:30 | Horário de Almoço: Seg à Sex: 12:00 às 15:00  </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3141-0162 / (11)2892-4728 / (11)3171-3369</p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -100,8 +97,8 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                         <% mooca = Store.where(:name => 'Mooca').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(mooca.state,mooca.id) %>'" >MOOCA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Cassandoca, 120 - Mooca | 03169-010 | São Paulo/SP </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 17:30 às 23:30 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 17:30 às 23:30 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2618-4358 / (11) 2729-9788 </p>
                      <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
@@ -109,9 +106,9 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                     <% pin = Store.where(:name => 'Pinheiros').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(pin.state,pin.id) %>'" >PINHEIROS</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Mourato Coelho, 361 - Pinheiros | 05417-010 | São Paulo/SP </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2597-1625 / 3868-1471 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Dom à Qui: 18:00 às 23:30 | Sex e Sáb: 18:00 às 23:45 
 Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2597-1625 / 3868-1471 </p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -122,8 +119,8 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                         <% saude = Store.where(:name => 'Saúde').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(saude.state,saude.id) %>'" >SAÚDE/PLANALTO</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Carneio da Cunha, 634 - Saúde | 04144-001 | São Paulo/SP </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 5581-7777 / (11) 5581-0001 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Sáb: 17:30 às 23:30 | Dom: 18:00 às 23:00</p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 5581-7777 / (11) 5581-0001 </p>
                      <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
@@ -131,8 +128,8 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                     <% leop = Store.where(:name => 'Vila Leopoldina').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(leop.state,leop.id) %>'" >VILA LEOPOLDINA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Carlos Weber, 349 - Vila Leopoldina |05303-000 |São Paulo/SP </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3831-1216 / (11) 3831-1625 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Dom à Qui: 18:00 às 13:30 | Sex e Sáb: 18:00 às 00:00 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3831-1216 / (11) 3831-1625 </p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -143,8 +140,8 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                     <% maria = Store.where(:name => 'Vila Mariana').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(maria.state,maria.id) %>'" >VILA MARIANA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Santa Cruz, 602 - Vila Mariana |04122-000 |São Paulo/SP </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2306-2360 / (11)  5549-0055  </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Sáb: 17:30 às 23:30 | Dom: 18:00 às 23:00 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2306-2360 / (11)  5549-0055  </p>
                      <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
@@ -152,8 +149,8 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                     <% matilde = Store.where(:name => 'Vila Matilde').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(matilde.state,matilde.id) %>'" >VILA MATILDE</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Doutor José Paulo, 115 - Vila Matilde | 03509-040 | São Paulo/SP </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2082-3241 / (11) 2955-3667 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Dom à Qui: 18:00 às 23:00 | Sex e Sáb: 18:00 às 23:30 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2082-3241 / (11) 2955-3667 </p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -164,8 +161,8 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                     <% francisco = Store.where(:name => 'Vila São Francisco').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(francisco.state,francisco.id) %>'" >VILA SÃO FRANCISCO</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Doutor Candido Motta Filho, 548 - Vila São Francisco    05351-000   São Paulo/SP </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3714-9229 / (11) 2985-9905 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Dom à Qui: 18:00 às 23:30 | Sex e Sáb: 18:00 às 23:45 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3714-9229 / (11) 2985-9905 </p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -179,20 +176,22 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
              <div class="row">
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                     <h2 class="unit-title pointer">ABRAÃO/COQUEIROS</h2>
+                    <% abraao = Store.where(:name => 'Abraão/Coqueiros').first %>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(abraao.state,abraao.id) %>'" >ABRAÃO/COQUEIROS</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Prof Rosinha Campos, nº 192 - Abraão
 88085-160 | Florianópolis/SC </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 3249-3181 / (48) 3879-4959 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />  Dom à Qui: 18:00 às 22:45 | Sex e Sáb: 18:00 às 23:15 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 3249-3181 / (48) 3879-4959 </p>
                      <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                     <h2 class="unit-title pointer">BALNEÁRIO CAMBORIÚ</h2>
+                     <% balne = Store.where(:name => 'Balneário Camboriú').first %>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(balne.state,balne.id) %>'" >BALNEÁRIO CAMBORIÚ</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua 3100, nº 731 loja 02 - Centro
 88330-302 | Balneario Camboriu/SC </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 2125-8775</p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 17:30 às 23:30 | Horário de Almoço: Seg à Sex: 12:00 às 15:00  </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 2125-8775</p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -200,20 +199,22 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
             <div class="row">
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                     <h2 class="unit-title pointer">PALHOÇA</h2>
-                     <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Ministro Victor Konder, 950
-88301701 | Itajaí/SC</p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (47) 2125-3500 </p>
+                     <% palhoca = Store.where(:name => 'Palhoça').first %>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(palhoca.state,palhoca.id) %>'" >PALHOÇA</h2>
+                     <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Atilio Pedro Pagani, nº 461 - Passa Vinte
+88132-149 | Palhoça/SC </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />  Dom à Qui: 18:00 às 22:45 | Sex e Sáb: 18:00 às 23:15 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (47) 2125-3500 </p>
                      <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                     <h2 class="unit-title pointer">RIO GRANDE</h2>
+                     <% riogrande = Store.where(:name => 'Rio Grande').first %>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(riogrande.state,riogrande.id) %>'" >RIO GRANDE</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Gen. Netto, 484 - Centro
 96200-010 | Rio Grande/RS </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (53) 3035-6444 / (53) 3035-6404 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:30 às 23:00 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (53) 3035-6444 / (53) 3035-6404 </p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -224,17 +225,18 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                      <h2 class="unit-title pointer" onclick="location.href='<%= novo_hamburgo_path %>'">NOVO HAMBURGO</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Dr. Maurício Cardoso, 1450 - Hamburgo Velho
 93510-250 |Novo Hamburgo/RS </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (51) 3065-6533 / (51) 3065-6536 t </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:30 às 23:30 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (51) 3065-6533 / (51) 3065-6536</p>
                      <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                     <h2 class="unit-title pointer">ALTO DA RUA XV/JUVEVÊ</h2>
+                    <% juveve = Store.where(:name => 'Alto da Rua XV/Juvevê').first %>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(juveve.state,juveve.id) %>'" >ALTO DA RUA XV/JUVEVÊ</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Sete de Abril, 835 - Alto da Rua XV
 80045-165   Curitiba/PR </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" />  (41) 3532-2550 / (41) 3363-6311 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:00 às 23:00 </p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" />  (41) 3532-2550 / (41) 3363-6311 </p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -242,11 +244,12 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
             <div class="row">
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                     <h2 class="unit-title pointer">BIGORRILHO/CHAMPAGNAT</h2>
+                     <% bigorrilho = Store.where(:name => 'Bigorrilho/Champagnat').first %>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(bigorrilho.state,bigorrilho.id) %>'" >BIGORRILHO/CHAMPAGNAT</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Al. Júlia da Costa, 1822
 80730070 | Curitiba/PR </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (41) 3503-6706 / (41) 3503-6686 </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:30 às 23:30</p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (41) 3503-6706 / (41) 3503-6686 </p>
                      <!-- MACAPA -->
                 </div>
             </div>
@@ -257,32 +260,35 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
              </div>
              <br>
              <div class="row">
-                 <div class="col-md-4">
+                <% itajai = Store.where(:name => 'Itajaí').first %>
+                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(itajai.state,itajai.id) %>'" >
                      <img src="/images/itajai.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
                      <!-- MACAPA -->
                      <h2 class="unit-title pointer text-center" style="font-size:20px">ITAJAÍ</h2>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Ministro Victor Konder, 950
 88301701 | Itajaí/SC </p>
-                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (41) 3532-2550 / (41) 3363-6311 </p>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:00 às 23:45 </p>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (41) 3532-2550 / (41) 3363-6311 </p>
                      <!-- MACAPA -->
                  </div>
-                 <div class="col-md-4">
+                 <% santam = Store.where(:name => 'Santa Mônica').first %>
+                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(santam.state,santam.id) %>'" >
                      <img src="/images/monica.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
                      <!-- MACAPA -->
-                     <h2 class="unit-title pointer text-center" style="font-size:20px">SANTA MONICA</h2>
+                     <h2 class="unit-title pointer text-center" style="font-size:20px">SANTA MÔNICA</h2>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Madre Benvenuta, 1028 - Santa Mônica 88035-240 | Florianópolis/SC </p>
-                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 33650065 /  (48) 33073330 </p>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:00 às 23:30 </p>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 33650065 /  (48) 33073330 </p>
                      <!-- MACAPA -->
                  </div>
-                 <div class="col-md-4">
+                 <% santoam = Store.where(:name => 'Santo Amaro Da Imperatriz').first %>
+                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(santoam.state,santoam.id) %>'" >
                      <img src="/images/amaro.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
                      <!-- MACAPA -->
                      <h2 class="unit-title pointer text-center" style="font-size:20px">SANTO AMARO DA IMPERATRIZ</h2>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> R Pedro Neri Schwinden, nº 964 - Vargem dos Pinheiros    88140-000   Santo Amaro/SC </p>
-                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 3245-6555 / (48) 3245-5083 </p>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:00 às 22:45 </p>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 3245-6555 / (48) 3245-5083 </p>
                      <!-- MACAPA -->
                  </div>
              </div>
@@ -290,8 +296,6 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
         <br><br>
 
         <%= render :partial => 'footer', :locals => {:page => 'home'} %>
-
-
 
         <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.js"></script>
@@ -301,8 +305,56 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
         <script type="text/javascript" src="/js/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
         <script type="text/javascript" src="/js/untitled.js"></script>
-        
 
         <script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/06c0c772-6f76-429f-8082-c86ab41812f5-loader.js" ></script>
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
