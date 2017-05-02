@@ -783,7 +783,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                         price = b.price_tables.where(:store_ids => @store.id).first
                         next if price.nil?
                         %>
-                        <p class="nomeBebidas"><%= b.name %></p>
+                        <p class="nomeBebidas"><%= b.name %> - <%= b.sku %></p>
                     <% end %>
                 </div>
                 <div class="col-md-4">
