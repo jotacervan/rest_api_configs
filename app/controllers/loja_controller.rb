@@ -294,19 +294,20 @@ class LojaController < ApplicationController
       @store = Store.find(@neighborhood.first.id)
       if @store.neighborhood == 'Hamburgo Velho'
         redirect_to novo_hamburgo_path
-      end
-      if session[:massa].nil?
-        session[:massa] = 'Fina'
-      end
-      if session[:tamanho].nil?
-        session[:tamanho] = @store.tamanhos.last.id.to_s
-      end
-      if session[:borda].nil?
-        session[:borda] = @store.borders.first.id.to_s
+      else
+        if session[:massa].nil?
+          session[:massa] = 'Fina'
+        end
+        if session[:tamanho].nil?
+          session[:tamanho] = @store.tamanhos.first.id.to_s
+        end
+        if session[:borda].nil?
+          session[:borda] = @store.borders.first.id.to_s
+        end
+        
+        render 'cardapio_state_name'
       end
       
-
-    render 'cardapio_state_name'
   end
 
   def cardapio_state_name
