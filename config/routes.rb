@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
     
+  get 'users/index'
+
+  get 'users/new'
+
+  get 'users/show'
+
+  get 'users/edit'
+
+  get 'users/create'
+
+  get 'users/update'
+
+  get 'users/destroy'
+
   	get 'loja' => 'loja#index', as: :loja
   	post 'busca_cidades' => 'loja#busca_cidades', as: :busca_cidades
   	get 'cardapio' => 'loja#cardapio', as: :cardapio
