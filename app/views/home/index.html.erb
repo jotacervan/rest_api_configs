@@ -49,7 +49,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
 
         <%= render :partial => 'header', :locals => {:page => 'home', :links => 'site'} %>
         
-        <div class="banner text-center cycle-slideshow" data-cycle-fx="scrollHorz" data-cycle-next="#next" data-cycle-prev="#prev" data-cycle-slides="> div" data-cycle-timeout="0">
+        <div class="banner text-center cycle-slideshow md-only" data-cycle-fx="scrollHorz" data-cycle-next="#next" data-cycle-prev="#prev" data-cycle-slides="> div" data-cycle-timeout="0">
             <br>
             <div>
                 <img src="/images/slide1.png" id="Image-Maps-Com-image-maps-2017-03-07-072812" alt="Pizza Prime" title="Pizza Prime" >
@@ -59,10 +59,18 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
             <div>
                 <img src="/images/banner_catupiry.png" alt="Pizza Prime" title="Pizza Prime" >
             </div>
+            <div>
+                <br><br><br><br>
+                <img src="/images/banner_almoco_site.png" alt="Pizza Prime" title="Pizza Prime" >
+            </div>
+            <div>
+                <br><br><br>
+                <img src="/images/banner_site_rodizio.png" alt="Pizza Prime" title="Pizza Prime" >
+            </div>
         </div>
         
-        <div id="prev"><i class="fa fa-angle-left fa-2x"></i></div>
-        <div id="next"><i class="fa fa-angle-right fa-2x"></i></div>
+        <div id="prev" class="md-only"><i class="fa fa-angle-left fa-2x"></i></div>
+        <div id="next" class="md-only"><i class="fa fa-angle-right fa-2x"></i></div>
         <br>
         <div id="apizza" class="content historia_de_sucesso">
             <h1 id='trigger1' >História de Sucesso</h1>

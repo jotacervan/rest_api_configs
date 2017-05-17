@@ -92,7 +92,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
             <div class="center content">
 
                 <h2 class="fundo-faixa">Complete seu endereço:</h2>
-                
+                <div style="max-width:700px; margin:0 auto">
                 <%= form_for :cep, url: busca_cidades_path do |f| %>
                     <%= f.hidden_field :bairro, :value => I18n.transliterate(@address['bairro']) %>
                     <%= f.hidden_field :cep, :value => @address['cep'] %>
@@ -116,6 +116,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
                     <%= f.submit 'OK', :class => 'btn-cep' %>
 
                 <% end %>
+                </div>
                 <br>
             
             </div>

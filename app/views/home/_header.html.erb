@@ -6,7 +6,7 @@
                       <button id="dLabel" class="hamburguer" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bars"></i>
                       </button>
-                      <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      <ul class="dropdown-menu" style="width:100%; position:absolute;" aria-labelledby="dLabel">
                         <li <% if page == 'home' %> class="active" <% end %> ><a href="<%= root_path %>">Home</a></li>
                         <li <% if page == 'unidades' %> class="active" <% end %> ><a href="<%= unidades_path %>">Unidades</a></li>
                         <li><a href="#apizza" onclick="row(this)">A Pizza Prime</a></li>

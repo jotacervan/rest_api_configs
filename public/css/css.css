@@ -3,7 +3,6 @@
     margin:0 auto;
     font-family: 'Titillium Web', sans-serif;
 }
-
 .pointer{
     cursor:pointer;
 }
@@ -12,6 +11,7 @@
  * Component: Info Box
  * -------------------
  */
+
 .info-box {
   display: block;
   min-height: 90px;
@@ -102,7 +102,7 @@
 
 #prev, #next{
     position:absolute;
-    margin-top:-450px;
+    margin-top:-400px;
     z-index:999;
     padding:15px;
     font-size:30px;
@@ -200,7 +200,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 }
 
 .cep{
-    width:700px;
     margin:0 auto;
     height:60px;
     font-size:20px;
@@ -209,7 +208,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 }
 
 .formcep{
-    width:700px;
+    max-width:700px;
     margin:0 auto;
 }
 
@@ -988,6 +987,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
     font-size:40px;
 }
 
+@media(max-width:1170px){
+    .content{
+        padding-right:20px;
+        padding-left:20px;
+    }
+}
 @media ( max-width: 1000px ){
     .menu{
         display:none!important;
@@ -996,6 +1001,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
         display:block;
     }
 }
+
+
 
 
 

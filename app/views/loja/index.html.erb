@@ -83,19 +83,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
             <div class="center content">
                 <% if @error_cep %>
                     <h2 class="fundo-faixa">OPS!</h2>
-                    <p style=" font-size:20px; width:700px; margin:-30px auto 0; ">Sua região ainda não está disponível!<br>Insira seu email para receber uma mensagem quando a rede PIZZA PRIME estiver disponível na sua região.</p>
+                    <p style=" font-size:20px; max-width:700px; margin:-30px auto 0; ">Sua região ainda não está disponível!<br>Insira seu email para receber uma mensagem quando a rede PIZZA PRIME estiver disponível na sua região.</p>
                     <br>
-                    <%= form_for :email, url: rss_path do |f| %>
-                        <%= f.text_field :cep, :placeholder => 'Digite seu email', :class => 'form-control end formcep' %><br>
-                        <%= f.submit 'OK', :class => 'btn-cep' %>
-                    <% end %>
+                    <div style="max-width:700px; margin:0 auto">
+                        <%= form_for :email, url: rss_path do |f| %>
+                            <%= f.text_field :cep, :placeholder => 'Digite seu email', :class => 'form-control end formcep' %><br>
+                            <%= f.submit 'OK', :class => 'btn-cep' %>
+                        <% end %>
+                    </div>
                 <% else %>
                     <h2 class="fundo-faixa">Digite o seu cep abaixo:</h2>
                     <br>
-                    <%= form_for :cep, url: cep_path do |f| %>
-                        <%= f.text_field :cep, :placeholder => 'Digite seu cep', :class => 'form-control cep' %><br>
-                        <%= f.submit 'OK', :class => 'btn-cep' %>
-                    <% end %>
+                    <div style="max-width:700px; margin:0 auto">
+                        <%= form_for :cep, url: cep_path do |f| %>
+                            <%= f.text_field :cep, :placeholder => 'Digite seu cep', :class => 'form-control cep' %><br>
+                            <%= f.submit 'OK', :class => 'btn-cep' %>
+                        <% end %>
+                    </div>
                     <br>
                 <% end %>
             </div>
