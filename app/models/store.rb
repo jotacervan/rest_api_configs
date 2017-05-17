@@ -37,7 +37,6 @@ class Store
   field :transfer_interval, type: String
   field :transfer_day, type: String
 
- 
   has_mongoid_attached_file :picture,
     :storage        => :s3,
     :bucket_name    => 'PIZZAPRIME',

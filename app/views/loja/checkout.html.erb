@@ -329,6 +329,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
 	                   					Desconto: <%= number_to_percentage(session[:coupon]['discount'] * 100, precision: 1, strip_insignificant_zeros: true) %>	
 	                   				</div>
 	                   					<% total =  session[:coupon]['discount'] * total %>
+	                   					<% session[:final_valor] = total %>
 	                   				<% end %>
 		                   			<h3>Total: <%= number_to_currency(total, unit: 'R$ ', separator: ',') %></h3>
 	                    			<br>

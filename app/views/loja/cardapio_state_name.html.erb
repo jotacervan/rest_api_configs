@@ -50,7 +50,7 @@
         <%= render :partial => 'home/header', :locals => {:page => 'loja', :links => 'site'} %>
         
         <!-- INICIO DA SEÇÃO DAS REGIÕES -->
-        <div class="stores">
+        <div class="stores md-only">
         	<div>
         		<div class="content center">
         			<ul class="states">
@@ -93,7 +93,7 @@
 
 
     <!-- CORPO DO CARDAPIO -->
-        <div class="content">
+        <div class="content sm-only">
              <% if session[:logged].nil? %>
         	   <div class="minha-caixa" data-toggle="modal" data-target="#login">
                     <p class="center">Faça o Login</p>

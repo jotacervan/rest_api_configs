@@ -215,7 +215,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .titleCardapio{
     font-family: 'Milk';
     text-align: center;
-    font-size:130px;
+    font-size:120px;
     color:#a12327;
     margin-bottom:35px;
 }
@@ -1001,6 +1001,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
         display:block;
     }
 }
+
+@media (max-width: 730px){
+    .md-only{
+        display:none;
+    }
+    #apizza{
+        margin-top:100px;
+    }
+    .sm-only{
+        margin-top:65px;
+    }
+    .logo{
+        max-width:60px;
+        margin:5px 0 0 -20px;
+        float:left;
+    }
+}
+
+
+
+
+
+
 
 
 
