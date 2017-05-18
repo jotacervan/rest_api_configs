@@ -1285,7 +1285,8 @@ class LojaController < ApplicationController
       session[:pizzas][params[:cart][:name]][:tastes] = [ { :id => params[:cart][:sabor1] }, { :id => params[:cart][:sabor2] } ]
     end
 
-    redirect_to cardapio_path, :notice => 'Pizza Adicionada com Sucesso!'
+    render json: { :message => 'Pizza Adicionada com Sucesso', :status => 200 }
+    # redirect_to cardapio_path, :notice => 'Pizza Adicionada com Sucesso!'
   end
 
   def add_sweet

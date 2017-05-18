@@ -269,7 +269,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                                             <h3 class="center"><%= p.name %></h3>
                                             <br>
                                             <p><%= p.description %></p>
-                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                            <%= form_for :cart, :html => { :id => p.name.gsub(' ','-') }, url: add_cart_path do |f| %>
                                                 <%= f.hidden_field :name, :value => p.name %>
                                                 <%= f.hidden_field :size, :value => session[:tamanho] %>
                                                 <div class="row">
@@ -412,7 +412,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                                             <h3 class="center"><%= p.name %></h3>
                                             <br>
                                             <p><%= p.description %></p>
-                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                            <%= form_for :cart, :html => { :id => p.name.gsub(' ','-') }, url: add_cart_path do |f| %>
                                                 <%= f.hidden_field :name, :value => p.name %>
                                                 <%= f.hidden_field :size, :value => session[:tamanho] %>
                                                 <div class="row">
@@ -554,7 +554,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                                             <h3 class="center"><%= p.name %></h3>
                                             <br>
                                             <p><%= p.description %></p>
-                                            <%= form_for :cart, url: add_cart_path do |f| %>
+                                            <%= form_for :cart, :html => { :id => p.name.gsub(' ','-') }, url: add_cart_path do |f| %>
                                                 <%= f.hidden_field :name, :value => p.name %>
                                                 <%= f.hidden_field :size, :value => session[:tamanho] %>
                                                 <div class="row">
@@ -697,7 +697,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                                             <h3 class="center"><%= p.name %></h3>
                                             <br>
                                             <p><%= p.description %></p>
-                                            <%= form_for :cart, url: add_sweet_path do |f| %>
+                                            <%= form_for :cart, :html => { :id => p.name.gsub(' ','-') }, url: add_sweet_path do |f| %>
                                                 <%= f.hidden_field :name, :value => p.name %>
                                                 <%= f.hidden_field :size, :value => session[:tamanho] %>
                                                 <div class="row">
@@ -893,6 +893,22 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
             </div><!-- /.modal -->
             <%= flash[:notice] = nil %>
         <% end %>
+
+        <div id="sucessopizza" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Mensagem do Sistema</h4>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <div class="alert alert-info">Pizza Adicionada com Sucesso</div>
+
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
         
         <%= render 'home/footer' %>
 
@@ -903,7 +919,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
         <script type="text/javascript" src="/js/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
         <script type="text/javascript" src="/js/untitled.js"></script>
-
+        
         <script>
             $(document).ready( function(){ 
 
@@ -918,6 +934,30 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                 var scene = new ScrollMagic.Scene({triggerElement: '#bebidas', triggerHook: 0.7})
                     .setClassToggle(".marginBebe", "black")
                     .addTo(controller); // final da scene var
+
+
+                $('form').on('submit', function(e){
+                    e.preventDefault();
+                    var datastring = $(this).serialize();
+                    $.ajax({
+                        method: 'POST',
+                        url: '/add_cart',
+                        data: datastring,
+                        dataType: 'JSON'
+                    }).done(function(data){
+                        console.log('Success');
+                        console.log(data);
+                        $('*').modal('hide');
+                        var number = parseInt($('.badge').text());
+                        $('.badge').text(number + 1);
+                        $('#sucessopizza').modal('show');
+                    }).fail(function(data){
+                        alert('Ops, algo deu errado, tente novamente mais tarde!');
+                        console.log('Error');
+                        console.log(data);
+                    });
+                    
+                });
 
             });
         </script>
