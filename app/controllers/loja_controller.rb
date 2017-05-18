@@ -32,7 +32,7 @@ class LojaController < ApplicationController
       redirect_to cardapio_path
     end
   end
-
+  
   def logout
     cookies[:session_id] = nil
     
@@ -314,8 +314,8 @@ class LojaController < ApplicationController
     
       @states = Store.distinct(:state)
       @neighborhood = Store.where(:state => params[:state])
-      
-      @store = Store.find(params[:name])
+      nome = params[:name].gsub('_','/').gsub('-',' ')
+      @store = Store.where(:name => nome).first
       if @store.neighborhood == 'Hamburgo Velho'
         redirect_to novo_hamburgo_path
       end

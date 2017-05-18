@@ -81,7 +81,7 @@
         			</ul>
                     <ul class="neighbor">
                         <% @neighborhood.each do |n| %>
-                            <li onclick="location.href='<%= cardapio_state_name_path(params[:state],n.id) %>'" <% if n.id == @store.id %> class="active" <% end %> >	
+                            <li onclick="location.href='<%= cardapio_state_name_path(params[:state],n.name.gsub('/','_').gsub(' ','-')) %>'" <% if n.id == @store.id %> class="active" <% end %> >	
                                 <%= n.name %>
                             </li>
                         <% end %>

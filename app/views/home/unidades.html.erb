@@ -56,7 +56,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                  <img src="/images/delivery.png" alt="Pizza Prime" title="Pizza Prime" style="margin-top:30px" />
                  <br><br>
                  <% macapa = Store.where(:name => 'Macapá').first %>
-                 <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(macapa.state,macapa.id) %>'">UNIDADE <%= macapa.name %></h2>
+                 <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(macapa.state,macapa.name.gsub('/','_').gsub(' ','-')) %>'">UNIDADE <%= macapa.name %></h2>
                  <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Leopoldo Machado, nº 2466 - Central | 68900-067 | Macapá/AP</p>
                  <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (96) 3225-1474 / (96)  322-5678 &nbsp; &nbsp; &nbsp; <img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Qui: 18:00 às 23:30 | Sex, Sáb e Dom: 18:00 às 00:00 </p>
              </div>
@@ -72,21 +72,21 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
             <div class="row">
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                        <% aclima = Store.where(:name => 'Aclimação/Ipiranga').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(aclima.state,aclima.id) %>'">ACLIMAÇÃO/IPIRANGA</h2>
+                     <% aclima = Store.where(:name => 'Aclimação/Ipiranga').first %>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(aclima.state,aclima.name.gsub('/','_').gsub(' ','-')) %>'">ACLIMAÇÃO/IPIRANGA</h2>
                      <p class="unit-desc pointer"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Espírito Santo, 219 - Aclimação | 01526-020 |São Paulo/SP</p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Sáb: 17:30 às 23:30 | Dom: 18:00 às 23:00 </p>
                      <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3341-7455 / (11) 3207-1382 / (11) 3207-3395 </p>
-                     <!-- MACAPA -->
+                    <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                      <% bela = Store.where(:name => 'Bela Vista').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(bela.state,bela.id) %>'" >BELA VISTA</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(bela.state,bela.name.gsub('/','_').gsub(' ','-')) %>'" >BELA VISTA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Al. Joaquim Eugênio de Lima, 219 - Bela Vista | 01403-001 | São Paulo/SP</p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 17:30 às 23:30 | Horário de Almoço: Ter à Qui: 12:00 às 15:00  </p>
                      <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3141-0162 / (11)2892-4728 / (11)3171-3369</p>
-                     <!-- MACAPA -->
+                    <!-- MACAPA -->
                 </div>
             </div>
 
@@ -95,7 +95,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                 <div class="col-md-6">
                     <!-- MACAPA -->
                         <% mooca = Store.where(:name => 'Mooca').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(mooca.state,mooca.id) %>'" >MOOCA</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(mooca.state,mooca.name.gsub('/','_').gsub(' ','-')) %>'" >MOOCA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Cassandoca, 120 - Mooca | 03169-010 | São Paulo/SP </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 17:30 às 23:30 </p>
                      <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2618-4358 / (11) 2729-9788 </p>
@@ -104,7 +104,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                 <div class="col-md-6">
                     <!-- MACAPA -->
                     <% pin = Store.where(:name => 'Pinheiros').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(pin.state,pin.id) %>'" >PINHEIROS</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(pin.state,pin.name.gsub('/','_').gsub(' ','-')) %>'" >PINHEIROS</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Mourato Coelho, 361 - Pinheiros | 05417-010 | São Paulo/SP </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Dom à Qui: 18:00 às 23:30 | Sex e Sáb: 18:00 às 23:45 
 Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
@@ -117,7 +117,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                         <% saude = Store.where(:name => 'Saúde').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(saude.state,saude.id) %>'" >SAÚDE/PLANALTO</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(saude.state,saude.name.gsub('/','_').gsub(' ','-')) %>'" >SAÚDE/PLANALTO</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Carneio da Cunha, 634 - Saúde | 04144-001 | São Paulo/SP </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Sáb: 17:30 às 23:30 | Dom: 18:00 às 23:00</p>
                      <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 5581-7777 / (11) 5581-0001 </p>
@@ -126,7 +126,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                     <% leop = Store.where(:name => 'Vila Leopoldina').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(leop.state,leop.id) %>'" >VILA LEOPOLDINA</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(leop.state,leop.name.gsub('/','_').gsub(' ','-')) %>'" >VILA LEOPOLDINA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Carlos Weber, 349 - Vila Leopoldina |05303-000 |São Paulo/SP </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Dom à Qui: 18:00 às 23:30 | Sex e Sáb: 18:00 às 00:00 </p>
                      <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3831-1216 / (11) 3831-1625 </p>
@@ -138,7 +138,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                     <% maria = Store.where(:name => 'Vila Mariana').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(maria.state,maria.id) %>'" >VILA MARIANA</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(maria.state,maria.name.gsub('/','_').gsub(' ','-')) %>'" >VILA MARIANA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Santa Cruz, 602 - Vila Mariana |04122-000 |São Paulo/SP </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Sáb: 17:30 às 23:30 | Dom: 18:00 às 23:00 </p>
                      <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2306-2360 / (11)  5549-0055  </p>
@@ -147,7 +147,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                     <% matilde = Store.where(:name => 'Vila Matilde').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(matilde.state,matilde.id) %>'" >VILA MATILDE</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(matilde.state,matilde.name.gsub('/','_').gsub(' ','-')) %>'" >VILA MATILDE</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Doutor José Paulo, 115 - Vila Matilde | 03509-040 | São Paulo/SP </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Dom à Qui: 18:00 às 23:00 | Sex e Sáb: 18:00 às 23:30 </p>
                      <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 2082-3241 / (11) 2955-3667 </p>
@@ -159,7 +159,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                     <% francisco = Store.where(:name => 'Vila São Francisco').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(francisco.state,francisco.id) %>'" >VILA SÃO FRANCISCO</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(francisco.state,francisco.name.gsub('/','_').gsub(' ','-')) %>'" >VILA SÃO FRANCISCO</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Doutor Candido Motta Filho, 548 - Vila São Francisco    05351-000   São Paulo/SP </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Dom à Qui: 18:00 às 23:30 | Sex e Sáb: 18:00 às 23:45 </p>
                      <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (11) 3714-9229 / (11) 2985-9905 </p>
@@ -177,7 +177,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                     <% abraao = Store.where(:name => 'Abraão/Coqueiros').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(abraao.state,abraao.id) %>'" >ABRAÃO/COQUEIROS</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(abraao.state,abraao.name.gsub('/','_').gsub(' ','-')) %>'" >ABRAÃO/COQUEIROS</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Prof Rosinha Campos, nº 192 - Abraão
 88085-160 | Florianópolis/SC </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />  Dom à Qui: 18:00 às 22:45 | Sex e Sáb: 18:00 às 23:15 </p>
@@ -187,7 +187,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                      <% balne = Store.where(:name => 'Balneário Camboriú').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(balne.state,balne.id) %>'" >BALNEÁRIO CAMBORIÚ</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(balne.state,balne.name.gsub('/','_').gsub(' ','-')) %>'" >BALNEÁRIO CAMBORIÚ</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua 3100, nº 731 loja 02 - Centro
 88330-302 | Balneario Camboriu/SC </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 17:30 às 23:30</p>
@@ -200,7 +200,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                      <% palhoca = Store.where(:name => 'Palhoça').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(palhoca.state,palhoca.id) %>'" >PALHOÇA</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(palhoca.state,palhoca.name.gsub('/','_').gsub(' ','-')) %>'" >PALHOÇA</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Atilio Pedro Pagani, nº 461 - Passa Vinte
 88132-149 | Palhoça/SC </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />  Dom à Qui: 18:00 às 22:45 | Sex e Sáb: 18:00 às 23:15 </p>
@@ -210,7 +210,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                      <% riogrande = Store.where(:name => 'Rio Grande').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(riogrande.state,riogrande.id) %>'" >RIO GRANDE</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(riogrande.state,riogrande.name.gsub('/','_').gsub(' ','-')) %>'" >RIO GRANDE</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Gen. Netto, 484 - Centro
 96200-010 | Rio Grande/RS </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:30 às 23:00 </p>
@@ -232,7 +232,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                     <% juveve = Store.where(:name => 'Alto da Rua XV/Juvevê').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(juveve.state,juveve.id) %>'" >ALTO DA RUA XV/JUVEVÊ</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(juveve.state,juveve.name.gsub('/','_').gsub(' ','-')) %>'" >ALTO DA RUA XV/JUVEVÊ</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Sete de Abril, 835 - Alto da Rua XV
 80045-165   Curitiba/PR </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:00 às 23:00 </p>
@@ -245,7 +245,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                 <div class="col-md-6">
                     <!-- MACAPA -->
                      <% bigorrilho = Store.where(:name => 'Bigorrilho/Champagnat').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(bigorrilho.state,bigorrilho.id) %>'" >BIGORRILHO/CHAMPAGNAT</h2>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(bigorrilho.state,bigorrilho.name.gsub('/','_').gsub(' ','-')) %>'" >BIGORRILHO/CHAMPAGNAT</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Al. Júlia da Costa, 1822
 80730070 | Curitiba/PR </p>
                      <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:30 às 23:30</p>
@@ -261,7 +261,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
              <br>
              <div class="row">
                 <% itajai = Store.where(:name => 'Itajaí').first %>
-                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(itajai.state,itajai.id) %>'" >
+                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(itajai.state,itajai.name.gsub('/','_').gsub(' ','-')) %>'" >
                      <img src="/images/itajai.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
                      <!-- MACAPA -->
                      <h2 class="unit-title pointer text-center" style="font-size:20px">ITAJAÍ</h2>
@@ -272,7 +272,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                      <!-- MACAPA -->
                  </div>
                  <% santam = Store.where(:name => 'Santa Mônica').first %>
-                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(santam.state,santam.id) %>'" >
+                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(santam.state,santam.name.gsub('/','_').gsub(' ','-')) %>'" >
                      <img src="/images/monica.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
                      <!-- MACAPA -->
                      <h2 class="unit-title pointer text-center" style="font-size:20px">SANTA MÔNICA</h2>
@@ -282,7 +282,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                      <!-- MACAPA -->
                  </div>
                  <% santoam = Store.where(:name => 'Santo Amaro Da Imperatriz').first %>
-                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(santoam.state,santoam.id) %>'" >
+                 <div class="col-md-4" onclick="location.href='<%= cardapio_state_name_path(santoam.state,santoam.name.gsub('/','_').gsub(' ','-')) %>'" >
                      <img src="/images/amaro.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
                      <!-- MACAPA -->
                      <h2 class="unit-title pointer text-center" style="font-size:20px">SANTO AMARO DA IMPERATRIZ</h2>

@@ -81,7 +81,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
         			</ul>
                     <ul class="neighbor">
                         <% @neighborhood.each do |n| %>
-                            <li onclick="location.href='<%= cardapio_state_name_path(n.state,n.id) %>'" <% if n.neighborhood == session[:store]['name'] %> class="active" <% end %> >	
+                            <li onclick="location.href='<%= cardapio_state_name_path(n.state,n.name.gsub('/','_').gsub(' ','-')) %>'" <% if n.neighborhood == session[:store]['name'] %> class="active" <% end %> >	
                                 <%= n.name %>
                             </li>
                         <% end %>
