@@ -199,12 +199,12 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
             <div class="row">
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                     <% palhoca = Store.where(:name => 'Palhoça').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(palhoca.state,palhoca.name.gsub('/','_').gsub(' ','-')) %>'" >PALHOÇA</h2>
-                     <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Atilio Pedro Pagani, nº 461 - Passa Vinte
-88132-149 | Palhoça/SC </p>
-                     <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />  Dom à Qui: 18:00 às 22:45 | Sex e Sáb: 18:00 às 23:15 </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (47) 2125-3500 </p>
+                     <% bigorrilho = Store.where(:name => 'Bigorrilho/Champagnat').first %>
+                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(bigorrilho.state,bigorrilho.name.gsub('/','_').gsub(' ','-')) %>'" >BIGORRILHO/CHAMPAGNAT</h2>
+                     <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Al. Júlia da Costa, 1822
+80730070 | Curitiba/PR </p>
+                     <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:30 às 23:30</p>
+                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (41) 3503-6706 / (41) 3503-6686 </p>
                      <!-- MACAPA -->
                 </div>
                 <div class="col-md-6">
@@ -222,15 +222,6 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
             <div class="row">
                 <div class="col-md-6">
                     <!-- MACAPA -->
-                     <h2 class="unit-title pointer" onclick="location.href='<%= novo_hamburgo_path %>'">NOVO HAMBURGO</h2>
-                     <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Av. Dr. Maurício Cardoso, 1450 - Hamburgo Velho
-93510-250 |Novo Hamburgo/RS </p>
-                     <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:30 às 23:30 </p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (51) 3065-6533 / (51) 3065-6536</p>
-                     <!-- MACAPA -->
-                </div>
-                <div class="col-md-6">
-                    <!-- MACAPA -->
                     <% juveve = Store.where(:name => 'Alto da Rua XV/Juvevê').first %>
                      <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(juveve.state,juveve.name.gsub('/','_').gsub(' ','-')) %>'" >ALTO DA RUA XV/JUVEVÊ</h2>
                      <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Sete de Abril, 835 - Alto da Rua XV
@@ -243,14 +234,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
             <br><br>
             <div class="row">
                 <div class="col-md-6">
-                    <!-- MACAPA -->
-                     <% bigorrilho = Store.where(:name => 'Bigorrilho/Champagnat').first %>
-                     <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(bigorrilho.state,bigorrilho.name.gsub('/','_').gsub(' ','-')) %>'" >BIGORRILHO/CHAMPAGNAT</h2>
-                     <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Al. Júlia da Costa, 1822
-80730070 | Curitiba/PR </p>
-                     <p class="unit-desc"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:30 às 23:30</p>
-                     <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (41) 3503-6706 / (41) 3503-6686 </p>
-                     <!-- MACAPA -->
+                    
                 </div>
             </div>
             <br><br>
@@ -289,6 +273,29 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> R Pedro Neri Schwinden, nº 964 - Vargem dos Pinheiros    88140-000   Santo Amaro/SC </p>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Dom: 18:00 às 22:45 </p>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 3245-6555 / (48) 3245-5083 </p>
+                     <!-- MACAPA -->
+                 </div>
+             </div>
+             <br>
+             <div class="row">
+                <% palhoca = Store.where(:name => 'Palhoça').first %>
+                 <div class="col-md-4 col-md-offset-2" onclick="location.href='<%= cardapio_state_name_path(palhoca.state,itajai.name.gsub('/','_').gsub(' ','-')) %>'" >
+                     <img src="/images/palhoca-nova.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
+                     <!-- MACAPA -->
+                     <h2 class="unit-title pointer text-center" style="font-size:20px">PALHOÇA</h2>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" />AV. BARÃO DO RIO BRANCO, 535 - CEnTRO - PALHOÇA/SC</p>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />DOM À QUI: 18:00 ÀS 22:45 | SEG À DOM: 18:00 ÀS 00:00</p>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 3573-5424 / 3374-5401 </p>
+                     <!-- MACAPA -->
+                 </div>
+                
+                 <div class="col-md-4" onclick="location.href='<%= novo_hamburgo_path %>'" >
+                     <img src="/images/novohamburgo-nova.png" alt="Pizza Prime" title="Pizza Prime" style="width:100%" />
+                     <!-- MACAPA -->
+                     <h2 class="unit-title pointer text-center" style="font-size:20px">NOVO HAMBURGO</h2>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> AV. DR. MAURÍCIO CARDOSO, 1450 - HAMBURGO VELHO 93410-250 | NOVO HAMBURGO/RS </p>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />SEG À DOM: 18:30 ÀS 23:30</p>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (51) 3065-6533 /  (51) 3065-6536 </p>
                      <!-- MACAPA -->
                  </div>
              </div>
