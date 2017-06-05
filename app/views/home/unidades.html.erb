@@ -57,7 +57,7 @@ src="https://www.facebook.com/tr?id=1581601698520946&ev=PageView&noscript=1"
                  <br><br>
                  <% macapa = Store.where(:name => 'Macapá').first %>
                  <h2 class="unit-title pointer" onclick="location.href='<%= cardapio_state_name_path(macapa.state,macapa.name.gsub('/','_').gsub(' ','-')) %>'">UNIDADE <%= macapa.name %></h2>
-                 <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> Rua Leopoldo Machado, nº 2466 - Central | 68900-067 | Macapá/AP</p>
+                 <p class="unit-desc"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" /> <%= macapa.street %>, nº <%= macapa.number %> <%= macapa.complement %> - <%= macapa.neighborhood %> | 68900-067 | <%= macapa.city %>/<%= macapa.state %></p>
                  <p class="unit-desc"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (96) 3225-1474 / (96)  322-5678 &nbsp; &nbsp; &nbsp; <img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" /> Seg à Qui: 18:00 às 23:30 | Sex, Sáb e Dom: 18:00 às 00:00 </p>
              </div>
         </div>
@@ -284,7 +284,7 @@ Horário de Almoço: Seg à Sex: 12:00 às 15:00 </p>
                      <!-- MACAPA -->
                      <h2 class="unit-title pointer text-center" style="font-size:20px">PALHOÇA</h2>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/pin3.png" alt="Pizza Prime"  title="Pizza Prime" />AV. BARÃO DO RIO BRANCO, 535 - CEnTRO - PALHOÇA/SC</p>
-                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />DOM À QUI: 18:00 ÀS 22:45 | SEG À DOM: 18:00 ÀS 00:00</p>
+                     <p class="unit-desc" style="font-size:12px"><img src="/images/ico-clock.png" alt="Pizza Prime"  title="Pizza Prime" />SEG À DOM: 18:30 ÀS 00:00</p>
                      <p class="unit-desc" style="font-size:12px"><img src="/images/ico-phone.png" alt="Pizza Prime"  title="Pizza Prime" /> (48) 3573-5424 / 3374-5401 </p>
                      <!-- MACAPA -->
                  </div>

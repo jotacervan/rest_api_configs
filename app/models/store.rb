@@ -95,7 +95,7 @@ class Store
   end
 
   def address_full
-    [street, city, state, zip].compact.join(', ')
+    [street, number, complement, city, state, zip].compact.join(', ')
   end
 
   def self.mapStores (array)
