@@ -78,7 +78,15 @@ class HomeController < ApplicationController
   def cadastre
     @states = Store.distinct(:state)
   end
-  
+    
+  def contato
+    if ContactMailer.contact_email(params[:contact]).deliver
+      redirect_to root_path, notice: 'Mensagem enviada com sucesso'
+    else
+      redirect_to root_path, alert: 'Erro no envio da mensagem'
+    end
+  end
+
   def novouser
     RestClient.post('http://pizzaprime.herokuapp.com/webservices/login/signup',  { name: params[:user][:name],  email: params[:user][:email], cpf: params[:user][:cpf], password: params[:user][:password]  }){|response, request|
 

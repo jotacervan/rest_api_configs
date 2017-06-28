@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     get 'unidades' => 'home#unidades', as: :unidades
     get 'novo_hamburgo' => 'home#novo_hamburgo', as: :novo_hamburgo
 
+    post 'contato' => 'home#contato', as: :contato
     post 'applycoupon' => 'loja#applycoupon', as: :applycoupon
 
     get 'removeaddress/:id' => 'loja#removeaddress', as: :removeaddress

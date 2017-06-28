@@ -129,7 +129,7 @@ Já atuamos em cinco Estados: São Paulo, Amapá, Rio Grande do Sul, Santa Catar
             <div class="content row">
                 <div class="col-md-6">
                     <h1 class="center">FALE CONOSCO</h1>
-                    <%= form_for :contact, url: root_path do |f| %>
+                    <%= form_for :contact, url: contato_path do |f| %>
                         <%= f.text_field :name, :class => "formfield", :placeholder => 'NOME' %>
                         <div class="row">
                             <div class="col-md-6">
@@ -148,7 +148,7 @@ Já atuamos em cinco Estados: São Paulo, Amapá, Rio Grande do Sul, Santa Catar
                 </div>
                 <div class="col-md-6">
                     <h1 class="center">TRABALHE CONOSCO</h1>
-                    <%= form_for :workwithus,  :html => { :multipart => true }, url: root_path do |f| %>
+                    <%= form_for :contact,  :html => { :multipart => true }, url: contato_path do |f| %>
                          <%= f.text_field :name, :class => "formfield", :placeholder => 'NOME' %>
                         <div class="row">
                             <div class="col-md-6">
