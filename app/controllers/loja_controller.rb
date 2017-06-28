@@ -911,6 +911,9 @@ class LojaController < ApplicationController
     @states = Store.distinct(:state)
     consult = RestClient.get 'http://viacep.com.br/ws/'+params[:cep][:cep]+'/json/'
     @address = JSON.parse(consult)
+    if @address['cep'].nil?
+      redirect_to loja_path, alert: 'CEP inválido, tente novamente com um cep válido!'
+    end
   end
 
   def login
