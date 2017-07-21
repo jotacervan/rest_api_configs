@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   def index
 
     if session[:store].blank? && session[:user].blank?
-      @combos = Combo.all
+      @combos = Combo.all.order(created_at: :asc)
     else
       RestClient.get('http://pizzaprime.herokuapp.com/webservices/stores/getCombos', { :params => { store_id: session[:store]['id']  },  :cookies => { '_session_id' => cookies[:session_id] }  } ){ |response, request, result, &block|
         if response.code == 340

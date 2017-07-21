@@ -6,6 +6,7 @@
         <link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400,700" rel="stylesheet">
         <link rel="stylesheet" href="/css/bootstrap.css" >
         <link rel="stylesheet" href="/css/css.css" >
+        <link rel='shortcut icon' type='image/x-icon' href='/images/favicon.ico' />
 
         <script src="https://use.fontawesome.com/7f3531401e.js"></script>
 
@@ -89,36 +90,35 @@ Já atuamos em cinco Estados: São Paulo, Amapá, Rio Grande do Sul, Santa Catar
         </div>
         <br>
         <div class="content combos row">
-            <% @combos.take(4).each do |c| 
-
-                if session[:store].blank? && session[:user].blank?
-                %>
-                    <div id="cont2"  class="margeado col-md-3 combo" data-target="#login" data-toggle="modal">
-                        <div style="background-image: url('<%= c.picture %>')">
-                            <div>
-                                <h3><%= c.name %><br></h3>
-                                <span style="text-transform: initial; font-size:1em; padding:5px 20px"><%= c.subtitle %></span>
-                                <span>Peça Agora</span>
-                                <i class="fa fa-plus"></i>
+            <% @combos.take(4).each do |c|
+                    if session[:store].blank? && session[:user].blank?
+                    %>
+                        <div id="cont2"  class="margeado col-md-3 combo" data-target="#login" data-toggle="modal">
+                            <div style="background-image: url('<%= c.picture %>')">
+                                <div>
+                                    <h3><%= c.name %><br></h3>
+                                    <span style="text-transform: initial; font-size:1em; padding:5px 20px"><%= c.subtitle %></span>
+                                    <span>Peça Agora</span>
+                                    <i class="fa fa-plus"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <%
-                else
-                %>
-                    <div id="cont2"  class="margeado col-md-3 combo" onclick="location.href='<%= combo_path(c['id']) %>'">
-                        <div style="background-image: url('<%= c['picture'] %>')">
-                            <div>
-                                <h3><%= c['title'] %><br></h3>
-                                <span style="text-transform: initial; font-size:1em; padding:5px 20px"><%= c['subtitle'] %></span>
-                                <span>Peça Agora</span>
-                                <i class="fa fa-plus"></i>
+                    <%
+                    else
+                    %>
+                        <div id="cont2"  class="margeado col-md-3 combo" onclick="location.href='<%= combo_path(c['id']) %>'">
+                            <div style="background-image: url('<%= c['picture'] %>')">
+                                <div>
+                                    <h3><%= c['title'] %><br></h3>
+                                    <span style="text-transform: initial; font-size:1em; padding:5px 20px"><%= c['subtitle'] %></span>
+                                    <span>Peça Agora</span>
+                                    <i class="fa fa-plus"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <%
-                end
-                %>
+                    <%
+                    end
+                    %>
             <% end %>
         </div><br>
         
